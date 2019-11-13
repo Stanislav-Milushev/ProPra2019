@@ -1,0 +1,19 @@
+-- git repo clonen --
+cmd öffnen
+cd Desktop
+git clone https://github.com/gr33nte4/ProPra2019.git
+
+-- identität setzen --
+cd Desktop
+cd ProPra2019
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+
+-- commit/push --
+cd Desktop
+cd ProPra2019
+git status        // zeigt die die diferenz zwichen der lokalen rep und der online rep
+git add ...       // objekte zu der zu pushenden Liste hinzufügen
+
+git commit -m "commit nachticht"  //commit 
+git push origin master  	  //+ push 
