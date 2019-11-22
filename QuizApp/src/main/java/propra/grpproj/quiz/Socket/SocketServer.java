@@ -28,6 +28,12 @@ public class SocketServer implements Runnable{
         this.port = port;
     }
     
+    /**
+     * 
+     * @param o SocketDataObject that is sent to the client
+     * @param username Name of the client
+     * @author Yannick
+     */
     public void sendObject(Object o, String username) {
     	if(nameToSocket.containsKey(username)) {
     		try {
@@ -45,9 +51,16 @@ public class SocketServer implements Runnable{
         if(executor == null){
             executor = Executors.newFixedThreadPool(2);
         }
-        try {
-            server = new ServerSocket(port);
-            LOG.info("Server started");
+        if(server == null) {
+        	 try {
+        		 LOG.info("Server started");
+				server = new ServerSocket(port);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        try {      
             LOG.info("Waiting for a client ...");
             
             Socket socket = server.accept();
@@ -63,11 +76,22 @@ public class SocketServer implements Runnable{
         run();
     }
 
+    /**
+     * 
+     * @param s socket to be removed from the maps
+     * @author Yannick
+     */
     private void removeSocket(Socket s){
     	nameToSocket.remove(socketToName.get(s));
         socketToName.remove(s);        
     }
 
+    /**
+     * 
+     * @author Yannick
+     * Represents a connection from the server to a client
+     * Listens for data from the client
+     */
     class ClientConnection implements Runnable{
         Socket s;
         @Override
