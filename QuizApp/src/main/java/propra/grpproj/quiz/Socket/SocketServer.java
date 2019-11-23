@@ -67,11 +67,11 @@ public class SocketServer implements Runnable{
 
             LOG.info("Client accepted");
 
-            ClientConnection s = new ClientConnection();
-            s.s = socket;
+            ClientConnection s = new ClientConnection(socket);
             executor.submit(s);
         } catch (IOException i) {
             System.out.println(i);
+            LOG.error("Failed to connect with client");
         }
         run();
     }
@@ -93,7 +93,11 @@ public class SocketServer implements Runnable{
      * Listens for data from the client
      */
     class ClientConnection implements Runnable{
-        Socket s;
+        private Socket s;
+        
+        public ClientConnection(Socket socket) {
+			s = socket;
+		}
         @Override
         public void run() {
         	ObjectInputStream data = null;
@@ -123,12 +127,19 @@ public class SocketServer implements Runnable{
                 s.close();
                 data.close();
                 dataout.close();
+                LOG.info("Closing connection to client");
             } catch (IOException e) {
                 e.printStackTrace();
+                LOG.error("Failed to close connection to client");
             }
             removeSocket(s);
         }
         
+        /**
+         * 
+         * @param o Object to be sent to the client
+         * @author Yannick
+         */
         private void recieveObject(Object o) {
         	if(o instanceof CreateConnection) {
         		CreateConnection c = (CreateConnection) o;
