@@ -1,9 +1,15 @@
 package propra.grpproj.quiz.Socket.SocketDataObjects;
 
 public class CreateConnection {
-	String userName;
-	String pwd;
-	String mail;
+	private String userName;
+	private String pwd;
+	private String mail;
+	
+	public CreateConnection(String userName, String password, String mail) {
+		this.userName = userName;
+		pwd = password;
+		this.mail = mail;
+	}
 	
 	public String getUserName() {
 		return userName;
