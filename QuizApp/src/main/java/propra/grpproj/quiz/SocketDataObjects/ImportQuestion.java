@@ -1,13 +1,16 @@
-package propra.grpproj.quiz.Socket.SocketDataObjects;
+package propra.grpproj.quiz.SocketDataObjects;
 
 public class ImportQuestion {
 	private String question;
 	private String[] answers;
+	private String explanation;
+
 	private int correctAnswer;
 	
-	public ImportQuestion(String question, String[] answers, int correctAnswer) {
+	public ImportQuestion(String question, String[] answers, String explanation, int correctAnswer) {
 		this.question = question;
 		this.answers = answers;
+		this.explanation = explanation;
 		this.correctAnswer = correctAnswer;
 	}
 
@@ -21,5 +24,9 @@ public class ImportQuestion {
 
 	public int getCorrectAnswer() {
 		return correctAnswer;
+	}
+
+	public String getExplanation() {
+		return explanation;
 	}
 }

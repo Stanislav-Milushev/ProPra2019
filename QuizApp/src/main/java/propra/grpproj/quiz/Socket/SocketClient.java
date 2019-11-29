@@ -8,7 +8,7 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import propra.grpproj.quiz.Socket.SocketDataObjects.TerminateConnection;
+import propra.grpproj.quiz.SocketDataObjects.TerminateConnection;
 
 public class SocketClient implements Runnable{
 	private Socket socket;

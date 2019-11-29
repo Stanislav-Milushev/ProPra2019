@@ -1,4 +1,4 @@
-package propra.grpproj.quiz.Socket.SocketDataObjects;
+package propra.grpproj.quiz.SocketDataObjects;
 
 public class Scoreboard {
 	private String user;

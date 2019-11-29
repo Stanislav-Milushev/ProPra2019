@@ -12,8 +12,8 @@ import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import propra.grpproj.quiz.Socket.SocketDataObjects.CreateConnection;
-import propra.grpproj.quiz.Socket.SocketDataObjects.TerminateConnection;
+import propra.grpproj.quiz.SocketDataObjects.TerminateConnection;
+import propra.grpproj.quiz.SocketDataObjects.CreateConnection;
 
 public class SocketServer implements Runnable{
     private static final Logger LOG = LoggerFactory.getLogger(SocketServer.class);
