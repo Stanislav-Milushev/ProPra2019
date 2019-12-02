@@ -1,7 +1,8 @@
 package propra.grpproj.gui; 
 
-import java.awt.EventQueue;
 
+
+import java.awt.EventQueue;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -39,6 +40,10 @@ public class GuiAdmin {
 	private JTextField tfQEAnswerC;
 	private JTextField tfQEAnswerD;
 	private JTextField tfQEExplanation;
+	private JTextField tfPEPubName;
+	private JTextField tfPEUserID;
+	private JTextField tfPEUserName;
+	private JTextField tfPEAdress;
 	
 
 	/**
@@ -287,7 +292,7 @@ public class GuiAdmin {
 		JLabel lblQACorrectAnswer = new JLabel("richtige Antwort");
 		GridBagConstraints gbc_lblQACorrectAnswer = new GridBagConstraints();
 		gbc_lblQACorrectAnswer.anchor = GridBagConstraints.WEST;
-		gbc_lblQACorrectAnswer.insets = new Insets(0, 0, 5, 5);
+		gbc_lblQACorrectAnswer.insets = new Insets(5, 5, 5, 5);
 		gbc_lblQACorrectAnswer.gridx = 0;
 		gbc_lblQACorrectAnswer.gridy = 6;
 		pQuestionAdd.add(lblQACorrectAnswer, gbc_lblQACorrectAnswer);
@@ -329,7 +334,7 @@ public class GuiAdmin {
 		
 		tfQAAnswerA = new JTextField();
 		GridBagConstraints gbc_tfQAAnswerA = new GridBagConstraints();
-		gbc_tfQAAnswerA.insets = new Insets(5, 5, 5, 0);
+		gbc_tfQAAnswerA.insets = new Insets(5, 5, 5, 5);
 		gbc_tfQAAnswerA.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tfQAAnswerA.gridx = 1;
 		gbc_tfQAAnswerA.gridy = 2;
@@ -346,7 +351,7 @@ public class GuiAdmin {
 		
 		tfQAAnswerB = new JTextField();
 		GridBagConstraints gbc_tfQAAnswerB = new GridBagConstraints();
-		gbc_tfQAAnswerB.insets = new Insets(5, 5, 5, 0);
+		gbc_tfQAAnswerB.insets = new Insets(5, 5, 5, 5);
 		gbc_tfQAAnswerB.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tfQAAnswerB.gridx = 1;
 		gbc_tfQAAnswerB.gridy = 3;
@@ -364,7 +369,7 @@ public class GuiAdmin {
 		tfQAAnswerC = new JTextField();
 		GridBagConstraints gbc_tfQAAnswerC = new GridBagConstraints();
 		gbc_tfQAAnswerC.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tfQAAnswerC.insets = new Insets(5, 5, 5, 0);
+		gbc_tfQAAnswerC.insets = new Insets(5, 5, 5, 5);
 		gbc_tfQAAnswerC.gridx = 1;
 		gbc_tfQAAnswerC.gridy = 4;
 		pQuestionAdd.add(tfQAAnswerC, gbc_tfQAAnswerC);
@@ -380,7 +385,7 @@ public class GuiAdmin {
 		
 		tfQAAnswerD = new JTextField();
 		GridBagConstraints gbc_tfQAAnswerD = new GridBagConstraints();
-		gbc_tfQAAnswerD.insets = new Insets(5, 5, 5, 0);
+		gbc_tfQAAnswerD.insets = new Insets(5, 5, 5, 5);
 		gbc_tfQAAnswerD.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tfQAAnswerD.gridx = 1;
 		gbc_tfQAAnswerD.gridy = 5;
@@ -401,7 +406,7 @@ public class GuiAdmin {
 		
 		tfQAExplanation = new JTextField();
 		GridBagConstraints gbc_tfQAExplanation = new GridBagConstraints();
-		gbc_tfQAExplanation.insets = new Insets(5, 5, 5, 0);
+		gbc_tfQAExplanation.insets = new Insets(5, 5, 5, 5);
 		gbc_tfQAExplanation.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tfQAExplanation.gridx = 1;
 		gbc_tfQAExplanation.gridy = 7;
@@ -425,7 +430,7 @@ public class GuiAdmin {
 		});
 		GridBagConstraints gbc_bQuestionAddNow = new GridBagConstraints();
 		gbc_bQuestionAddNow.anchor = GridBagConstraints.EAST;
-		gbc_bQuestionAddNow.insets = new Insets(5, 5, 0, 0);
+		gbc_bQuestionAddNow.insets = new Insets(5, 5, 5, 5);
 		gbc_bQuestionAddNow.gridx = 1;
 		gbc_bQuestionAddNow.gridy = 8;
 		pQuestionAdd.add(bQuestionAddNow, gbc_bQuestionAddNow);
@@ -564,8 +569,8 @@ public class GuiAdmin {
 		gbc_lblQECorrectAnswer.gridy = 7;
 		pQuestionEdit.add(lblQECorrectAnswer, gbc_lblQECorrectAnswer);
 		
-		JComboBox cbQECorrectAnswer = new JComboBox();
-		cbQECorrectAnswer.setModel(new DefaultComboBoxModel(new String[] {"A", "B", "C", "D"}));
+		JComboBox<String> cbQECorrectAnswer = new JComboBox<String>();
+		cbQECorrectAnswer.setModel(new DefaultComboBoxModel<String>(new String[] {"A", "B", "C", "D"}));
 		GridBagConstraints gbc_cbQECorrectAnswer = new GridBagConstraints();
 		gbc_cbQECorrectAnswer.anchor = GridBagConstraints.WEST;
 		gbc_cbQECorrectAnswer.insets = new Insets(5, 5, 5, 5);
@@ -629,7 +634,7 @@ public class GuiAdmin {
 			}
 		});
 		GridBagConstraints gbc_bQuestionSave = new GridBagConstraints();
-		gbc_bQuestionSave.insets = new Insets(5, 5, 0, 0);
+		gbc_bQuestionSave.insets = new Insets(5, 5, 5, 5);
 		gbc_bQuestionSave.anchor = GridBagConstraints.EAST;
 		gbc_bQuestionSave.gridx = 1;
 		gbc_bQuestionSave.gridy = 9;
@@ -642,10 +647,10 @@ public class GuiAdmin {
 		pPubEdit.setBackground(new Color(255, 255, 255));
 		pCardLayoutInput.add(pPubEdit, "pPubEdit");
 		GridBagLayout gbl_pPubEdit = new GridBagLayout();
-		gbl_pPubEdit.columnWidths = new int[] {0};
-		gbl_pPubEdit.rowHeights = new int[] {0};
-		gbl_pPubEdit.columnWeights = new double[]{0.0};
-		gbl_pPubEdit.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_pPubEdit.columnWidths = new int[] {354, 0};
+		gbl_pPubEdit.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_pPubEdit.columnWeights = new double[]{0.0, 1.0};
+		gbl_pPubEdit.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		pPubEdit.setLayout(gbl_pPubEdit);
 		
 		JLabel lblPubEdit = new JLabel("Kneipe bearbeiten");
@@ -656,6 +661,128 @@ public class GuiAdmin {
 		gbc_lblPubEdit.gridx = 0;
 		gbc_lblPubEdit.gridy = 0;
 		pPubEdit.add(lblPubEdit, gbc_lblPubEdit);
+		
+		JComboBox<String> cbPEUnblocking = new JComboBox<String>();
+		cbPEUnblocking.setModel(new DefaultComboBoxModel<String>(new String[] {"nein", "ja"}));
+		cbPEUnblocking.setSelectedIndex(0);
+		GridBagConstraints gbc_cbPEUnblocking = new GridBagConstraints();
+		gbc_cbPEUnblocking.insets = new Insets(5, 5, 5, 5);
+		gbc_cbPEUnblocking.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbPEUnblocking.gridx = 1;
+		gbc_cbPEUnblocking.gridy = 3;
+		pPubEdit.add(cbPEUnblocking, gbc_cbPEUnblocking);
+		
+		tfPEPubName = new JTextField();
+		GridBagConstraints gbc_tfPEPubName = new GridBagConstraints();
+		gbc_tfPEPubName.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPEPubName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfPEPubName.gridx = 1;
+		gbc_tfPEPubName.gridy = 2;
+		pPubEdit.add(tfPEPubName, gbc_tfPEPubName);
+		tfPEPubName.setColumns(10);
+		
+		JLabel lblPEPubID = new JLabel("Kneipen-ID");
+		GridBagConstraints gbc_lblPEPubID = new GridBagConstraints();
+		gbc_lblPEPubID.anchor = GridBagConstraints.WEST;
+		gbc_lblPEPubID.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPEPubID.gridx = 0;
+		gbc_lblPEPubID.gridy = 1;
+		pPubEdit.add(lblPEPubID, gbc_lblPEPubID);
+		
+		JComboBox<Integer> cbPEPubID = new JComboBox<Integer>();
+		GridBagConstraints gbc_cbPEPubID = new GridBagConstraints();
+		gbc_cbPEPubID.insets = new Insets(5, 5, 5, 5);
+		gbc_cbPEPubID.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbPEPubID.gridx = 1;
+		gbc_cbPEPubID.gridy = 1;
+		pPubEdit.add(cbPEPubID, gbc_cbPEPubID);
+		
+		JLabel lblPEPubName = new JLabel("Kneipenname");
+		GridBagConstraints gbc_lblPEPubName = new GridBagConstraints();
+		gbc_lblPEPubName.anchor = GridBagConstraints.WEST;
+		gbc_lblPEPubName.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPEPubName.gridx = 0;
+		gbc_lblPEPubName.gridy = 2;
+		pPubEdit.add(lblPEPubName, gbc_lblPEPubName);
+		
+		JLabel lblPEUnblocking = new JLabel("Freigabe");
+		GridBagConstraints gbc_lblPEUnblocking = new GridBagConstraints();
+		gbc_lblPEUnblocking.anchor = GridBagConstraints.WEST;
+		gbc_lblPEUnblocking.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPEUnblocking.gridx = 0;
+		gbc_lblPEUnblocking.gridy = 3;
+		pPubEdit.add(lblPEUnblocking, gbc_lblPEUnblocking);
+		
+		JLabel lblPEUserID = new JLabel("Benutzer-ID");
+		GridBagConstraints gbc_lblPEUserID = new GridBagConstraints();
+		gbc_lblPEUserID.anchor = GridBagConstraints.WEST;
+		gbc_lblPEUserID.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPEUserID.gridx = 0;
+		gbc_lblPEUserID.gridy = 4;
+		pPubEdit.add(lblPEUserID, gbc_lblPEUserID);
+		
+		tfPEUserID = new JTextField();
+		GridBagConstraints gbc_tfPEUserID = new GridBagConstraints();
+		gbc_tfPEUserID.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPEUserID.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfPEUserID.gridx = 1;
+		gbc_tfPEUserID.gridy = 4;
+		pPubEdit.add(tfPEUserID, gbc_tfPEUserID);
+		tfPEUserID.setColumns(10);
+		
+		JLabel lblPEUserName = new JLabel("Benutzername");
+		GridBagConstraints gbc_lblPEUserName = new GridBagConstraints();
+		gbc_lblPEUserName.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPEUserName.anchor = GridBagConstraints.WEST;
+		gbc_lblPEUserName.gridx = 0;
+		gbc_lblPEUserName.gridy = 5;
+		pPubEdit.add(lblPEUserName, gbc_lblPEUserName);
+		
+		tfPEUserName = new JTextField();
+		GridBagConstraints gbc_tfPEUserName = new GridBagConstraints();
+		gbc_tfPEUserName.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPEUserName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfPEUserName.gridx = 1;
+		gbc_tfPEUserName.gridy = 5;
+		pPubEdit.add(tfPEUserName, gbc_tfPEUserName);
+		tfPEUserName.setColumns(10);
+		
+		JLabel lblPEAdress = new JLabel("Adresse");
+		GridBagConstraints gbc_lblPEAdress = new GridBagConstraints();
+		gbc_lblPEAdress.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPEAdress.anchor = GridBagConstraints.WEST;
+		gbc_lblPEAdress.gridx = 0;
+		gbc_lblPEAdress.gridy = 6;
+		pPubEdit.add(lblPEAdress, gbc_lblPEAdress);
+		
+		tfPEAdress = new JTextField();
+		GridBagConstraints gbc_tfPEAdress = new GridBagConstraints();
+		gbc_tfPEAdress.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPEAdress.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfPEAdress.gridx = 1;
+		gbc_tfPEAdress.gridy = 6;
+		pPubEdit.add(tfPEAdress, gbc_tfPEAdress);
+		tfPEAdress.setColumns(10);
+		
+		JButton bPESave = new JButton("Speichern");
+		bPESave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Here adding method for saving data!!!
+				
+				cbPEPubID.setSelectedIndex(-1);
+				cbPEUnblocking.setSelectedIndex(0);
+				tfPEPubName.setText("");
+				tfPEUserID.setText("");
+				tfPEUserName.setText("");
+				tfPEAdress.setText("");
+			}
+		});
+		GridBagConstraints gbc_bPESave = new GridBagConstraints();
+		gbc_bPESave.anchor = GridBagConstraints.EAST;
+		gbc_bPESave.insets = new Insets(5, 5, 5, 5);
+		gbc_bPESave.gridx = 1;
+		gbc_bPESave.gridy = 7;
+		pPubEdit.add(bPESave, gbc_bPESave);
 		
 /*		JLabel lbluestion = new JLabel("Frage");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
