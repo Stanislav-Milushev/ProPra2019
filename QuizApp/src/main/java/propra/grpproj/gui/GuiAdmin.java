@@ -1,7 +1,8 @@
-package propra.grpproj.gui;
+package propra.grpproj.gui; 
+
+
 
 import java.awt.EventQueue;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -22,8 +23,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import java.awt.Font;
 import javax.swing.JScrollPane;
-import java.awt.Component;
-import javax.swing.Box;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
@@ -33,8 +32,18 @@ import javax.swing.DefaultComboBoxModel;
 public class GuiAdmin {
 
 	private JFrame frmAdmin;
-	private JTable tablePubs, tableQuestions, tableScore;
-	private JTextField tfQuestion, tfAnswerA, tfAnswerB, tfAnswerC, tfAnswerD, tfExplanation;
+	private JTable tablePubs, tableQuestions;
+	private JTextField tfQAQuestion, tfQAAnswerA, tfQAAnswerB, tfQAAnswerC, tfQAAnswerD, tfQAExplanation;
+	private JTextField tfQEQuestion;
+	private JTextField tfQEAsnwerA;
+	private JTextField tfQEAnswerB;
+	private JTextField tfQEAnswerC;
+	private JTextField tfQEAnswerD;
+	private JTextField tfQEExplanation;
+	private JTextField tfPEPubName;
+	private JTextField tfPEUserID;
+	private JTextField tfPEUserName;
+	private JTextField tfPEAdress;
 	
 
 	/**
@@ -120,10 +129,16 @@ public class GuiAdmin {
 		pCardLayoutList.setBackground(new Color(255, 255, 255));
 		pCardLayoutList.setLayout(new CardLayout());
 		CardLayout cardLayout1 = (CardLayout) pCardLayoutList.getLayout();
-		
 		/**
 		 * cards for cardLayout1
 		 */
+		
+		/**
+		 * Panel clear for start		
+		 */
+		JPanel pClear1 = new JPanel();
+		pClear1.setBackground(new Color(255, 255, 255));
+		pCardLayoutList.add(pClear1, "pClear1");
 		
 		/**
 		 * Panel for pubs
@@ -158,12 +173,12 @@ public class GuiAdmin {
 		tablePubs.setAutoCreateRowSorter(true);
 		tablePubs.setModel(new DefaultTableModel(
 			new Object[][] {
-				{1, "Golfe", Boolean.TRUE, "bliblablubb"},
-				{2, "Willis Eck", Boolean.FALSE, "Adresse"},
-				{3, "Dorfkneipe Krombach", Boolean.TRUE, "Hinten links"}
+				{1, "Golfe", Boolean.TRUE, "", "", "bliblablubb"},
+				{2, "Willis Eck", Boolean.FALSE, "", "", "Adresse"},
+				{3, "Dorfkneipe Krombach", Boolean.TRUE, "", "", "Hinten links"}
 			},
 			new String[] {
-				"Id", "Name", "freigegeben", "Adresse"
+				"KneipenID", "Kneipenname", "freigegeben", "BenutzerID", "Benutzername", "Adresse"
 			}
 		));
 		
@@ -175,54 +190,6 @@ public class GuiAdmin {
 		gbc_scrollPanePubs.gridy = 1;
 		pPubList.add(scrollPanePubs, gbc_scrollPanePubs);
 		
-		/**
-		 * Panel for scoreboard
-		 */
-		JPanel pScoreboard = new JPanel();
-		pScoreboard.setBackground(new Color(255, 255, 255));
-		pCardLayoutList.add(pScoreboard, "pScoreboard");
-		GridBagLayout gbl_pScoreboard = new GridBagLayout();
-		gbl_pScoreboard.columnWidths = new int[] {0};
-		gbl_pScoreboard.rowHeights = new int[] {0};
-		gbl_pScoreboard.columnWeights = new double[]{1.0};
-		gbl_pScoreboard.rowWeights = new double[]{0.0,1.0};
-		pScoreboard.setLayout(gbl_pScoreboard);
-		
-		JLabel lblScoreboard = new JLabel("Scoreboard");
-		lblScoreboard.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblScoreboard.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblScoreboard = new GridBagConstraints();
-		gbc_lblScoreboard.insets = new Insets(5, 5, 5, 5);
-		gbc_lblScoreboard.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblScoreboard.gridx = 0;
-		gbc_lblScoreboard.gridy = 0;
-		pScoreboard.add(lblScoreboard, gbc_lblScoreboard);
-		
-		tableScore = new JTable(){
-			public boolean isCellEditable(int x, int y) {
-				return false;
-			}
-		};
-		tableScore.setShowVerticalLines(false);
-		tableScore.setColumnSelectionAllowed(true);
-		tableScore.setAutoCreateRowSorter(true);
-		tableScore.setModel(new DefaultTableModel(
-			new Object[][] {
-				{1, "Hannelore Schlafnase", 5522245},
-				{2, "Rainer von Meckernicht", 12},
-			},
-			new String[] {
-				"Id", "Name", "Punkte"
-			}
-		));
-		
-		JScrollPane scrollPaneScore = new JScrollPane(tableScore);
-		GridBagConstraints gbc_scrollPaneScore = new GridBagConstraints();
-		gbc_scrollPaneScore.insets = new Insets(5, 5, 5, 5);
-		gbc_scrollPaneScore.fill = GridBagConstraints.BOTH;
-		gbc_scrollPaneScore.gridx = 0;
-		gbc_scrollPaneScore.gridy = 1;
-		pScoreboard.add(scrollPaneScore, gbc_scrollPaneScore);
 		
 		/**
 		 * Panel for questions
@@ -262,7 +229,7 @@ public class GuiAdmin {
 				{2, "Willis Eck", Boolean.FALSE, "Adresse"}
 			},
 			new String[] {
-				"Id", "Frage", "Antwort A", "Antwort B", "Antwort C", "Antwort D", "Korrekte Antwort", "Erklärung"
+				"Id", "Frage", "Antwort A", "Antwort B", "Antwort C", "Antwort D", "Richtige Antwort", "Erläuterung"
 			}
 		));
 		
@@ -292,6 +259,14 @@ public class GuiAdmin {
 		/**
 		 * cards for cardLayout2
 		 */
+		
+		/**
+		 * Panel clear for start
+		 */
+		JPanel pClear2 = new JPanel();
+		pClear2.setBackground(new Color(255, 255, 255));
+		pCardLayoutInput.add(pClear2, "pClear2");
+		
 		/**
 		 * panel for adding a question
 		 */
@@ -306,6 +281,7 @@ public class GuiAdmin {
 		pQuestionAdd.setLayout(gbl_pQuestionAdd);
 		
 		JLabel lblQuestionAdd = new JLabel("Frage hinzufügen");
+		lblQuestionAdd.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GridBagConstraints gbc_lblQuestionAdd = new GridBagConstraints();
 		gbc_lblQuestionAdd.anchor = GridBagConstraints.EAST;
 		gbc_lblQuestionAdd.insets = new Insets(5, 5, 5, 5);
@@ -313,15 +289,23 @@ public class GuiAdmin {
 		gbc_lblQuestionAdd.gridy = 0;
 		pQuestionAdd.add(lblQuestionAdd, gbc_lblQuestionAdd);
 		
-		JComboBox<String> cbCorrectAnswer = new JComboBox<String>();
-		cbCorrectAnswer.setModel(new DefaultComboBoxModel<String>(new String[] {"A", "B", "C", "D"}));
-		cbCorrectAnswer.setSelectedIndex(0);
-		GridBagConstraints gbc_cbCorrectAnswer = new GridBagConstraints();
-		gbc_cbCorrectAnswer.insets = new Insets(5, 5, 5, 5);
-		gbc_cbCorrectAnswer.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cbCorrectAnswer.gridx = 1;
-		gbc_cbCorrectAnswer.gridy = 6;
-		pQuestionAdd.add(cbCorrectAnswer, gbc_cbCorrectAnswer);
+		JLabel lblQACorrectAnswer = new JLabel("richtige Antwort");
+		GridBagConstraints gbc_lblQACorrectAnswer = new GridBagConstraints();
+		gbc_lblQACorrectAnswer.anchor = GridBagConstraints.WEST;
+		gbc_lblQACorrectAnswer.insets = new Insets(5, 5, 5, 5);
+		gbc_lblQACorrectAnswer.gridx = 0;
+		gbc_lblQACorrectAnswer.gridy = 6;
+		pQuestionAdd.add(lblQACorrectAnswer, gbc_lblQACorrectAnswer);
+		
+		JComboBox<String> cbQACorrectAnswer = new JComboBox<String>();
+		cbQACorrectAnswer.setModel(new DefaultComboBoxModel<String>(new String[] {"A", "B", "C", "D"}));
+		cbQACorrectAnswer.setSelectedIndex(0);
+		GridBagConstraints gbc_cbQACorrectAnswer = new GridBagConstraints();
+		gbc_cbQACorrectAnswer.insets = new Insets(5, 5, 5, 5);
+		gbc_cbQACorrectAnswer.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbQACorrectAnswer.gridx = 1;
+		gbc_cbQACorrectAnswer.gridy = 6;
+		pQuestionAdd.add(cbQACorrectAnswer, gbc_cbQACorrectAnswer);
 		
 		JLabel lblQAQuestion = new JLabel("Frage");
 		GridBagConstraints gbc_lblQAQuestion = new GridBagConstraints();
@@ -331,48 +315,48 @@ public class GuiAdmin {
 		gbc_lblQAQuestion.gridy = 1;
 		pQuestionAdd.add(lblQAQuestion, gbc_lblQAQuestion);
 		
-		tfQuestion = new JTextField();
-		GridBagConstraints gbc_tfQuestion = new GridBagConstraints();
-		gbc_tfQuestion.insets = new Insets(5, 5, 5, 5);
-		gbc_tfQuestion.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tfQuestion.gridx = 1;
-		gbc_tfQuestion.gridy = 1;
-		pQuestionAdd.add(tfQuestion, gbc_tfQuestion);
-		tfQuestion.setColumns(10);
+		tfQAQuestion = new JTextField();
+		GridBagConstraints gbc_tfQAQuestion = new GridBagConstraints();
+		gbc_tfQAQuestion.insets = new Insets(5, 5, 5, 5);
+		gbc_tfQAQuestion.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfQAQuestion.gridx = 1;
+		gbc_tfQAQuestion.gridy = 1;
+		pQuestionAdd.add(tfQAQuestion, gbc_tfQAQuestion);
+		tfQAQuestion.setColumns(10);
 		
-		JLabel lblAnswerA = new JLabel("Antwort A");
-		GridBagConstraints gbc_lblAnswerA = new GridBagConstraints();
-		gbc_lblAnswerA.anchor = GridBagConstraints.WEST;
-		gbc_lblAnswerA.insets = new Insets(5, 5, 5, 5);
-		gbc_lblAnswerA.gridx = 0;
-		gbc_lblAnswerA.gridy = 2;
-		pQuestionAdd.add(lblAnswerA, gbc_lblAnswerA);
+		JLabel lblQAAnswerA = new JLabel("Antwort A");
+		GridBagConstraints gbc_lblQAAnswerA = new GridBagConstraints();
+		gbc_lblQAAnswerA.anchor = GridBagConstraints.WEST;
+		gbc_lblQAAnswerA.insets = new Insets(5, 5, 5, 5);
+		gbc_lblQAAnswerA.gridx = 0;
+		gbc_lblQAAnswerA.gridy = 2;
+		pQuestionAdd.add(lblQAAnswerA, gbc_lblQAAnswerA);
 		
-		tfAnswerA = new JTextField();
-		GridBagConstraints gbc_tfAnswerA = new GridBagConstraints();
-		gbc_tfAnswerA.insets = new Insets(5, 5, 5, 5);
-		gbc_tfAnswerA.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tfAnswerA.gridx = 1;
-		gbc_tfAnswerA.gridy = 2;
-		pQuestionAdd.add(tfAnswerA, gbc_tfAnswerA);
-		tfAnswerA.setColumns(10);
+		tfQAAnswerA = new JTextField();
+		GridBagConstraints gbc_tfQAAnswerA = new GridBagConstraints();
+		gbc_tfQAAnswerA.insets = new Insets(5, 5, 5, 5);
+		gbc_tfQAAnswerA.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfQAAnswerA.gridx = 1;
+		gbc_tfQAAnswerA.gridy = 2;
+		pQuestionAdd.add(tfQAAnswerA, gbc_tfQAAnswerA);
+		tfQAAnswerA.setColumns(10);
 		
-		JLabel lblAnswerB = new JLabel("Antwort B");
-		GridBagConstraints gbc_lblAnswerB = new GridBagConstraints();
-		gbc_lblAnswerB.anchor = GridBagConstraints.WEST;
-		gbc_lblAnswerB.insets = new Insets(5, 5, 5, 5);
-		gbc_lblAnswerB.gridx = 0;
-		gbc_lblAnswerB.gridy = 3;
-		pQuestionAdd.add(lblAnswerB, gbc_lblAnswerB);
+		JLabel lblQAAnswerB = new JLabel("Antwort B");
+		GridBagConstraints gbc_lblQAAnswerB = new GridBagConstraints();
+		gbc_lblQAAnswerB.anchor = GridBagConstraints.WEST;
+		gbc_lblQAAnswerB.insets = new Insets(5, 5, 5, 5);
+		gbc_lblQAAnswerB.gridx = 0;
+		gbc_lblQAAnswerB.gridy = 3;
+		pQuestionAdd.add(lblQAAnswerB, gbc_lblQAAnswerB);
 		
-		tfAnswerB = new JTextField();
-		GridBagConstraints gbc_tfAnswerB = new GridBagConstraints();
-		gbc_tfAnswerB.insets = new Insets(5, 5, 5, 5);
-		gbc_tfAnswerB.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tfAnswerB.gridx = 1;
-		gbc_tfAnswerB.gridy = 3;
-		pQuestionAdd.add(tfAnswerB, gbc_tfAnswerB);
-		tfAnswerB.setColumns(10);
+		tfQAAnswerB = new JTextField();
+		GridBagConstraints gbc_tfQAAnswerB = new GridBagConstraints();
+		gbc_tfQAAnswerB.insets = new Insets(5, 5, 5, 5);
+		gbc_tfQAAnswerB.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfQAAnswerB.gridx = 1;
+		gbc_tfQAAnswerB.gridy = 3;
+		pQuestionAdd.add(tfQAAnswerB, gbc_tfQAAnswerB);
+		tfQAAnswerB.setColumns(10);
 		
 		JLabel lblAnswerC = new JLabel("Antwort C");
 		GridBagConstraints gbc_lblAnswerC = new GridBagConstraints();
@@ -382,56 +366,52 @@ public class GuiAdmin {
 		gbc_lblAnswerC.gridy = 4;
 		pQuestionAdd.add(lblAnswerC, gbc_lblAnswerC);
 		
-		tfAnswerC = new JTextField();
-		GridBagConstraints gbc_tfAnswerC = new GridBagConstraints();
-		gbc_tfAnswerC.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tfAnswerC.insets = new Insets(5, 5, 5, 5);
-		gbc_tfAnswerC.gridx = 1;
-		gbc_tfAnswerC.gridy = 4;
-		pQuestionAdd.add(tfAnswerC, gbc_tfAnswerC);
-		tfAnswerC.setColumns(10);
+		tfQAAnswerC = new JTextField();
+		GridBagConstraints gbc_tfQAAnswerC = new GridBagConstraints();
+		gbc_tfQAAnswerC.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfQAAnswerC.insets = new Insets(5, 5, 5, 5);
+		gbc_tfQAAnswerC.gridx = 1;
+		gbc_tfQAAnswerC.gridy = 4;
+		pQuestionAdd.add(tfQAAnswerC, gbc_tfQAAnswerC);
+		tfQAAnswerC.setColumns(10);
 		
-		JLabel lblAnswerD = new JLabel("Antwort D");
-		GridBagConstraints gbc_lblAnswerD = new GridBagConstraints();
-		gbc_lblAnswerD.anchor = GridBagConstraints.WEST;
-		gbc_lblAnswerD.insets = new Insets(5, 5, 5, 5);
-		gbc_lblAnswerD.gridx = 0;
-		gbc_lblAnswerD.gridy = 5;
-		pQuestionAdd.add(lblAnswerD, gbc_lblAnswerD);
+		JLabel lblQAAnswerD = new JLabel("Antwort D");
+		GridBagConstraints gbc_lblQAAnswerD = new GridBagConstraints();
+		gbc_lblQAAnswerD.anchor = GridBagConstraints.WEST;
+		gbc_lblQAAnswerD.insets = new Insets(5, 5, 5, 5);
+		gbc_lblQAAnswerD.gridx = 0;
+		gbc_lblQAAnswerD.gridy = 5;
+		pQuestionAdd.add(lblQAAnswerD, gbc_lblQAAnswerD);
 		
-		tfAnswerD = new JTextField();
-		GridBagConstraints gbc_tfAnswerD = new GridBagConstraints();
-		gbc_tfAnswerD.insets = new Insets(5, 5, 5, 5);
-		gbc_tfAnswerD.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tfAnswerD.gridx = 1;
-		gbc_tfAnswerD.gridy = 5;
-		pQuestionAdd.add(tfAnswerD, gbc_tfAnswerD);
-		tfAnswerD.setColumns(10);
+		tfQAAnswerD = new JTextField();
+		GridBagConstraints gbc_tfQAAnswerD = new GridBagConstraints();
+		gbc_tfQAAnswerD.insets = new Insets(5, 5, 5, 5);
+		gbc_tfQAAnswerD.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfQAAnswerD.gridx = 1;
+		gbc_tfQAAnswerD.gridy = 5;
+		pQuestionAdd.add(tfQAAnswerD, gbc_tfQAAnswerD);
+		tfQAAnswerD.setColumns(10);
+		gbc_cbQACorrectAnswer.anchor = GridBagConstraints.WEST;
+		gbc_cbQACorrectAnswer.insets = new Insets(5, 5, 5, 5);
+		gbc_cbQACorrectAnswer.gridx = 0;
+		gbc_cbQACorrectAnswer.gridy = 6;
 		
-		JLabel lblCorrectAnswer = new JLabel("richtige Antwort");
-		GridBagConstraints gbc_lblCorrectAnswer = new GridBagConstraints();
-		gbc_lblCorrectAnswer.anchor = GridBagConstraints.WEST;
-		gbc_lblCorrectAnswer.insets = new Insets(5, 5, 5, 5);
-		gbc_lblCorrectAnswer.gridx = 0;
-		gbc_lblCorrectAnswer.gridy = 6;
-		pQuestionAdd.add(lblCorrectAnswer, gbc_lblCorrectAnswer);
+		JLabel lblQAExplanation = new JLabel("Erläuterung");
+		GridBagConstraints gbc_lblQAExplanation = new GridBagConstraints();
+		gbc_lblQAExplanation.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblQAExplanation.insets = new Insets(5, 5, 5, 5);
+		gbc_lblQAExplanation.gridx = 0;
+		gbc_lblQAExplanation.gridy = 7;
+		pQuestionAdd.add(lblQAExplanation, gbc_lblQAExplanation);
 		
-		JLabel lblExplanation = new JLabel("Erläuterung");
-		GridBagConstraints gbc_lblExplanation = new GridBagConstraints();
-		gbc_lblExplanation.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lblExplanation.insets = new Insets(5, 5, 5, 5);
-		gbc_lblExplanation.gridx = 0;
-		gbc_lblExplanation.gridy = 7;
-		pQuestionAdd.add(lblExplanation, gbc_lblExplanation);
-		
-		tfExplanation = new JTextField();
-		GridBagConstraints gbc_tfExplanation = new GridBagConstraints();
-		gbc_tfExplanation.insets = new Insets(5, 5, 5, 5);
-		gbc_tfExplanation.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tfExplanation.gridx = 1;
-		gbc_tfExplanation.gridy = 7;
-		pQuestionAdd.add(tfExplanation, gbc_tfExplanation);
-		tfExplanation.setColumns(10);
+		tfQAExplanation = new JTextField();
+		GridBagConstraints gbc_tfQAExplanation = new GridBagConstraints();
+		gbc_tfQAExplanation.insets = new Insets(5, 5, 5, 5);
+		gbc_tfQAExplanation.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfQAExplanation.gridx = 1;
+		gbc_tfQAExplanation.gridy = 7;
+		pQuestionAdd.add(tfQAExplanation, gbc_tfQAExplanation);
+		tfQAExplanation.setColumns(10);
 		
 		JButton bQuestionAddNow = new JButton("Frage hinzufügen");
 		bQuestionAddNow.addActionListener(new ActionListener() {
@@ -439,13 +419,13 @@ public class GuiAdmin {
 				 // Speichern bzw. Einlesen der Eingaben !!!!
 				
 				
-				tfQuestion.setText("");
-				tfAnswerA.setText("");
-				tfAnswerB.setText("");
-				tfAnswerC.setText("");
-				tfAnswerD.setText("");
-				tfExplanation.setText("");
-				cbCorrectAnswer.setSelectedIndex(0);
+				tfQAQuestion.setText("");
+				tfQAAnswerA.setText("");
+				tfQAAnswerB.setText("");
+				tfQAAnswerC.setText("");
+				tfQAAnswerD.setText("");
+				tfQAExplanation.setText("");
+				cbQACorrectAnswer.setSelectedIndex(0);
 			}
 		});
 		GridBagConstraints gbc_bQuestionAddNow = new GridBagConstraints();
@@ -466,10 +446,11 @@ public class GuiAdmin {
 		gbl_pQuestionEdit.columnWidths = new int[] {0};
 		gbl_pQuestionEdit.rowHeights = new int[] {0};
 		gbl_pQuestionEdit.columnWeights = new double[]{0.0, 1.0};
-		gbl_pQuestionEdit.rowWeights = new double[]{0.0, 0.0, 0.0};
+		gbl_pQuestionEdit.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		pQuestionEdit.setLayout(gbl_pQuestionEdit);
 		
 		JLabel lblQuestionEdit = new JLabel("Frage bearbeiten");
+		lblQuestionEdit.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		GridBagConstraints gbc_lblQuestionEdit = new GridBagConstraints();
 		gbc_lblQuestionEdit.insets = new Insets(5, 5, 5, 5);
 		gbc_lblQuestionEdit.anchor = GridBagConstraints.WEST;
@@ -477,42 +458,341 @@ public class GuiAdmin {
 		gbc_lblQuestionEdit.gridy = 0;
 		pQuestionEdit.add(lblQuestionEdit, gbc_lblQuestionEdit);
 		
-		JLabel lblID = new JLabel("ID");
-		GridBagConstraints gbc_lblID = new GridBagConstraints();
-		gbc_lblID.insets = new Insets(5, 5, 5, 5);
-		gbc_lblID.anchor = GridBagConstraints.WEST;
-		gbc_lblID.gridx = 0;
-		gbc_lblID.gridy = 1;
-		pQuestionEdit.add(lblID, gbc_lblID);
+		JLabel lblQEID = new JLabel("ID");
+		GridBagConstraints gbc_lblQEID = new GridBagConstraints();
+		gbc_lblQEID.insets = new Insets(5, 5, 5, 5);
+		gbc_lblQEID.anchor = GridBagConstraints.WEST;
+		gbc_lblQEID.gridx = 0;
+		gbc_lblQEID.gridy = 1;
+		pQuestionEdit.add(lblQEID, gbc_lblQEID);
 		
-		JComboBox<Integer> cbIDEdit = new JComboBox<Integer>();
-		GridBagConstraints gbc_cbIDEdit = new GridBagConstraints();
-		gbc_cbIDEdit.insets = new Insets(5, 5, 5, 5);
-		gbc_cbIDEdit.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cbIDEdit.gridx = 1;
-		gbc_cbIDEdit.gridy = 1;
-		pQuestionEdit.add(cbIDEdit, gbc_cbIDEdit);
+		JComboBox<Integer> cbQEID = new JComboBox<Integer>();
+		cbQEID.setSelectedIndex(-1);
+		GridBagConstraints gbc_cbQEID = new GridBagConstraints();
+		gbc_cbQEID.insets = new Insets(5, 5, 5, 5);
+		gbc_cbQEID.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbQEID.gridx = 1;
+		gbc_cbQEID.gridy = 1;
+		pQuestionEdit.add(cbQEID, gbc_cbQEID);
 		
-		JLabel lblQuestion = new JLabel("Frage");
+		JLabel lblQEQuestion = new JLabel("Frage");
+		GridBagConstraints gbc_lblQEQuestion = new GridBagConstraints();
+		gbc_lblQEQuestion.anchor = GridBagConstraints.WEST;
+		gbc_lblQEQuestion.insets = new Insets(5, 5, 5, 5);
+		gbc_lblQEQuestion.gridx = 0;
+		gbc_lblQEQuestion.gridy = 2;
+		pQuestionEdit.add(lblQEQuestion, gbc_lblQEQuestion);
+		
+		tfQEQuestion = new JTextField();
+		tfQEQuestion.setText("");
+		GridBagConstraints gbc_tfQEQuestion = new GridBagConstraints();
+		gbc_tfQEQuestion.insets = new Insets(5, 5, 5, 5);
+		gbc_tfQEQuestion.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfQEQuestion.gridx = 1;
+		gbc_tfQEQuestion.gridy = 2;
+		pQuestionEdit.add(tfQEQuestion, gbc_tfQEQuestion);
+		tfQEQuestion.setColumns(10);
+		
+		JLabel lblQEAnswerA = new JLabel("Antwort A");
+		GridBagConstraints gbc_lblQEAnswerA = new GridBagConstraints();
+		gbc_lblQEAnswerA.anchor = GridBagConstraints.WEST;
+		gbc_lblQEAnswerA.insets = new Insets(5, 5, 5, 5);
+		gbc_lblQEAnswerA.gridx = 0;
+		gbc_lblQEAnswerA.gridy = 3;
+		pQuestionEdit.add(lblQEAnswerA, gbc_lblQEAnswerA);
+		
+		tfQEAsnwerA = new JTextField();
+		GridBagConstraints gbc_tfQEAsnwerA = new GridBagConstraints();
+		gbc_tfQEAsnwerA.insets = new Insets(5, 5, 5, 5);
+		gbc_tfQEAsnwerA.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfQEAsnwerA.gridx = 1;
+		gbc_tfQEAsnwerA.gridy = 3;
+		pQuestionEdit.add(tfQEAsnwerA, gbc_tfQEAsnwerA);
+		tfQEAsnwerA.setColumns(10);
+		
+		JLabel lblQEAnswerB = new JLabel("Antwort B");
+		GridBagConstraints gbc_lblQEAnswerB = new GridBagConstraints();
+		gbc_lblQEAnswerB.anchor = GridBagConstraints.WEST;
+		gbc_lblQEAnswerB.insets = new Insets(5, 5, 5, 5);
+		gbc_lblQEAnswerB.gridx = 0;
+		gbc_lblQEAnswerB.gridy = 4;
+		pQuestionEdit.add(lblQEAnswerB, gbc_lblQEAnswerB);
+		
+		tfQEAnswerB = new JTextField();
+		GridBagConstraints gbc_tfQEAnswerB = new GridBagConstraints();
+		gbc_tfQEAnswerB.insets = new Insets(5, 5, 5, 5);
+		gbc_tfQEAnswerB.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfQEAnswerB.gridx = 1;
+		gbc_tfQEAnswerB.gridy = 4;
+		pQuestionEdit.add(tfQEAnswerB, gbc_tfQEAnswerB);
+		tfQEAnswerB.setColumns(10);
+		
+		JLabel lblQEAnswerC = new JLabel("Antwort C");
+		GridBagConstraints gbc_lblQEAnswerC = new GridBagConstraints();
+		gbc_lblQEAnswerC.anchor = GridBagConstraints.WEST;
+		gbc_lblQEAnswerC.insets = new Insets(5, 5, 5, 5);
+		gbc_lblQEAnswerC.gridx = 0;
+		gbc_lblQEAnswerC.gridy = 5;
+		pQuestionEdit.add(lblQEAnswerC, gbc_lblQEAnswerC);
+		
+		tfQEAnswerC = new JTextField();
+		GridBagConstraints gbc_tfQEAnswerC = new GridBagConstraints();
+		gbc_tfQEAnswerC.insets = new Insets(5, 5, 5, 5);
+		gbc_tfQEAnswerC.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfQEAnswerC.gridx = 1;
+		gbc_tfQEAnswerC.gridy = 5;
+		pQuestionEdit.add(tfQEAnswerC, gbc_tfQEAnswerC);
+		tfQEAnswerC.setColumns(10);
+		
+		JLabel lblQEAnswerD = new JLabel("Antwort D");
+		GridBagConstraints gbc_lblQEAnswerD = new GridBagConstraints();
+		gbc_lblQEAnswerD.anchor = GridBagConstraints.WEST;
+		gbc_lblQEAnswerD.insets = new Insets(5, 5, 5, 5);
+		gbc_lblQEAnswerD.gridx = 0;
+		gbc_lblQEAnswerD.gridy = 6;
+		pQuestionEdit.add(lblQEAnswerD, gbc_lblQEAnswerD);
+		
+		tfQEAnswerD = new JTextField();
+		GridBagConstraints gbc_tfQEAnswerD = new GridBagConstraints();
+		gbc_tfQEAnswerD.insets = new Insets(5, 5, 5, 5);
+		gbc_tfQEAnswerD.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfQEAnswerD.gridx = 1;
+		gbc_tfQEAnswerD.gridy = 6;
+		pQuestionEdit.add(tfQEAnswerD, gbc_tfQEAnswerD);
+		tfQEAnswerD.setColumns(10);
+		
+		JLabel lblQECorrectAnswer = new JLabel("richtige Antwort");
+		GridBagConstraints gbc_lblQECorrectAnswer = new GridBagConstraints();
+		gbc_lblQECorrectAnswer.anchor = GridBagConstraints.WEST;
+		gbc_lblQECorrectAnswer.insets = new Insets(5, 5, 5, 5);
+		gbc_lblQECorrectAnswer.gridx = 0;
+		gbc_lblQECorrectAnswer.gridy = 7;
+		pQuestionEdit.add(lblQECorrectAnswer, gbc_lblQECorrectAnswer);
+		
+		JComboBox<String> cbQECorrectAnswer = new JComboBox<String>();
+		cbQECorrectAnswer.setModel(new DefaultComboBoxModel<String>(new String[] {"A", "B", "C", "D"}));
+		GridBagConstraints gbc_cbQECorrectAnswer = new GridBagConstraints();
+		gbc_cbQECorrectAnswer.anchor = GridBagConstraints.WEST;
+		gbc_cbQECorrectAnswer.insets = new Insets(5, 5, 5, 5);
+		gbc_cbQECorrectAnswer.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbQECorrectAnswer.gridx = 1;
+		gbc_cbQECorrectAnswer.gridy = 7;
+		pQuestionEdit.add(cbQECorrectAnswer, gbc_cbQECorrectAnswer);
+		
+		JLabel lblQEExplanastion = new JLabel("Erl\u00E4uterung");
+		GridBagConstraints gbc_lblQEExplanastion = new GridBagConstraints();
+		gbc_lblQEExplanastion.anchor = GridBagConstraints.WEST;
+		gbc_lblQEExplanastion.insets = new Insets(5, 5, 5, 5);
+		gbc_lblQEExplanastion.gridx = 0;
+		gbc_lblQEExplanastion.gridy = 8;
+		pQuestionEdit.add(lblQEExplanastion, gbc_lblQEExplanastion);
+		
+		tfQEExplanation = new JTextField();
+		GridBagConstraints gbc_tfQEExplanation = new GridBagConstraints();
+		gbc_tfQEExplanation.insets = new Insets(5, 5, 5, 5);
+		gbc_tfQEExplanation.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfQEExplanation.gridx = 1;
+		gbc_tfQEExplanation.gridy = 8;
+		pQuestionEdit.add(tfQEExplanation, gbc_tfQEExplanation);
+		tfQEExplanation.setColumns(10);
+		
+		JButton bQEDelete = new JButton("Frage löschen");
+		bQEDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Löschen der Frage anhand der ID !!!!
+				
+				
+				tfQAQuestion.setText("");
+				tfQAAnswerA.setText("");
+				tfQAAnswerB.setText("");
+				tfQAAnswerC.setText("");
+				tfQAAnswerD.setText("");
+				tfQAExplanation.setText("");
+				cbQACorrectAnswer.setSelectedIndex(0);
+			}
+		});
+		GridBagConstraints gbc_bQEDelete = new GridBagConstraints();
+		gbc_bQEDelete.anchor = GridBagConstraints.WEST;
+		gbc_bQEDelete.insets = new Insets(5, 5, 5, 5);
+		gbc_bQEDelete.gridx = 0;
+		gbc_bQEDelete.gridy = 9;
+		pQuestionEdit.add(bQEDelete, gbc_bQEDelete);
+		
+		JButton bQuestionSave = new JButton("Speichern");
+		bQuestionSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Speichern bzw. Einlesen der Eingaben !!!!
+				
+				
+				tfQAQuestion.setText("");
+				tfQAAnswerA.setText("");
+				tfQAAnswerB.setText("");
+				tfQAAnswerC.setText("");
+				tfQAAnswerD.setText("");
+				tfQAExplanation.setText("");
+				cbQACorrectAnswer.setSelectedIndex(0);
+			}
+		});
+		GridBagConstraints gbc_bQuestionSave = new GridBagConstraints();
+		gbc_bQuestionSave.insets = new Insets(5, 5, 5, 5);
+		gbc_bQuestionSave.anchor = GridBagConstraints.EAST;
+		gbc_bQuestionSave.gridx = 1;
+		gbc_bQuestionSave.gridy = 9;
+		pQuestionEdit.add(bQuestionSave, gbc_bQuestionSave);
+		
+		/**
+		 * Panel for editing, deleting and unblock pubs
+		 */
+		JPanel pPubEdit = new JPanel();
+		pPubEdit.setBackground(new Color(255, 255, 255));
+		pCardLayoutInput.add(pPubEdit, "pPubEdit");
+		GridBagLayout gbl_pPubEdit = new GridBagLayout();
+		gbl_pPubEdit.columnWidths = new int[] {354, 0};
+		gbl_pPubEdit.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_pPubEdit.columnWeights = new double[]{0.0, 1.0};
+		gbl_pPubEdit.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		pPubEdit.setLayout(gbl_pPubEdit);
+		
+		JLabel lblPubEdit = new JLabel("Kneipe bearbeiten");
+		lblPubEdit.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		GridBagConstraints gbc_lblPubEdit = new GridBagConstraints();
+		gbc_lblPubEdit.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPubEdit.anchor = GridBagConstraints.WEST;
+		gbc_lblPubEdit.gridx = 0;
+		gbc_lblPubEdit.gridy = 0;
+		pPubEdit.add(lblPubEdit, gbc_lblPubEdit);
+		
+		JComboBox<String> cbPEUnblocking = new JComboBox<String>();
+		cbPEUnblocking.setModel(new DefaultComboBoxModel<String>(new String[] {"nein", "ja"}));
+		cbPEUnblocking.setSelectedIndex(0);
+		GridBagConstraints gbc_cbPEUnblocking = new GridBagConstraints();
+		gbc_cbPEUnblocking.insets = new Insets(5, 5, 5, 5);
+		gbc_cbPEUnblocking.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbPEUnblocking.gridx = 1;
+		gbc_cbPEUnblocking.gridy = 3;
+		pPubEdit.add(cbPEUnblocking, gbc_cbPEUnblocking);
+		
+		tfPEPubName = new JTextField();
+		GridBagConstraints gbc_tfPEPubName = new GridBagConstraints();
+		gbc_tfPEPubName.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPEPubName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfPEPubName.gridx = 1;
+		gbc_tfPEPubName.gridy = 2;
+		pPubEdit.add(tfPEPubName, gbc_tfPEPubName);
+		tfPEPubName.setColumns(10);
+		
+		JLabel lblPEPubID = new JLabel("Kneipen-ID");
+		GridBagConstraints gbc_lblPEPubID = new GridBagConstraints();
+		gbc_lblPEPubID.anchor = GridBagConstraints.WEST;
+		gbc_lblPEPubID.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPEPubID.gridx = 0;
+		gbc_lblPEPubID.gridy = 1;
+		pPubEdit.add(lblPEPubID, gbc_lblPEPubID);
+		
+		JComboBox<Integer> cbPEPubID = new JComboBox<Integer>();
+		GridBagConstraints gbc_cbPEPubID = new GridBagConstraints();
+		gbc_cbPEPubID.insets = new Insets(5, 5, 5, 5);
+		gbc_cbPEPubID.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbPEPubID.gridx = 1;
+		gbc_cbPEPubID.gridy = 1;
+		pPubEdit.add(cbPEPubID, gbc_cbPEPubID);
+		
+		JLabel lblPEPubName = new JLabel("Kneipenname");
+		GridBagConstraints gbc_lblPEPubName = new GridBagConstraints();
+		gbc_lblPEPubName.anchor = GridBagConstraints.WEST;
+		gbc_lblPEPubName.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPEPubName.gridx = 0;
+		gbc_lblPEPubName.gridy = 2;
+		pPubEdit.add(lblPEPubName, gbc_lblPEPubName);
+		
+		JLabel lblPEUnblocking = new JLabel("Freigabe");
+		GridBagConstraints gbc_lblPEUnblocking = new GridBagConstraints();
+		gbc_lblPEUnblocking.anchor = GridBagConstraints.WEST;
+		gbc_lblPEUnblocking.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPEUnblocking.gridx = 0;
+		gbc_lblPEUnblocking.gridy = 3;
+		pPubEdit.add(lblPEUnblocking, gbc_lblPEUnblocking);
+		
+		JLabel lblPEUserID = new JLabel("Benutzer-ID");
+		GridBagConstraints gbc_lblPEUserID = new GridBagConstraints();
+		gbc_lblPEUserID.anchor = GridBagConstraints.WEST;
+		gbc_lblPEUserID.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPEUserID.gridx = 0;
+		gbc_lblPEUserID.gridy = 4;
+		pPubEdit.add(lblPEUserID, gbc_lblPEUserID);
+		
+		tfPEUserID = new JTextField();
+		GridBagConstraints gbc_tfPEUserID = new GridBagConstraints();
+		gbc_tfPEUserID.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPEUserID.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfPEUserID.gridx = 1;
+		gbc_tfPEUserID.gridy = 4;
+		pPubEdit.add(tfPEUserID, gbc_tfPEUserID);
+		tfPEUserID.setColumns(10);
+		
+		JLabel lblPEUserName = new JLabel("Benutzername");
+		GridBagConstraints gbc_lblPEUserName = new GridBagConstraints();
+		gbc_lblPEUserName.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPEUserName.anchor = GridBagConstraints.WEST;
+		gbc_lblPEUserName.gridx = 0;
+		gbc_lblPEUserName.gridy = 5;
+		pPubEdit.add(lblPEUserName, gbc_lblPEUserName);
+		
+		tfPEUserName = new JTextField();
+		GridBagConstraints gbc_tfPEUserName = new GridBagConstraints();
+		gbc_tfPEUserName.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPEUserName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfPEUserName.gridx = 1;
+		gbc_tfPEUserName.gridy = 5;
+		pPubEdit.add(tfPEUserName, gbc_tfPEUserName);
+		tfPEUserName.setColumns(10);
+		
+		JLabel lblPEAdress = new JLabel("Adresse");
+		GridBagConstraints gbc_lblPEAdress = new GridBagConstraints();
+		gbc_lblPEAdress.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPEAdress.anchor = GridBagConstraints.WEST;
+		gbc_lblPEAdress.gridx = 0;
+		gbc_lblPEAdress.gridy = 6;
+		pPubEdit.add(lblPEAdress, gbc_lblPEAdress);
+		
+		tfPEAdress = new JTextField();
+		GridBagConstraints gbc_tfPEAdress = new GridBagConstraints();
+		gbc_tfPEAdress.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPEAdress.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfPEAdress.gridx = 1;
+		gbc_tfPEAdress.gridy = 6;
+		pPubEdit.add(tfPEAdress, gbc_tfPEAdress);
+		tfPEAdress.setColumns(10);
+		
+		JButton bPESave = new JButton("Speichern");
+		bPESave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Here adding method for saving data!!!
+				
+				cbPEPubID.setSelectedIndex(-1);
+				cbPEUnblocking.setSelectedIndex(0);
+				tfPEPubName.setText("");
+				tfPEUserID.setText("");
+				tfPEUserName.setText("");
+				tfPEAdress.setText("");
+			}
+		});
+		GridBagConstraints gbc_bPESave = new GridBagConstraints();
+		gbc_bPESave.anchor = GridBagConstraints.EAST;
+		gbc_bPESave.insets = new Insets(5, 5, 5, 5);
+		gbc_bPESave.gridx = 1;
+		gbc_bPESave.gridy = 7;
+		pPubEdit.add(bPESave, gbc_bPESave);
+		
+/*		JLabel lbluestion = new JLabel("Frage");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
 		gbc_lblNewLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 2;
-		pQuestionEdit.add(lblNewLabel, gbc_lblNewLabel);
+		pQuestionEdit.add(lblNewLabel, gbc_lblNewLabel);*/
 		
-		
-		/**
-		 * clear panel
-		 */
-		JPanel pClear = new JPanel();
-		pClear.setBackground(new Color(255, 255, 255));
-		pCardLayoutInput.add(pClear, "pClear");
-		
-		
-		
-		
-		
+				
 		
 		/**
 		 * Initialize menu
@@ -524,7 +804,7 @@ public class GuiAdmin {
 		gbl_pMenu.columnWidths = new int[] {0};
 		gbl_pMenu.rowHeights = new int[] {0};
 		gbl_pMenu.columnWeights = new double[]{1.0};
-		gbl_pMenu.rowWeights = new double[]{1.0, 1.0, 1.0};
+		gbl_pMenu.rowWeights = new double[]{1.0, 1.0};
 		pMenu.setLayout(gbl_pMenu);
 		
 		/**
@@ -541,7 +821,7 @@ public class GuiAdmin {
 		gbl_pMenuPub.columnWidths = new int[] {0};
 		gbl_pMenuPub.rowHeights = new int[] {0};
 		gbl_pMenuPub.columnWeights = new double[]{0.0};
-		gbl_pMenuPub.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
+		gbl_pMenuPub.rowWeights = new double[]{0.0, 0.0};
 		pMenuPub.setLayout(gbl_pMenuPub);
 		
 		JLabel lblKneipenverwaltung = new JLabel("Kneipenverwaltung");
@@ -554,57 +834,19 @@ public class GuiAdmin {
 		gbc_lblKneipenverwaltung.gridy = 0;
 		pMenuPub.add(lblKneipenverwaltung, gbc_lblKneipenverwaltung);
 		
-		JButton bPubAdd = new JButton("Kneipe hinzufügen");
-		bPubAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				 cardLayout1.show(pCardLayoutList, "pPubList");
-			}
-		});
-		GridBagConstraints gbc_bPubAdd = new GridBagConstraints();
-		gbc_bPubAdd.fill = GridBagConstraints.HORIZONTAL;
-		gbc_bPubAdd.insets = new Insets(5, 5, 5, 5);
-		gbc_bPubAdd.gridx = 0;
-		gbc_bPubAdd.gridy = 1;
-		pMenuPub.add(bPubAdd, gbc_bPubAdd);
-		
-		JButton bPubSearch = new JButton("Kneipe suchen");
-		bPubSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				 cardLayout1.show(pCardLayoutList, "pPubList");
-			}
-		});
-		GridBagConstraints gbc_bPubSearch = new GridBagConstraints();
-		gbc_bPubSearch.fill = GridBagConstraints.HORIZONTAL;
-		gbc_bPubSearch.insets = new Insets(5, 5, 5, 5);
-		gbc_bPubSearch.gridx = 0;
-		gbc_bPubSearch.gridy = 2;
-		pMenuPub.add(bPubSearch, gbc_bPubSearch);
-		
 		JButton bPubEdit = new JButton("Kneipe bearbeiten");
 		bPubEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				 cardLayout1.show(pCardLayoutList, "pPubList");
+				 cardLayout2.show(pCardLayoutInput, "pPubEdit");
 			}
 		});
 		GridBagConstraints gbc_bPubEdit = new GridBagConstraints();
 		gbc_bPubEdit.fill = GridBagConstraints.HORIZONTAL;
 		gbc_bPubEdit.insets = new Insets(5, 5, 5, 5);
 		gbc_bPubEdit.gridx = 0;
-		gbc_bPubEdit.gridy = 3;
+		gbc_bPubEdit.gridy = 1;
 		pMenuPub.add(bPubEdit, gbc_bPubEdit);
-		
-		JButton bPubDelete = new JButton("Kneipe löschen");
-		bPubDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				 cardLayout1.show(pCardLayoutList, "pPubList");
-			}
-		});
-		GridBagConstraints gbc_bPubDelete = new GridBagConstraints();
-		gbc_bPubDelete.insets = new Insets(5, 5, 5, 5);
-		gbc_bPubDelete.fill = GridBagConstraints.HORIZONTAL;
-		gbc_bPubDelete.gridx = 0;
-		gbc_bPubDelete.gridy = 4;
-		pMenuPub.add(bPubDelete, gbc_bPubDelete);
 		
 		/*
 		 * panel for Questions
@@ -621,7 +863,7 @@ public class GuiAdmin {
 		gbl_pMenuQuestions.columnWidths = new int[] {0};
 		gbl_pMenuQuestions.rowHeights = new int[] {0};
 		gbl_pMenuQuestions.columnWeights = new double[]{1.0};
-		gbl_pMenuQuestions.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
+		gbl_pMenuQuestions.rowWeights = new double[]{0.0, 0.0, 0.0};
 		pMenuQuestions.setLayout(gbl_pMenuQuestions);
 		
 		JLabel lblQuizfragen = new JLabel("Quizfragen");
@@ -648,20 +890,7 @@ public class GuiAdmin {
 		gbc_bQuestionAdd.gridy = 1;
 		pMenuQuestions.add(bQuestionAdd, gbc_bQuestionAdd);
 		
-		JButton bQuestionSearch = new JButton("Frage suchen");
-		bQuestionSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				 cardLayout1.show(pCardLayoutList, "pQuestionsList");
-			}
-		});
-		GridBagConstraints gbc_bQuestionSearch = new GridBagConstraints();
-		gbc_bQuestionSearch.fill = GridBagConstraints.HORIZONTAL;
-		gbc_bQuestionSearch.insets = new Insets(5, 5, 5, 5);
-		gbc_bQuestionSearch.gridx = 0;
-		gbc_bQuestionSearch.gridy = 2;
-		pMenuQuestions.add(bQuestionSearch, gbc_bQuestionSearch);
-		
-		JButton bQuestionEdit = new JButton("Frage bearbeiten");
+		JButton bQuestionEdit = new JButton("Frage bearbeiten / l\u00F6schen");
 		bQuestionEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				 cardLayout1.show(pCardLayoutList, "pQuestionsList");
@@ -672,63 +901,8 @@ public class GuiAdmin {
 		gbc_bQuestionEdit.fill = GridBagConstraints.HORIZONTAL;
 		gbc_bQuestionEdit.insets = new Insets(5, 5, 5, 5);
 		gbc_bQuestionEdit.gridx = 0;
-		gbc_bQuestionEdit.gridy = 3;
+		gbc_bQuestionEdit.gridy = 2;
 		pMenuQuestions.add(bQuestionEdit, gbc_bQuestionEdit);
-		
-		JButton bQuestionDelete = new JButton("Frage löschen");
-		bQuestionDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cardLayout1.show(pCardLayoutList, "pQuestionsList");
-			}
-		});
-		GridBagConstraints gbc_bQuestionDelete = new GridBagConstraints();
-		gbc_bQuestionDelete.insets = new Insets(5, 5, 5, 5);
-		gbc_bQuestionDelete.fill = GridBagConstraints.HORIZONTAL;
-		gbc_bQuestionDelete.gridx = 0;
-		gbc_bQuestionDelete.gridy = 4;
-		pMenuQuestions.add(bQuestionDelete, gbc_bQuestionDelete);
-		
-		
-		/**
-		 * panel for score
-		 */
-		JPanel pMenuScore = new JPanel();
-		GridBagConstraints gbc_pMenuScore = new GridBagConstraints();
-		gbc_pMenuScore.insets = new Insets(5, 5, 5, 5);
-		gbc_pMenuScore.fill = GridBagConstraints.BOTH;
-		gbc_pMenuScore.gridx = 0;
-		gbc_pMenuScore.gridy = 2;
-		pMenu.add(pMenuScore, gbc_pMenuScore);
-		GridBagLayout gbl_pMenuScore = new GridBagLayout();
-		gbl_pMenuScore.columnWidths = new int[] {0};
-		gbl_pMenuScore.rowHeights = new int[] {0};
-		gbl_pMenuScore.columnWeights = new double[]{0.0};
-		gbl_pMenuScore.rowWeights = new double[]{0.0, 0.0};
-		pMenuScore.setLayout(gbl_pMenuScore);
-		
-		JLabel lblScoreverwaltung = new JLabel("Scoreverwaltung");
-		lblScoreverwaltung.setHorizontalAlignment(SwingConstants.CENTER);
-		lblScoreverwaltung.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		GridBagConstraints gbc_lblScoreverwaltung = new GridBagConstraints();
-		gbc_lblScoreverwaltung.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblScoreverwaltung.insets = new Insets(5, 5, 5, 5);
-		gbc_lblScoreverwaltung.gridx = 0;
-		gbc_lblScoreverwaltung.gridy = 0;
-		pMenuScore.add(lblScoreverwaltung, gbc_lblScoreverwaltung);
-		
-		JButton bScoreShow = new JButton("Score anzeigen");
-		bScoreShow.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cardLayout1.show(pCardLayoutList, "pScoreboard");
-				cardLayout2.show(pCardLayoutInput, "pClear");
-			}
-		});
-		GridBagConstraints gbc_bScoreShow = new GridBagConstraints();
-		gbc_bScoreShow.fill = GridBagConstraints.HORIZONTAL;
-		gbc_bScoreShow.insets = new Insets(5, 5, 5, 5);
-		gbc_bScoreShow.gridx = 0;
-		gbc_bScoreShow.gridy = 1;
-		pMenuScore.add(bScoreShow, gbc_bScoreShow);
 		
 		
 		
