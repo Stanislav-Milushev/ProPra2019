@@ -2,8 +2,9 @@ package propra.grpproj.quiz.SocketDataObjects;
 
 public class RegisterPub {
 	private String name;
-	private String userName;
 	private String address;
+	
+	private int ownerID;
 	
 	/**
 	 * 
@@ -11,10 +12,10 @@ public class RegisterPub {
 	 * @param userName Name of owner
 	 * @param address Address of Kneipe
 	 */
-	public RegisterPub(String name, String userName, String address) {
+	public RegisterPub(String name, String address, int ownerID) {
 		this.name = name;
-		this.userName = userName;
 		this.address = address;
+		this.ownerID = ownerID;
 	}
 
 	public String getName() {
@@ -25,8 +26,8 @@ public class RegisterPub {
 		return address;
 	}
 
-	public String getUserName() {
-		return userName;
+	public int getOwnerID() {
+		return ownerID;
 	}
 	
 }
