@@ -18,6 +18,10 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+
+import propra.grpproj.quiz.Socket.SocketClient;
+import propra.grpproj.quiz.SocketDataObjects.PubList;
+
 import javax.swing.JTable;
 import java.awt.Font;
 import javax.swing.JScrollPane;
@@ -28,7 +32,9 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 public class GuiAdmin {
-
+	
+	private static GuiAdmin instance;
+	
 	private JFrame frmAdmin;
 	private JTable tablePubs, tableQuestions;
 	private JTextField tfQAQuestion, tfQAAnswerA, tfQAAnswerB, tfQAAnswerC, tfQAAnswerD, tfQAExplanation;
@@ -53,11 +59,23 @@ public class GuiAdmin {
 				try {
 					GuiAdmin window = new GuiAdmin();
 					window.frmAdmin.setVisible(true);
+					instance = window;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+		
+		
+		String ip = "127.0.0.1";
+		int port = 4000;
+		
+		SocketClient client = new SocketClient(ip, port);
+		Thread clientConnection = new Thread(client);
+		clientConnection.start();
+		
+		//TestAnfrage
+		client.sendObject(new PubList());
 	}
 
 	/**
@@ -782,15 +800,7 @@ public class GuiAdmin {
 		gbc_bPESave.gridy = 7;
 		pPubEdit.add(bPESave, gbc_bPESave);
 		
-/*		JLabel lbluestion = new JLabel("Frage");
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel.insets = new Insets(5, 5, 5, 5);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 2;
-		pQuestionEdit.add(lblNewLabel, gbc_lblNewLabel);*/
-		
-				
+	
 		
 		/**
 		 * Initialize menu
@@ -964,5 +974,11 @@ public class GuiAdmin {
 		return imageIcon;
 	}
 
-
+	public void getPubs(PubList list) {
+		//TODO
+	}
+	
+	public static GuiAdmin getInstance(){
+		return instance;
+	}
 }
