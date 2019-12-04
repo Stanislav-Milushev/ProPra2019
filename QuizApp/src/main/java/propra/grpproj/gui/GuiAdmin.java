@@ -1,7 +1,5 @@
 package propra.grpproj.gui; 
 
-
-
 import java.awt.EventQueue;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -647,9 +645,9 @@ public class GuiAdmin {
 		pPubEdit.setBackground(new Color(255, 255, 255));
 		pCardLayoutInput.add(pPubEdit, "pPubEdit");
 		GridBagLayout gbl_pPubEdit = new GridBagLayout();
-		gbl_pPubEdit.columnWidths = new int[] {354, 0};
-		gbl_pPubEdit.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_pPubEdit.columnWeights = new double[]{0.0, 1.0};
+		gbl_pPubEdit.columnWidths = new int[] {0};
+		gbl_pPubEdit.rowHeights = new int[] {0};
+		gbl_pPubEdit.columnWeights = new double[] {0.0, 1.0};
 		gbl_pPubEdit.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		pPubEdit.setLayout(gbl_pPubEdit);
 		
@@ -804,7 +802,7 @@ public class GuiAdmin {
 		gbl_pMenu.columnWidths = new int[] {0};
 		gbl_pMenu.rowHeights = new int[] {0};
 		gbl_pMenu.columnWeights = new double[]{1.0};
-		gbl_pMenu.rowWeights = new double[]{1.0, 1.0};
+		gbl_pMenu.rowWeights = new double[]{1.0, 1.0, 0.0};
 		pMenu.setLayout(gbl_pMenu);
 		
 		/**
@@ -903,6 +901,38 @@ public class GuiAdmin {
 		gbc_bQuestionEdit.gridx = 0;
 		gbc_bQuestionEdit.gridy = 2;
 		pMenuQuestions.add(bQuestionEdit, gbc_bQuestionEdit);
+		
+		/**
+		 * Panel for closingbutton
+		 */
+		JPanel pMenuButtonClose = new JPanel();
+		GridBagConstraints gbc_pMenuButtonClose = new GridBagConstraints();
+		gbc_pMenuButtonClose.insets = new Insets(5, 5, 5, 5);
+		gbc_pMenuButtonClose.fill = GridBagConstraints.BOTH;
+		gbc_pMenuButtonClose.gridx = 0;
+		gbc_pMenuButtonClose.gridy = 2;
+		pMenu.add(pMenuButtonClose, gbc_pMenuButtonClose);
+		
+		GridBagLayout gbl_pMenuButtonClose = new GridBagLayout();
+		gbl_pMenuButtonClose.columnWidths = new int[] {0};
+		gbl_pMenuButtonClose.rowHeights = new int[] {0};
+		gbl_pMenuButtonClose.columnWeights = new double[]{1.0};
+		gbl_pMenuButtonClose.rowWeights = new double[]{0.0};
+		pMenuButtonClose.setLayout(gbl_pMenuButtonClose);
+		
+		JButton bCloseManagement = new JButton("Verwaltung schließen");
+		bCloseManagement.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 // Fenster schließen und alle Listen speichern
+				
+			}
+		});
+		GridBagConstraints gbc_bCloseManagement = new GridBagConstraints();
+		gbc_bCloseManagement.fill = GridBagConstraints.HORIZONTAL;
+		gbc_bCloseManagement.insets = new Insets(5, 5, 5, 5);
+		gbc_bCloseManagement.gridx = 0;
+		gbc_bCloseManagement.gridy = 0;
+		pMenuButtonClose.add(bCloseManagement, gbc_bCloseManagement);
 		
 		
 		
