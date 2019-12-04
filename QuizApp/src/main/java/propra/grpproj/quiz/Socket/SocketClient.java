@@ -8,6 +8,18 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import propra.grpproj.quiz.SocketDataObjects.AcceptPub;
+import propra.grpproj.quiz.SocketDataObjects.CreatePubevening;
+import propra.grpproj.quiz.SocketDataObjects.DeleteUser;
+import propra.grpproj.quiz.SocketDataObjects.Login;
+import propra.grpproj.quiz.SocketDataObjects.Pub;
+import propra.grpproj.quiz.SocketDataObjects.PubList;
+import propra.grpproj.quiz.SocketDataObjects.Question;
+import propra.grpproj.quiz.SocketDataObjects.QuestionList;
+import propra.grpproj.quiz.SocketDataObjects.RegisterPub;
+import propra.grpproj.quiz.SocketDataObjects.RegisterUser;
+import propra.grpproj.quiz.SocketDataObjects.RepeatPubevening;
+import propra.grpproj.quiz.SocketDataObjects.Scoreboard;
 import propra.grpproj.quiz.SocketDataObjects.TerminateConnection;
 
 public class SocketClient implements Runnable{
@@ -98,7 +110,42 @@ public class SocketClient implements Runnable{
 	 * @author Yannick
 	 */
 	private void recieveObject(Object o) {
-		
+		if(o instanceof AcceptPub) {
+    		AcceptPub pub = (AcceptPub)o;
+    	}
+    	if(o instanceof CreatePubevening) {
+    		CreatePubevening cpe = (CreatePubevening)o;
+    	}
+    	if(o instanceof DeleteUser) {
+    		DeleteUser delUser = (DeleteUser)o;
+    	}
+    	if(o instanceof Login) {
+    		Login lin = (Login)o;
+    	}
+    	if(o instanceof Pub) {
+    		Pub pub = (Pub)o;
+    	}
+    	if(o instanceof PubList) {
+    		PubList publ = (PubList)o;
+    	}
+    	if(o instanceof Question) {
+    		Question q = (Question)o;
+    	}
+    	if(o instanceof QuestionList) {
+    		QuestionList ql = (QuestionList)o;
+    	}
+    	if(o instanceof RegisterPub) {
+    		RegisterPub regPub = (RegisterPub)o;
+    	}
+    	if(o instanceof RegisterUser) {
+    		RegisterUser regUser = (RegisterUser)o;
+    	}
+    	if(o instanceof RepeatPubevening) {
+    		RepeatPubevening rpEvening = (RepeatPubevening)o;
+    	}
+    	if(o instanceof Scoreboard) {
+    		Scoreboard scbd = (Scoreboard)o;
+    	}
 	}
 
 }
