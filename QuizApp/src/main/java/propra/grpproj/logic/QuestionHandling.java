@@ -15,7 +15,7 @@ public class QuestionHandling {
 		
 		SqliteCoreUtilities db = new SqliteCoreUtilities();
 		db.connect();
-		
+		// 
 		
 		
 		
