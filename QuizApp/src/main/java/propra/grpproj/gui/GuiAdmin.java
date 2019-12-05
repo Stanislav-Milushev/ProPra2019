@@ -38,16 +38,10 @@ public class GuiAdmin {
 	private JFrame frmAdmin;
 	private JTable tablePubs, tableQuestions;
 	private JTextField tfQAQuestion, tfQAAnswerA, tfQAAnswerB, tfQAAnswerC, tfQAAnswerD, tfQAExplanation;
-	private JTextField tfQEQuestion;
-	private JTextField tfQEAsnwerA;
-	private JTextField tfQEAnswerB;
-	private JTextField tfQEAnswerC;
-	private JTextField tfQEAnswerD;
-	private JTextField tfQEExplanation;
-	private JTextField tfPEPubName;
-	private JTextField tfPEUserID;
-	private JTextField tfPEUserName;
-	private JTextField tfPEAdress;
+	private JTextField tfQEQuestion, tfQEAnswerA, tfQEAnswerB, tfQEAnswerC, tfQEAnswerD, tfQEExplanation;
+	private JTextField tfPEPubName, tfPEUserID, tfPEAdress;
+	private JComboBox<String> cbPEUnblocking, cbQACorrectAnswer, cbQECorrectAnswer;
+	private JComboBox<Long> cbPEPubID, cbQEQuestionID;
 	
 
 	/**
@@ -67,7 +61,7 @@ public class GuiAdmin {
 		});
 		
 		
-		String ip = "127.0.0.1";
+/*		String ip = "127.0.0.1";
 		int port = 4000;
 		
 		SocketClient client = new SocketClient(ip, port);
@@ -76,6 +70,7 @@ public class GuiAdmin {
 		
 		//TestAnfrage
 		client.sendObject(new PubList());
+		*/
 	}
 
 	/**
@@ -104,19 +99,37 @@ public class GuiAdmin {
 		GridBagLayout gbl_pHeader = new GridBagLayout();
 		gbl_pHeader.columnWidths = new int[] {0};
 		gbl_pHeader.rowHeights = new int[] {0};
-		gbl_pHeader.columnWeights = new double[]{0.0, 0.0};
-		gbl_pHeader.rowWeights = new double[]{0.0};
+		gbl_pHeader.columnWeights = new double[]{0};
+		gbl_pHeader.rowWeights = new double[]{0};
 		pHeader.setLayout(gbl_pHeader);
 		
-		JLabel lblHeader = new JLabel(showLogo());
-		lblHeader.setLabelFor(lblHeader);
-						
-		GridBagConstraints gbc_lblHeader = new GridBagConstraints();
-		gbc_lblHeader.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lblHeader.gridx = 1;
-		gbc_lblHeader.gridy = 0;
-		pHeader.add(lblHeader, gbc_lblHeader);
+		JLabel lblHeaderIcon = new JLabel(showLogo());
+		lblHeaderIcon.setLabelFor(lblHeaderIcon);
+		GridBagConstraints gbc_lblHeaderIcon = new GridBagConstraints();
+		gbc_lblHeaderIcon.insets = new Insets(5, 50, 5, 50);
+		gbc_lblHeaderIcon.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblHeaderIcon.gridx = 1;
+		gbc_lblHeaderIcon.gridy = 0;
+		pHeader.add(lblHeaderIcon, gbc_lblHeaderIcon);
 		
+
+		JLabel lblHeaderDas = new JLabel("Das");
+		lblHeaderDas.setFont(new Font("Tahoma", Font.PLAIN, 60));
+		lblHeaderDas.setHorizontalAlignment(SwingConstants.RIGHT);
+		GridBagConstraints gbc_lblHeaderDas = new GridBagConstraints();
+		gbc_lblHeaderDas.insets = new Insets(5, 5, 5, 5);
+		gbc_lblHeaderDas.gridx = 0;
+		gbc_lblHeaderDas.gridy = 0;
+		pHeader.add(lblHeaderDas, gbc_lblHeaderDas);
+		
+		JLabel lblHeaderKneipenquiz = new JLabel("- Kneipenquiz");
+		lblHeaderKneipenquiz.setFont(new Font("Tahoma", Font.PLAIN, 60));
+		lblHeaderKneipenquiz.setHorizontalAlignment(SwingConstants.LEFT);
+		GridBagConstraints gbc_lblHeaderKneipenquiz = new GridBagConstraints();
+		gbc_lblHeaderKneipenquiz.gridx = 2;
+		gbc_lblHeaderKneipenquiz.gridy = 0;
+		pHeader.add(lblHeaderKneipenquiz, gbc_lblHeaderKneipenquiz);
+						
 		
 		/**
 		 * Initialize content
@@ -432,8 +445,17 @@ public class GuiAdmin {
 		JButton bQuestionAddNow = new JButton("Frage hinzufügen");
 		bQuestionAddNow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			
 				 // Speichern bzw. Einlesen der Eingaben !!!!
+				String question = tfQAQuestion.getText();
+				String answerA = tfQAAnswerA.getText();
+				String answerB = tfQAAnswerB.getText();
+				String answerC = tfQAAnswerC.getText();
+				String answerD = tfQAAnswerD.getText();
+				int correctAnswer = cbQACorrectAnswer.getSelectedIndex();
+				String explanation = tfQAExplanation.getText();
 				
+				// Neues Fragenobjekt mit den obigen Attributen erstellen
 				
 				tfQAQuestion.setText("");
 				tfQAAnswerA.setText("");
@@ -483,6 +505,11 @@ public class GuiAdmin {
 		pQuestionEdit.add(lblQEID, gbc_lblQEID);
 		
 		JComboBox<Integer> cbQEID = new JComboBox<Integer>();
+		cbQEID.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Anzeige je nach Auswahl anpassen
+			}
+		});
 		cbQEID.setSelectedIndex(-1);
 		GridBagConstraints gbc_cbQEID = new GridBagConstraints();
 		gbc_cbQEID.insets = new Insets(5, 5, 5, 5);
@@ -500,6 +527,7 @@ public class GuiAdmin {
 		pQuestionEdit.add(lblQEQuestion, gbc_lblQEQuestion);
 		
 		tfQEQuestion = new JTextField();
+		tfQEQuestion.setEditable(false);
 		tfQEQuestion.setText("");
 		GridBagConstraints gbc_tfQEQuestion = new GridBagConstraints();
 		gbc_tfQEQuestion.insets = new Insets(5, 5, 5, 5);
@@ -517,14 +545,15 @@ public class GuiAdmin {
 		gbc_lblQEAnswerA.gridy = 3;
 		pQuestionEdit.add(lblQEAnswerA, gbc_lblQEAnswerA);
 		
-		tfQEAsnwerA = new JTextField();
-		GridBagConstraints gbc_tfQEAsnwerA = new GridBagConstraints();
-		gbc_tfQEAsnwerA.insets = new Insets(5, 5, 5, 5);
-		gbc_tfQEAsnwerA.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tfQEAsnwerA.gridx = 1;
-		gbc_tfQEAsnwerA.gridy = 3;
-		pQuestionEdit.add(tfQEAsnwerA, gbc_tfQEAsnwerA);
-		tfQEAsnwerA.setColumns(10);
+		tfQEAnswerA = new JTextField();
+		tfQEAnswerA.setEditable(false);
+		GridBagConstraints gbc_tfQEAnswerA = new GridBagConstraints();
+		gbc_tfQEAnswerA.insets = new Insets(5, 5, 5, 5);
+		gbc_tfQEAnswerA.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfQEAnswerA.gridx = 1;
+		gbc_tfQEAnswerA.gridy = 3;
+		pQuestionEdit.add(		tfQEAnswerA, gbc_tfQEAnswerA);
+		tfQEAnswerA.setColumns(10);
 		
 		JLabel lblQEAnswerB = new JLabel("Antwort B");
 		GridBagConstraints gbc_lblQEAnswerB = new GridBagConstraints();
@@ -535,6 +564,7 @@ public class GuiAdmin {
 		pQuestionEdit.add(lblQEAnswerB, gbc_lblQEAnswerB);
 		
 		tfQEAnswerB = new JTextField();
+		tfQEAnswerB.setEditable(false);
 		GridBagConstraints gbc_tfQEAnswerB = new GridBagConstraints();
 		gbc_tfQEAnswerB.insets = new Insets(5, 5, 5, 5);
 		gbc_tfQEAnswerB.fill = GridBagConstraints.HORIZONTAL;
@@ -552,6 +582,7 @@ public class GuiAdmin {
 		pQuestionEdit.add(lblQEAnswerC, gbc_lblQEAnswerC);
 		
 		tfQEAnswerC = new JTextField();
+		tfQEAnswerC.setEditable(false);
 		GridBagConstraints gbc_tfQEAnswerC = new GridBagConstraints();
 		gbc_tfQEAnswerC.insets = new Insets(5, 5, 5, 5);
 		gbc_tfQEAnswerC.fill = GridBagConstraints.HORIZONTAL;
@@ -569,6 +600,7 @@ public class GuiAdmin {
 		pQuestionEdit.add(lblQEAnswerD, gbc_lblQEAnswerD);
 		
 		tfQEAnswerD = new JTextField();
+		tfQEAnswerD.setEditable(false);
 		GridBagConstraints gbc_tfQEAnswerD = new GridBagConstraints();
 		gbc_tfQEAnswerD.insets = new Insets(5, 5, 5, 5);
 		gbc_tfQEAnswerD.fill = GridBagConstraints.HORIZONTAL;
@@ -586,6 +618,7 @@ public class GuiAdmin {
 		pQuestionEdit.add(lblQECorrectAnswer, gbc_lblQECorrectAnswer);
 		
 		JComboBox<String> cbQECorrectAnswer = new JComboBox<String>();
+		cbQECorrectAnswer.setEditable(false);
 		cbQECorrectAnswer.setModel(new DefaultComboBoxModel<String>(new String[] {"A", "B", "C", "D"}));
 		GridBagConstraints gbc_cbQECorrectAnswer = new GridBagConstraints();
 		gbc_cbQECorrectAnswer.anchor = GridBagConstraints.WEST;
@@ -595,7 +628,7 @@ public class GuiAdmin {
 		gbc_cbQECorrectAnswer.gridy = 7;
 		pQuestionEdit.add(cbQECorrectAnswer, gbc_cbQECorrectAnswer);
 		
-		JLabel lblQEExplanastion = new JLabel("Erl\u00E4uterung");
+		JLabel lblQEExplanastion = new JLabel("Erläuterung");
 		GridBagConstraints gbc_lblQEExplanastion = new GridBagConstraints();
 		gbc_lblQEExplanastion.anchor = GridBagConstraints.WEST;
 		gbc_lblQEExplanastion.insets = new Insets(5, 5, 5, 5);
@@ -604,6 +637,7 @@ public class GuiAdmin {
 		pQuestionEdit.add(lblQEExplanastion, gbc_lblQEExplanastion);
 		
 		tfQEExplanation = new JTextField();
+		tfQEExplanation.setEditable(false);
 		GridBagConstraints gbc_tfQEExplanation = new GridBagConstraints();
 		gbc_tfQEExplanation.insets = new Insets(5, 5, 5, 5);
 		gbc_tfQEExplanation.fill = GridBagConstraints.HORIZONTAL;
@@ -616,7 +650,7 @@ public class GuiAdmin {
 		bQEDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Löschen der Frage anhand der ID !!!!
-				
+				// Liste anschließend aktualisieren
 				
 				tfQAQuestion.setText("");
 				tfQAAnswerA.setText("");
@@ -666,7 +700,7 @@ public class GuiAdmin {
 		gbl_pPubEdit.columnWidths = new int[] {0};
 		gbl_pPubEdit.rowHeights = new int[] {0};
 		gbl_pPubEdit.columnWeights = new double[] {0.0, 1.0};
-		gbl_pPubEdit.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		gbl_pPubEdit.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		pPubEdit.setLayout(gbl_pPubEdit);
 		
 		JLabel lblPubEdit = new JLabel("Kneipe bearbeiten");
@@ -682,15 +716,16 @@ public class GuiAdmin {
 		cbPEUnblocking.setModel(new DefaultComboBoxModel<String>(new String[] {"nein", "ja"}));
 		cbPEUnblocking.setSelectedIndex(0);
 		GridBagConstraints gbc_cbPEUnblocking = new GridBagConstraints();
-		gbc_cbPEUnblocking.insets = new Insets(5, 5, 5, 5);
+		gbc_cbPEUnblocking.insets = new Insets(5, 5, 5, 0);
 		gbc_cbPEUnblocking.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cbPEUnblocking.gridx = 1;
 		gbc_cbPEUnblocking.gridy = 3;
 		pPubEdit.add(cbPEUnblocking, gbc_cbPEUnblocking);
 		
 		tfPEPubName = new JTextField();
+		tfPEPubName.setEditable(false);
 		GridBagConstraints gbc_tfPEPubName = new GridBagConstraints();
-		gbc_tfPEPubName.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPEPubName.insets = new Insets(5, 5, 5, 0);
 		gbc_tfPEPubName.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tfPEPubName.gridx = 1;
 		gbc_tfPEPubName.gridy = 2;
@@ -705,7 +740,20 @@ public class GuiAdmin {
 		gbc_lblPEPubID.gridy = 1;
 		pPubEdit.add(lblPEPubID, gbc_lblPEPubID);
 		
-		JComboBox<Integer> cbPEPubID = new JComboBox<Integer>();
+		JComboBox<Long> cbPEPubID = new JComboBox<Long>();
+		cbPEPubID.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Textfelder anhand der ID befüllen
+				/*
+				Hier die Werte vom Objekt ersetzen
+				 */
+				/*
+				String pubID = cbPEPubID.getSelectedItem().toString();
+				Pub p = 
+				fillFieldsPubEdit(p);				
+				*/
+			}
+		});
 		GridBagConstraints gbc_cbPEPubID = new GridBagConstraints();
 		gbc_cbPEPubID.insets = new Insets(5, 5, 5, 5);
 		gbc_cbPEPubID.fill = GridBagConstraints.HORIZONTAL;
@@ -739,44 +787,28 @@ public class GuiAdmin {
 		
 		tfPEUserID = new JTextField();
 		GridBagConstraints gbc_tfPEUserID = new GridBagConstraints();
-		gbc_tfPEUserID.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPEUserID.insets = new Insets(5, 5, 5, 0);
 		gbc_tfPEUserID.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tfPEUserID.gridx = 1;
 		gbc_tfPEUserID.gridy = 4;
 		pPubEdit.add(tfPEUserID, gbc_tfPEUserID);
 		tfPEUserID.setColumns(10);
 		
-		JLabel lblPEUserName = new JLabel("Benutzername");
-		GridBagConstraints gbc_lblPEUserName = new GridBagConstraints();
-		gbc_lblPEUserName.insets = new Insets(5, 5, 5, 5);
-		gbc_lblPEUserName.anchor = GridBagConstraints.WEST;
-		gbc_lblPEUserName.gridx = 0;
-		gbc_lblPEUserName.gridy = 5;
-		pPubEdit.add(lblPEUserName, gbc_lblPEUserName);
-		
-		tfPEUserName = new JTextField();
-		GridBagConstraints gbc_tfPEUserName = new GridBagConstraints();
-		gbc_tfPEUserName.insets = new Insets(5, 5, 5, 5);
-		gbc_tfPEUserName.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tfPEUserName.gridx = 1;
-		gbc_tfPEUserName.gridy = 5;
-		pPubEdit.add(tfPEUserName, gbc_tfPEUserName);
-		tfPEUserName.setColumns(10);
-		
 		JLabel lblPEAdress = new JLabel("Adresse");
 		GridBagConstraints gbc_lblPEAdress = new GridBagConstraints();
 		gbc_lblPEAdress.insets = new Insets(5, 5, 5, 5);
 		gbc_lblPEAdress.anchor = GridBagConstraints.WEST;
 		gbc_lblPEAdress.gridx = 0;
-		gbc_lblPEAdress.gridy = 6;
+		gbc_lblPEAdress.gridy = 5;
 		pPubEdit.add(lblPEAdress, gbc_lblPEAdress);
 		
 		tfPEAdress = new JTextField();
+		tfPEAdress.setEditable(false);
 		GridBagConstraints gbc_tfPEAdress = new GridBagConstraints();
-		gbc_tfPEAdress.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPEAdress.insets = new Insets(5, 5, 5, 0);
 		gbc_tfPEAdress.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tfPEAdress.gridx = 1;
-		gbc_tfPEAdress.gridy = 6;
+		gbc_tfPEAdress.gridy = 5;
 		pPubEdit.add(tfPEAdress, gbc_tfPEAdress);
 		tfPEAdress.setColumns(10);
 		
@@ -789,15 +821,14 @@ public class GuiAdmin {
 				cbPEUnblocking.setSelectedIndex(0);
 				tfPEPubName.setText("");
 				tfPEUserID.setText("");
-				tfPEUserName.setText("");
 				tfPEAdress.setText("");
 			}
 		});
 		GridBagConstraints gbc_bPESave = new GridBagConstraints();
 		gbc_bPESave.anchor = GridBagConstraints.EAST;
-		gbc_bPESave.insets = new Insets(5, 5, 5, 5);
+		gbc_bPESave.insets = new Insets(5, 5, 0, 0);
 		gbc_bPESave.gridx = 1;
-		gbc_bPESave.gridy = 7;
+		gbc_bPESave.gridy = 6;
 		pPubEdit.add(bPESave, gbc_bPESave);
 		
 	
@@ -889,6 +920,7 @@ public class GuiAdmin {
 			public void actionPerformed(ActionEvent e) {
 				 cardLayout1.show(pCardLayoutList, "pQuestionsList");
 				 cardLayout2.show(pCardLayoutInput, "pQuestionAdd");
+				 
 			}
 		});
 		GridBagConstraints gbc_bQuestionAdd = new GridBagConstraints();
@@ -974,9 +1006,62 @@ public class GuiAdmin {
 		return imageIcon;
 	}
 
-	public void getPubs(PubList list) {
+/*	public void getPubs(PubList list) {
 		//TODO
 	}
+	*/
+	
+	/*
+	 public void fillFieldsPE(Pub p){
+		 String pubName = p.getName();
+		 boolean unblocking = p.isUnblocking();
+		 Long userID = p.getUserID();
+		 String stringUserID = Long.toString(userID);
+		 String adress = p.getAdress();
+		 
+		 tfPEPubName.setText(pubName);
+		 if (unblocking == true) {
+			 cbPEUnblocking.setSelectedItem(1);
+		 } else {
+			 cbPEUnblocking.setSelectedIndex(0);
+		 }
+		 tfPEUserID.setText(stringUserID);
+		 tfPEAdress.setText(adress);
+		 
+		 tfPEPubName.setEditable(true);
+		 tfPEUserID.setEditable(true);
+		 tfPEAdress.setEditable(true);
+	 }
+	 */
+	
+	/*
+	public void fillFieldsQE(Question q) {
+		String question = q.getQuestion();
+		String answerA = q.getAnswerA();
+		String answerB = q.getAnswerB();
+		String answerC = q.getAnswerC();
+		String answerD = q.getAnswerD();
+		int correctAnswer = q.getCorrectAnswer();
+		String explanation = q.getExplanation();
+		
+		tfQEQuestion.setText(question);
+		tfQEAnswerA.setText(answerA);
+		tfQEAnswerB.setText(answerB);
+		tfQEAnswerC.setText(answerC);
+		tfQEAnswerD.setText(answerD);
+		cbQECorrectAnswer.setSelectedIndex(correctAnswer);
+		tfQEExplanation.setText(explanation);
+		
+		tfQEQuestion.setEditable(true);
+		tfQEAnswerA.setEditable(true);
+		tfQEAnswerB.setEditable(true);
+		tfQEAnswerC.setEditable(true);
+		tfQEAnswerD.setEditable(true);
+		cbQECorrectAnswer.setEditable(true);
+		tfQEExplanation.setEditable(true);		
+	}
+	*/
+	 
 	
 	public static GuiAdmin getInstance(){
 		return instance;
