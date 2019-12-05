@@ -1014,10 +1014,10 @@ public class GuiAdmin {
 	/*
 	 public void fillFieldsPE(Pub p){
 		 String pubName = p.getName();
-		 boolean unblocking = p.isUnblocking();
-		 Long userID = p.getUserID();
+		 boolean unblocking = p.isAllowed();
+		 Long userID = p.getOwnerID();
 		 String stringUserID = Long.toString(userID);
-		 String adress = p.getAdress();
+		 String address = p.getAdresse();
 		 
 		 tfPEPubName.setText(pubName);
 		 if (unblocking == true) {
@@ -1026,7 +1026,7 @@ public class GuiAdmin {
 			 cbPEUnblocking.setSelectedIndex(0);
 		 }
 		 tfPEUserID.setText(stringUserID);
-		 tfPEAdress.setText(adress);
+		 tfPEAdress.setText(address);
 		 
 		 tfPEPubName.setEditable(true);
 		 tfPEUserID.setEditable(true);
@@ -1041,7 +1041,7 @@ public class GuiAdmin {
 		String answerB = q.getAnswerB();
 		String answerC = q.getAnswerC();
 		String answerD = q.getAnswerD();
-		int correctAnswer = q.getCorrectAnswer();
+		int correctAnswer = q.getSelectedAnswer();
 		String explanation = q.getExplanation();
 		
 		tfQEQuestion.setText(question);
