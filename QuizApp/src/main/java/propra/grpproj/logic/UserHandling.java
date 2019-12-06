@@ -96,6 +96,8 @@ public class UserHandling
 		
 	}
 	
+	
+	// log the user out
 	public void logout (String email) {
 		
 		boolean success_logout = false;
@@ -110,7 +112,7 @@ public class UserHandling
 	}
 	
 	
-	
+	// delete the user after successfully authenticated
 	public boolean deleteUser (String id, String passwd) 
 	{
 		

@@ -1,5 +1,7 @@
 package propra.grpproj.logic;
 
+import java.sql.SQLException;
+
 ////////////////////////////////////////////////////////////////////////////
 // Encrypt functions and password check
 // All the functions are private except for delete() and login()
@@ -15,6 +17,9 @@ public class Encrypt {
 
 	private final int prim = 234312413;
 	
+	
+	
+	// authentication of the password for account delete
 	public boolean delete (String id, String password) {
 	
 		int i,ii;
@@ -33,7 +38,10 @@ public class Encrypt {
 		
 	}
 	
-	public boolean login (String email, String password) {
+	
+	
+	// authentication of the password for user login
+	public boolean login (String email, String password) throws SQLException {
 		boolean check = false;
 		int e_full,e_full_input;
 		
@@ -52,6 +60,8 @@ public class Encrypt {
 	}
 	
 	
+	
+	// encrypt function for email and password
 	private int encrypt(String email, String password) {
 		
 		int i,ii,iii;
@@ -63,6 +73,8 @@ public class Encrypt {
 		
 	}
 	
+	
+	// encrypt function for password or email
 	public int encrypt(String text) {
 		
 		int i; 
@@ -71,23 +83,35 @@ public class Encrypt {
 	}
 	
 	
-	private int encryptDatabase(String email) {
+	
+	// function to get the email and encrypted password from the user
+	private int encryptDatabase(String email) throws SQLException {
+		
+		
+		DatabaseManager db = new DatabaseManager();
+		
+		db.connection();
+		
+		db.getEncryptedPassword(email);
+		
+		db.closeconnection();
 		
 		int i,ii,iii;
+		
 		String password = "Hallo";
 		
-		// Get Password from Database! 
-		// If the email exist, gets checked before this function get called
-		// password is saved encrypted in the DB
 		
 		i = email.hashCode();
-		ii = password.hashCode();
+		
+		ii = 123;
+		
 		iii = prim*i*ii;
-		System.out.println(iii);
 		
 		return iii;
 	}
 	
+	
+	// ????? Dunno for what, just ignore
 	private int getPasswordhash() {
 		int i;
 		i = 1;

@@ -1,6 +1,7 @@
 package propra.grpproj.logic;
 
 import java.time.format.DateTimeFormatter;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 
@@ -15,24 +16,46 @@ import java.time.LocalDateTime;
 
 public class Scoreboard {
 	
-	public void getScore(String id) {
+	
+	
+	// Get the global and monthly reseted score from a user
+	public int getScore(String id) throws SQLException {
 		
-		// Datenbank abfrage 
-		// Select points from user where BenutzerID = id 
+		int score;
+		DatabaseManager db = new DatabaseManager();
+		db.connection();
+		score = db.getScore(id);
+		db.closeconnection();
+		return score;
 		
 		
 	}
 	
-	public void writeToDB (String id, int score) {
+	
+	
+	// Write the points from a completed quiz to the user db
+	public void writeToDB (String id, int score) throws SQLException {
+		
+		DatabaseManager db = new DatabaseManager();
+		db.connection();
+		db.writePoints(id,score);
+		db.closeconnection();
 		
 	}
 	
-	private void resetScore() {
+	
+	// delete the current score globally, if a new month starts
+	private void resetScore() throws SQLException{
 		
-		// reset score!
+		DatabaseManager db = new DatabaseManager();
+		
+		db.connection();
+		db.resetPoints();
+		db.closeconnection();
+		
 		
 		// ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-		// scheduler.scheduleAtFixedRate(myRunnable, 0, 1, TimeUnit.DAYS);
+		// scheduler.scheduleAtFixedRate(Scoreboard.resetScore(), 0, 1, TimeUnit.DAYS);
 		
 	}
 

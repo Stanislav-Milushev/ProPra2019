@@ -9,16 +9,6 @@ public class QuestionHandling {
 	
 	public void saveQuestion() throws SQLException {
 		
-		// Object from Socket
-		// Question in DB 
-		// 
-		
-		
-		SqliteCoreUtilities.connect();
-		// 
-		
-		
-		
 		
 	}
 	

@@ -17,15 +17,35 @@ import java.util.ArrayList;
 public class AdminHandling {
 
 	
-	public void getAllUsers () {
+	// Function to get all registered user
+	public void getAllUsers () throws SQLException {
+		
+		DatabaseManager db = new DatabaseManager();
+		
+		db.connection();
+		
+		db.getAllUser();
+		
+		db.closeconnection();
+		
 		
 	}
 	
-	public void approvePub() {
+	
+	// Function to approve a pub
+	public void approvePub(String name) throws SQLException {
+		
+		DatabaseManager db = new DatabaseManager();
+		db.connection();
+		db.approvePub(name);
+		db.closeconnection();
 		
 		
 	}
 	
+	
+	
+	// Function to give a list off all registered pubs to the administrative GUI
 	public ArrayList<String> getAllPubs() throws SQLException{
 		
 		ArrayList <String> pubs = new ArrayList<String>();
@@ -39,6 +59,4 @@ public class AdminHandling {
 		return pubs;
 		
 	}
-	
-	
 }
