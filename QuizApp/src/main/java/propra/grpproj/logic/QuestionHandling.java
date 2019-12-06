@@ -13,8 +13,8 @@ public class QuestionHandling {
 		// Question in DB 
 		// 
 		
-		SqliteCoreUtilities db = new SqliteCoreUtilities();
-		db.connect();
+		
+		SqliteCoreUtilities.connect();
 		// 
 		
 		

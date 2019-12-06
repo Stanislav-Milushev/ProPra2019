@@ -6,7 +6,7 @@ package propra.grpproj.logic;
 // Class to create and manage a quiz
 // 
 // @author: Marius Discher
-//
+// 
 //
 //
 

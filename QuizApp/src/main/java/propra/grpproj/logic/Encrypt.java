@@ -63,7 +63,7 @@ public class Encrypt {
 		
 	}
 	
-	private int encrypt(String text) {
+	public int encrypt(String text) {
 		
 		int i; 
 		i= text.hashCode();

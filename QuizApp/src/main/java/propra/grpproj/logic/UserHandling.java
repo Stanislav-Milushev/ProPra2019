@@ -1,12 +1,14 @@
 package propra.grpproj.logic;
 
+import java.sql.SQLException;
+
 import javax.swing.JOptionPane;
 
 
 
 ////////////////////////////////////////////////////////////////////////////
 // Handle all the user related actions (login, logout, delete, register)
-//
+// 
 // @author: Marius Discher
 //
 //
@@ -17,97 +19,97 @@ public class UserHandling
 {
 	
 	
-	public boolean user_register(String email, String passwd, boolean pub) 
+	// Method to register a user in the database
+	// Calls the function in the DatabaseManager
+	public void user_register(String username, String email, String passwd) throws SQLException 
 	{
 		
-		boolean success = false;
+		DatabaseManager db = new DatabaseManager();
 		
-		// Erzeugen von BenutzerID
-		// Select last BenutzerID und dann +1 bzw eins hoch rechnen.
+		boolean success_reg = false;
 		
-		// if pub = true, dann auch in Datenbank setzen
+		db.connection();
 		
-		// verbindung zu DB aufbauen
-		// checken, ob email vllt doch schon vorhanden?
-		// verschl�sseln von PW 
-		// int password = passwd.hashCode();
-		// Best�tigung rausgeben
+		success_reg = db.registerUser(username, email, passwd);
 		
+		db.closeconnection();
 		
-		// Suche noch einmal nach email 
-		// wenn vorhanden = true, ansonsten Fehler ausgeben, dass DB nicht beschrieben werden konnte.
-		// Exception = DBCannotbeWriten
-		//
+		// Send success to GUI back
 		
-		return success;
 	}
 	
 	
 
-	public void user_login(String email, String passwd) 
+	// Method to log a user in the quiz system
+	// Calls the function inside the DatabaseManager
+	public void user_login(String email, String passwd) throws SQLException 
 	{
 		
-		// Daten kommen von Sockets
-		// Von der Datenbank die Info, ob pub
+		DatabaseManager db = new DatabaseManager();
+		ActiveUserStore aus = new ActiveUserStore();
 		
+		boolean success_login; 
 		
-		email = JOptionPane.showInputDialog("Bitte Email eingeben");
-		passwd = JOptionPane.showInputDialog("Bitte Passwort");
-		boolean check = true; 
-		boolean pub = true;
+		db.connection();
 		
-		if (check == true) {
-			
-			Encrypt e = new Encrypt();
-			boolean encrypt_check;
-			
-			encrypt_check = e.login(email, passwd);
-			
-			if (encrypt_check == true) {
-				
-				System.out.println("Login erfolgreich!");
-				// Login erfolgreich, weiterleitung an n�chste Seite
-			} else {
-				
-				System.out.println("Login nicht erfolgreich! Passwort falsch");
-				// Passwort falsch, neu eingeben!
-				
-			}
-			
-		} else {
-			System.out.println("registrieren?");
-			// An Sockets Anfrage f�r registrierung schicken
-		}
+		success_login = db.login(email,passwd);
 		
+		db.closeconnection();
 		
-		System.out.println(email);
-		System.out.println(passwd);
+		aus.userLogin(email);
 		
-		
+	
+		// Send object to GUI 
+		// Case 1: login successfully
+		// Case 2: password incorrect 
+		// Case 3: Email wrong
+		// For 1 boolean = true, 2 = false and 3 = false
 
 	}
 	
-	public void createTempUser () 
+	
+	// Method to create a temp user
+	public void createTempUser () throws SQLException 
 	{
+
+		DatabaseManager db = new DatabaseManager();
 		
-		// Get the last temp User number and then +1
-		// MAX()
+		db.connection();
 		
-		int i = 00000001;
-		String email = "temp" + i + "@krombacher_quiz.de";
-		String name = "temp" + i;
+		String id = db.getLatestID();
+		
+		String email = "temp" + id + "@krombacher_quiz.de";
+		
+		String name = "temp" + id;
+		
 		String passwd = "temporaer";
-		boolean pub = false;
 		
-		user_register(email, passwd, pub);
+		db.registerUser(name, email, passwd);
+		
+		db.closeconnection();
+		
+		// Dont need to give a return value to the gui
+		// The register function will do this
+		
+		
 		
 		
 	}
 	
-	public void logout () 
-	{
+	public void logout (String email) {
+		
+		boolean success_logout = false;
+		
+		ActiveUserStore aus = new ActiveUserStore();
+		
+		aus.userLogout(email);
+		
+		success_logout = aus.search(email);
+		
 		
 	}
+	
+	
 	
 	public boolean deleteUser (String id, String passwd) 
 	{

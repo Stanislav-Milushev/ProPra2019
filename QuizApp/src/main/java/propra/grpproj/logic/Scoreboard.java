@@ -17,6 +17,10 @@ public class Scoreboard {
 	
 	public void getScore(String id) {
 		
+		// Datenbank abfrage 
+		// Select points from user where BenutzerID = id 
+		
+		
 	}
 	
 	public void writeToDB (String id, int score) {

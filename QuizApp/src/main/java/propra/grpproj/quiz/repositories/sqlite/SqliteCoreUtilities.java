@@ -67,4 +67,5 @@ public class SqliteCoreUtilities
         return DriverManager.getConnection(FULL_JDBC_DATABASE_URL);
     }
 
+    
 }

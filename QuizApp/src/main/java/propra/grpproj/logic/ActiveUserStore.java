@@ -44,5 +44,16 @@ public class ActiveUserStore {
 		activeAdmin.remove(id);
 	}
 	
+	public boolean search(String id) {
+		
+		boolean check = false;
+		
+		check = activeUser.contains(id);
+		
+		return check;
+	}
+	
+	
+	
 	
 }

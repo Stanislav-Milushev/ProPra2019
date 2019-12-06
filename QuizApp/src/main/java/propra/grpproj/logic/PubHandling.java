@@ -22,5 +22,7 @@ public class PubHandling {
 	
 	public void approvePub (String name, String address) {
 		
+		
+		
 	}
 }
