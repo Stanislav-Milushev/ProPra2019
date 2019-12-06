@@ -1,5 +1,8 @@
 package propra.grpproj.logic;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 ////////////////////////////////////////////////////////////////////////////
 // Admin functions
 // 
@@ -20,6 +23,20 @@ public class AdminHandling {
 	
 	public void approvePub() {
 		
+		
+	}
+	
+	public ArrayList<String> getAllPubs() throws SQLException{
+		
+		ArrayList <String> pubs = new ArrayList<String>();
+		
+		DatabaseManager db = new DatabaseManager();
+		db.connection();
+		
+		db.getPubs();
+		
+		db.closeconnection();
+		return pubs;
 		
 	}
 	

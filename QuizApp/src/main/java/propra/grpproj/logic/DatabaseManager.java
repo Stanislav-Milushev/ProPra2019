@@ -1,6 +1,7 @@
 package propra.grpproj.logic;
 
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,9 @@ import java.sql.SQLException;
 import propra.grpproj.quiz.repositories.sqlite.*;
 
 public class DatabaseManager {
+	
+	private ArrayList<String> pubs = new ArrayList<String>();
+	
 	
 	Connection connection = null;
 	
@@ -92,6 +96,20 @@ public class DatabaseManager {
 		ResultSet rs = stmt.executeQuery(query);
 		
 		return id;
+	}
+	
+	public ArrayList<String> getPubs() throws SQLException {
+		
+		String query ="Select name, owner, id from pub";
+		
+		Statement stmt = connection.createStatement();
+		
+		ResultSet rs = stmt.executeQuery(query);
+		
+		return pubs;
+		
+		// Maybe create Pub Objects and send them to the gui
+		
 	}
 	
 	
