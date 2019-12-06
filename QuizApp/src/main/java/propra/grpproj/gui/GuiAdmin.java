@@ -1,5 +1,8 @@
 package propra.grpproj.gui; 
 
+import propra.grpproj.quiz.Socket.SocketClient;
+import propra.grpproj.quiz.SocketDataObjects.PubList;
+
 import java.awt.EventQueue;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -18,10 +21,6 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-
-import propra.grpproj.quiz.Socket.SocketClient;
-import propra.grpproj.quiz.SocketDataObjects.PubList;
-
 import javax.swing.JTable;
 import java.awt.Font;
 import javax.swing.JScrollPane;
