@@ -48,8 +48,8 @@ public class SocketClient implements Runnable{
 		ObjectInputStream input = null;
 		ObjectOutputStream output = null;
 		try {
-			input = new ObjectInputStream(socket.getInputStream());
 			output = new ObjectOutputStream(socket.getOutputStream());
+			input = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			LOG.error("failed to open streams to server");

@@ -103,18 +103,18 @@ public class SocketServer implements Runnable{
         	ObjectOutputStream dataout = null;
 
             try {
-            	data = new ObjectInputStream(s.getInputStream());
                 dataout = new ObjectOutputStream(s.getOutputStream());
+            	data = new ObjectInputStream(s.getInputStream());
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            
             Object recieve = null;
             do {
             	try {
 					recieve = data.readObject();
 					recieveObject(recieve);
 				} catch (ClassNotFoundException | IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
             } while(!(recieve instanceof TerminateConnection));
