@@ -42,19 +42,22 @@ public class Encrypt {
 	
 	// authentication of the password for user login
 	public boolean login (String email, String password) throws SQLException {
+		
 		boolean check = false;
+		
 		int e_full,e_full_input;
 		
 		e_full_input = encrypt(email, password);
+		
 		e_full = encryptDatabase(email);
 		
 		
 		
 		if (e_full == e_full_input) {
+			
 			check = true;
-		} else {
-			check = false;
-		}
+			
+		} 
 		
 		return check;
 	}
@@ -65,10 +68,13 @@ public class Encrypt {
 	private int encrypt(String email, String password) {
 		
 		int i,ii,iii;
+		
 		i = email.hashCode();
+		
 		ii = password.hashCode();
+		
 		iii = prim*i*ii;
-		System.out.println(iii);
+		
 		return iii;
 		
 	}
@@ -92,20 +98,15 @@ public class Encrypt {
 		
 		db.connection();
 		
-		db.getEncryptedPassword(email);
+		int passwd = db.getEncryptedPassword(email);
 		
 		db.closeconnection();
 		
-		int i,ii,iii;
-		
-		String password = "Hallo";
-		
+		int i,iii;
 		
 		i = email.hashCode();
 		
-		ii = 123;
-		
-		iii = prim*i*ii;
+		iii = prim*i*passwd;
 		
 		return iii;
 	}

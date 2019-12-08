@@ -14,14 +14,14 @@ import java.time.LocalDateTime;
 //
 
 
-public class Scoreboard {
+public class ScoreboardUpdate {
 	
 	
 	
 	// Get the global and monthly reseted score from a user
-	public int getScore(String id) throws SQLException {
+	public double getScore(String id) throws SQLException {
 		
-		int score;
+		double score;
 		DatabaseManager db = new DatabaseManager();
 		db.connection();
 		score = db.getScore(id);
@@ -34,7 +34,7 @@ public class Scoreboard {
 	
 	
 	// Write the points from a completed quiz to the user db
-	public void writeToDB (String id, int score) throws SQLException {
+	public void writeToDB (String id, float score) throws SQLException {
 		
 		DatabaseManager db = new DatabaseManager();
 		db.connection();

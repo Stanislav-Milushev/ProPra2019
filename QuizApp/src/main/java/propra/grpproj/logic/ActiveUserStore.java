@@ -59,7 +59,7 @@ public class ActiveUserStore {
 	
 	
 	
-	// search the HashSet for a specific user (email,id,name)
+	// search the HashSet for a specific user (name)
 	public boolean search(String id) {
 		
 		boolean check = false;

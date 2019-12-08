@@ -33,11 +33,14 @@ public class AdminHandling {
 	
 	
 	// Function to approve a pub
-	public void approvePub(String name) throws SQLException {
+	public void approvePub(String name, String owner) throws SQLException {
 		
 		DatabaseManager db = new DatabaseManager();
+		
 		db.connection();
-		db.approvePub(name);
+		
+		db.approvePub(name,owner);
+		
 		db.closeconnection();
 		
 		
@@ -57,6 +60,41 @@ public class AdminHandling {
 		
 		db.closeconnection();
 		return pubs;
+		
+	}
+	
+	
+	// Get all the questions from the db
+	public ArrayList<String> getAllQuestions() throws SQLException {
+		
+		ArrayList <String> questions = new ArrayList<String>();
+		
+		DatabaseManager db = new DatabaseManager();
+		
+		db.connection();
+		
+		db.getAllQuestions();
+		
+		db.closeconnection();
+		
+		return questions;
+		
+		
+	}
+	
+	public ArrayList<String> getQuestionPool(String name) throws SQLException {
+		
+		ArrayList <String> questions_pool = new ArrayList<String>();
+		
+		DatabaseManager db = new DatabaseManager();
+		
+		db.connection();
+		
+		db.getPool(name);
+		
+		db.closeconnection();
+		
+		return questions_pool;
 		
 	}
 }

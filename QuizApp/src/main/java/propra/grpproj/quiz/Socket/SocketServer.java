@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -12,6 +13,9 @@ import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import propra.grpproj.logic.AdminHandling;
+import propra.grpproj.logic.ScoreboardUpdate;
+import propra.grpproj.logic.UserHandling;
 import propra.grpproj.quiz.SocketDataObjects.*;
 
 public class SocketServer implements Runnable{
@@ -116,6 +120,9 @@ public class SocketServer implements Runnable{
 					recieveObject(recieve);
 				} catch (ClassNotFoundException | IOException e) {
 					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
             } while(!(recieve instanceof TerminateConnection));
             
@@ -137,27 +144,41 @@ public class SocketServer implements Runnable{
         /**
          * 
          * @param o Object to be sent to the client
-         * @author Yannick
+         * @author Yannick & Marius
+         * @throws SQLException 
          */
-        private void recieveObject(Object o) {
+        private void recieveObject(Object o) throws SQLException {
         	if(o instanceof CreateConnection) {
         		CreateConnection c = (CreateConnection) o;
         		String name = c.getUserName();
-        		
         		nameToSocket.put(name, s);
         		socketToName.put(s, name);
         	}
         	if(o instanceof AcceptPub) {
-        		AcceptPub pub = (AcceptPub)o;
+        		AcceptPub acp = (AcceptPub) o;
+        		String name = acp.getName();
+        		String owner = acp.getOwner();
+        		AdminHandling admin = new AdminHandling();
+        		admin.approvePub(name,owner);
         	}
         	if(o instanceof CreatePubevening) {
         		CreatePubevening cpe = (CreatePubevening)o;
         	}
         	if(o instanceof DeleteUser) {
-        		DeleteUser delUser = (DeleteUser)o;
+        		DeleteUser du = (DeleteUser) o;
+        		String name = du.getUsername();
+        		String passwd = "";
+        		UserHandling delete = new UserHandling();
+        		delete.deleteUser(name, passwd);
+        		
         	}
         	if(o instanceof Login) {
         		Login lin = (Login)o;
+        		String email = lin.getUserName();
+        		String passwd = lin.getPassword();
+        		UserType type = lin.getType();
+        		UserHandling login = new UserHandling();
+        		login.user_login(email, passwd);
         	}
         	if(o instanceof Pub) {
         		Pub pub = (Pub)o;
@@ -176,12 +197,21 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof RegisterUser) {
         		RegisterUser regUser = (RegisterUser)o;
+        		String passwd = regUser.getPassword();
+        		String mail = regUser.getMail();
+        		String name = regUser.getUsername();
+        		UserHandling register = new UserHandling();
+        		register.user_register(name, mail, passwd);
         	}
         	if(o instanceof RepeatPubevening) {
         		RepeatPubevening rpEvening = (RepeatPubevening)o;
         	}
         	if(o instanceof Scoreboard) {
         		Scoreboard scbd = (Scoreboard)o;
+        		String name = scbd.getUser();
+        		float score = scbd.getScore();
+        		ScoreboardUpdate sco = new ScoreboardUpdate();
+        		sco.writeToDB(name, score);
         	}
         }
     }

@@ -3,25 +3,36 @@ package propra.grpproj.logic;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import propra.grpproj.quiz.dataholders.Pub;
 import propra.grpproj.quiz.repositories.sqlite.*;
+
+
+////////////////////////////////////////////////////////////////////////////
+// Manager class to execute all SQL query
+// @author: Marius Discher
+//
+//
+//
+// 
+
+
 
 public class DatabaseManager {
 	
 	
 	private ArrayList<String> pubs = new ArrayList<String>();
-	
-	
+
 	Connection connection = null;
-	
 	
 	Encrypt encr = new Encrypt();
 	
 	
 	
-	// Create connection to the database
+	// Create a connection to the database
 	public void connection() throws SQLException {
 		
 		connection = SqliteCoreUtilities.connect();
@@ -30,7 +41,7 @@ public class DatabaseManager {
 	
 	
 	
-	// Close the connection 
+	// Close the connection to the database
 	public void closeconnection() throws SQLException {
 		
 		this.connection.close();
@@ -40,18 +51,24 @@ public class DatabaseManager {
 	
 	
 	// Function to register a user
-	// @returntype = boolean
 	public boolean registerUser(String username, String email, String passwd) throws SQLException {
 		
+		// false = cannot register the user
 		boolean r_check = false;
 		
 		int password = encr.encrypt(passwd);
 		
-		String userid;
+		int userid = getLatestID() +1;
 		
-		String query = "";
+		String query = "Insert into user (userID, username, email, password) Values (?,?,?,?)";
 		
+		PreparedStatement ps = connection.prepareStatement(query);
+		ps.setInt(1, userid);
+		ps.setString (2,username);
+		ps.setString(2, email);
+		ps.setInt(3, password);
 		
+		r_check = searchUser(username);
 		
 		
 		return r_check;
@@ -65,11 +82,14 @@ public class DatabaseManager {
 		// false means empty
 		boolean e_check = true;
 		
-		
 		connection();
+		
 		String query = "Select email From user Where email =" + email;
+		
 		Statement stmt = connection.createStatement();
+		
 		ResultSet rs = stmt.executeQuery(query);
+		
 		int columns = rs.getMetaData().getColumnCount();
 		
 		while (rs.next()) {
@@ -96,28 +116,41 @@ public class DatabaseManager {
 	
 	
 	// Function to authenticate login of a user
-	public boolean login(String email, String password) {
+	public boolean login(String email, String password) throws SQLException {
 		
 		boolean l_check = false;
+		
+		boolean e_check = false;
+		
+		e_check = checkExist(email);
+		
+		if (e_check == true ) {
+			
+			l_check = encr.login(email, password);
+			
+		}
+		
+		
 		
 		return l_check;
 	}
 	
 	
 	// Get the latest and unused userID from the Database
-	public String getLatestID() throws SQLException {
+	public int getLatestID() throws SQLException {
 		
-		String id = "";
+		int id = 1;
 		
-		String query = "Select max userID from user";
+		String query = "Select Max(userID) from user";
 		
 		Statement stmt = connection.createStatement();
 		
 		ResultSet rs = stmt.executeQuery(query);
 		
-		rs.close();
-		
-		stmt.close();
+		 for (;rs.next();) {
+			 
+			 id = rs.getInt(0);
+		 }
 		
 		return id;
 	}
@@ -125,7 +158,13 @@ public class DatabaseManager {
 	
 	
 	// Get all registered pubs
-	public ArrayList<String> getPubs() throws SQLException {
+	public ArrayList<Pub> getPubs() throws SQLException {
+		
+		ArrayList<Pub> pubs = new ArrayList<Pub>();
+		
+		Object var;
+		
+		Pub pub;
 		
 		String query ="Select name, owner, id from pub";
 		
@@ -137,6 +176,12 @@ public class DatabaseManager {
 		
 		stmt.close();
 		
+		for (int i=0;rs.next();) {
+			
+			var = rs.getObject(i);
+			
+		}
+		
 		return pubs;
 		
 		// Maybe create Pub Objects and send them to the gui
@@ -146,17 +191,16 @@ public class DatabaseManager {
 	
 	
 	// Function to handle the approve of a pub
-	public void approvePub(String name) throws SQLException {
+	public void approvePub(String name, String owner) throws SQLException {
 		
-		String query = "Update pub on approved value true where name =" + name;
+		String query = "Update pub value approved = ? where name = ? AND owner = ?";
 		
-		Statement stmt = connection.createStatement();
+		PreparedStatement ps = connection.prepareStatement(query);
 		
-		ResultSet rs = stmt.executeQuery(query);
-		
-		rs.close();
-		
-		stmt.close();
+		ps.setBoolean(1, true);
+		ps.setString(2, name);
+		ps.setString(3, owner);
+	
 		
 	}
 	
@@ -182,36 +226,37 @@ public class DatabaseManager {
 	// Function to get the encrypted password from the database
 	public int getEncryptedPassword (String email) throws SQLException {
 		
-		int i = 0;
+		int password = 0;
 		
-		String query = "Select password from user Where email =" + email;
+		String query = "Select password From user Where email =" + email;
 		
 		Statement stmt = connection.createStatement();
 		
 		ResultSet rs = stmt.executeQuery(query);
 		
+		for (;rs.next();) {
+			
+			password = rs.getInt(0);
+		}
+		
 		rs.close();
 		
 		stmt.close();
 		
-		return i;
+		return password;
 	}
 	
 	
 	
 	// Write the score after a completed quiz to the user db
-	public void writePoints (String id, int points) throws SQLException {
+	public void writePoints (String name, double score) throws SQLException {
 		
-		String query = "Update user on score value " + points;
+		String query = "Update user value score = ? Where username = ?";
 		
-		Statement stmt = connection.createStatement();
+		PreparedStatement ps = connection.prepareStatement(query);
 		
-		ResultSet rs = stmt.executeQuery(query);
-		
-		rs.close();
-		
-		stmt.close();
-		
+		ps.setDouble(1, score);
+		ps.setString(2, name);
 		
 		
 	}
@@ -219,21 +264,26 @@ public class DatabaseManager {
 	
 	
 	// Get the score from a user
-	public int getScore(String id) throws SQLException {
+	public double getScore(String name) throws SQLException {
 		
-		int i = 0;
+		double score = 0;
 		
-		String query = "Select score from user Where id =" + id;
+		String query = "Select score From user Where username =" + name;
 		
 		Statement stmt = connection.createStatement();
 		
 		ResultSet rs = stmt.executeQuery(query);
 		
+		for (;rs.next();) {
+			
+			score = rs.getInt(0);
+		}
+		
 		rs.close();
 		
 		stmt.close();
 		
-		return i;
+		return score;
 	}
 	
 	
@@ -241,7 +291,19 @@ public class DatabaseManager {
 	// Function to reset the score from all users
 	public void resetPoints() throws SQLException {
 		
-		String query = "Update user on score value = 0";
+		double score = 0.0;
+		
+		String query = "Update user value score = ?";
+		
+		PreparedStatement ps = connection.prepareStatement(query);
+		
+		ps.setDouble(1, score);
+		
+	}
+	
+	public void getAllQuestions() throws SQLException {
+		
+		String query = "Select * From question";
 		
 		Statement stmt = connection.createStatement();
 		
@@ -253,5 +315,89 @@ public class DatabaseManager {
 		
 	}
 	
+	public void getPool(String name) throws SQLException {
+		
+		String query = "";
+		
+		Statement stmt = connection.createStatement();
+		
+		ResultSet rs = stmt.executeQuery(query);
+		
+		rs.close();
+		
+		stmt.close();
+	}
+	
+	public boolean registerPub(String name, String address, boolean approved, String owner) throws SQLException {
+		
+		boolean success = false;
+		
+		String query = "Insert into pub (name, address, approved, owner) Values (?,?,?,?)";
+		
+		PreparedStatement ps = connection.prepareStatement(query);
+		ps.setString(1, name);
+		ps.setString(2, address);
+		ps.setBoolean(3, false);
+		ps.setString(4, owner);
+		
+		success = searchPub(name);
+		
+		
+		return success;
+	}
+	
+	
+	public boolean searchUser(String name) throws SQLException {
+		
+		boolean check = true;
+		
+		String query = "Select username From user Where username=" + name;
+		
+		Statement stmt = connection.createStatement();
+		
+		ResultSet rs = stmt.executeQuery(query);
+		
+		int columns = rs.getMetaData().getColumnCount();
+		
+		while (rs.next()) {
+			
+			for(int i = 1; i<=columns; i++) {
+				check = isEmpty(rs.getString(i));
+			}
+		}
+		
+		rs.close();
+		stmt.close();
+		
+		
+		return check;
+	}
+	
+	
+		public boolean searchPub(String name) throws SQLException {
+		
+		boolean check = true;
+		
+		String query = "Select name From pub Where name =" + name;
+		
+		Statement stmt = connection.createStatement();
+		
+		ResultSet rs = stmt.executeQuery(query);
+		
+		int columns = rs.getMetaData().getColumnCount();
+		
+		while (rs.next()) {
+			
+			for(int i = 1; i<=columns; i++) {
+				check = isEmpty(rs.getString(i));
+			}
+		}
+		
+		rs.close();
+		stmt.close();
+		
+		
+		return check;
+	}
 	
 }

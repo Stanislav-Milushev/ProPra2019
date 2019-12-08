@@ -76,7 +76,7 @@ public class UserHandling
 		
 		db.connection();
 		
-		String id = db.getLatestID();
+		int id = db.getLatestID();
 		
 		String email = "temp" + id + "@krombacher_quiz.de";
 		
