@@ -32,6 +32,11 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
+/**
+ * 
+ * @author Lisa Praedel
+ *
+ */
 public class GuiAdmin {
 	
 	private static GuiAdmin instance;
@@ -44,10 +49,11 @@ public class GuiAdmin {
 	private JComboBox<String> cbPEUnblocking, cbQACorrectAnswer, cbQECorrectAnswer;
 	private JComboBox<Long> cbPEPubID, cbQEQuestionID;
 	
-
+	
 	/**
 	 * Launch the application.
 	 */
+	/*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -60,7 +66,7 @@ public class GuiAdmin {
 				}
 			}
 		});
-		
+		*/
 		
 /*		String ip = "127.0.0.1";
 		int port = 4000;
@@ -83,13 +89,13 @@ public class GuiAdmin {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-		frmAdmin = new JFrame();
-		frmAdmin.getContentPane().setEnabled(false);
-		frmAdmin.setTitle("KROMBACHER Kneipenquiz");
-		frmAdmin.setForeground(new Color(255, 255, 255));
-		frmAdmin.getContentPane().setBackground(Color.WHITE);
-		frmAdmin.setBackground(new Color(255, 255, 255));
-		frmAdmin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+		setFrmAdmin(new JFrame());
+		getFrmAdmin().getContentPane().setEnabled(false);
+		getFrmAdmin().setTitle("KROMBACHER Kneipenquiz");
+		getFrmAdmin().setForeground(new Color(255, 255, 255));
+		getFrmAdmin().getContentPane().setBackground(Color.WHITE);
+		getFrmAdmin().setBackground(new Color(255, 255, 255));
+		getFrmAdmin().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 		
 		
 		/**
@@ -137,7 +143,7 @@ public class GuiAdmin {
 		 */
 		JPanel pContent = new JPanel();
 		pContent.setBackground(new Color(255, 255, 255));
-		frmAdmin.getContentPane().add(pContent, BorderLayout.CENTER);
+		getFrmAdmin().getContentPane().add(pContent, BorderLayout.CENTER);
 		GridBagLayout gbl_pContent = new GridBagLayout();
 		gbl_pContent.columnWidths = new int[] {0};
 		gbl_pContent.rowHeights = new int[] {0};
@@ -998,11 +1004,11 @@ public class GuiAdmin {
 		
 		
 		
-		frmAdmin.getContentPane().add(pHeader, BorderLayout.NORTH);
-		frmAdmin.getContentPane().add(pMenu, BorderLayout.WEST);
-		frmAdmin.getContentPane().add(pContent, BorderLayout.CENTER);
-		frmAdmin.pack();
-		frmAdmin.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		getFrmAdmin().getContentPane().add(pHeader, BorderLayout.NORTH);
+		getFrmAdmin().getContentPane().add(pMenu, BorderLayout.WEST);
+		getFrmAdmin().getContentPane().add(pContent, BorderLayout.CENTER);
+		getFrmAdmin().pack();
+		getFrmAdmin().setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
 	}
 	
@@ -1142,5 +1148,17 @@ public class GuiAdmin {
 	}
 	public static GuiAdmin getInstance(){
 		return instance;
+	}
+
+
+
+	public JFrame getFrmAdmin() {
+		return frmAdmin;
+	}
+
+
+
+	public void setFrmAdmin(JFrame frmAdmin) {
+		this.frmAdmin = frmAdmin;
 	}
 }
