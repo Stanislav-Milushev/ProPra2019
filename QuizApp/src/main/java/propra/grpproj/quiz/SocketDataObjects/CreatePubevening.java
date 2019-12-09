@@ -1,8 +1,9 @@
 package propra.grpproj.quiz.SocketDataObjects;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class CreatePubevening {
+public class CreatePubevening implements Serializable{
 	private int secPerQuestion = 20;
 	private Date start;
 	private int[] questionSets;

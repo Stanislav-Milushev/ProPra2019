@@ -1,6 +1,8 @@
 package propra.grpproj.quiz.SocketDataObjects;
 
-public class Question {
+import java.io.Serializable;
+
+public class Question implements Serializable{
 	private String question;
 	private String[] answers;
 	private int selectedAnswer;

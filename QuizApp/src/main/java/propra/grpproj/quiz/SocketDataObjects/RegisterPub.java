@@ -1,6 +1,8 @@
 package propra.grpproj.quiz.SocketDataObjects;
 
-public class RegisterPub {
+import java.io.Serializable;
+
+public class RegisterPub implements Serializable{
 	private String name;
 	private String address;
 	

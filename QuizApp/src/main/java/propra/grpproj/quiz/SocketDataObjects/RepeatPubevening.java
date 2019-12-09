@@ -1,6 +1,8 @@
 package propra.grpproj.quiz.SocketDataObjects;
 
-public class RepeatPubevening {
+import java.io.Serializable;
+
+public class RepeatPubevening implements Serializable{
 	private String name;
 
 	public RepeatPubevening(String name) {

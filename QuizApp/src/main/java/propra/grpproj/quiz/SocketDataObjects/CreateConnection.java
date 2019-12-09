@@ -1,6 +1,8 @@
 package propra.grpproj.quiz.SocketDataObjects;
 
-public class CreateConnection {
+import java.io.Serializable;
+
+public class CreateConnection implements Serializable{
 	private String userName;
 	
 	public CreateConnection(String userName) {
