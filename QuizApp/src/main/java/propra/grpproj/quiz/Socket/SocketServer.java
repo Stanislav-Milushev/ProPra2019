@@ -19,6 +19,7 @@ import propra.grpproj.logic.UserHandling;
 import propra.grpproj.quiz.SocketDataObjects.*;
 
 public class SocketServer implements Runnable{
+	private static SocketServer instance = null;
     private static final Logger LOG = LoggerFactory.getLogger(SocketServer.class);
     private ExecutorService executor = null;
     private int port;
@@ -29,6 +30,18 @@ public class SocketServer implements Runnable{
     
     public SocketServer(int port){
         this.port = port;
+    }
+    
+    public static void start(int port) {
+    	if(instance == null) {
+    		instance = new SocketServer(port);
+    		Thread t = new Thread(instance);
+    		t.start();
+    	}
+    }
+    
+    public static SocketServer getInstance() {
+    	return instance;
     }
     
     /**
