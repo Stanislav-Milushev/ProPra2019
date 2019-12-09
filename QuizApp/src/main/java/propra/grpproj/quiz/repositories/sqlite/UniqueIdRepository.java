@@ -10,44 +10,26 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import propra.grpproj.quiz.dataholders.ScoreboardEntity;
-import propra.grpproj.quiz.repositories.CrudRepository;
+import propra.grpproj.quiz.dataholders.UniqueId;
 import propra.grpproj.quiz.repositories.CrudRepositoryAdapter;
 
-/**
- * The Repository to store ScoreboardEntities.
- * 
- * @author Daniel
- *
- */
-public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity, Long>
+public class UniqueIdRepository extends CrudRepositoryAdapter<UniqueId, Long>
 {
-
-    /**
+	   /**
      * The table name managed by this repository
      */
-    private static final String TABLE_NAME = "scoreboard";
+    private static final String TABLE_NAME = "uniqueId";
 
     /**
      * The SQL query to create this table
      */
-    private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (id INTEGER PRIMARY KEY, username STRING, score INTEGER, "
+    private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (uniqueId INTEGER PRIMARY KEY, code STRING, "
     		+ "FOREIGN KEY(userId) REFERENCES user (userId), "
     		+ "FOREIGN KEY(pubEveningId) REFERENCES pubEvening (pubEveningId))";
 
-    @Override
-    public long count()
-    {
-        return CrudRepository.convertToList(findAll()).size();
-    }
-
-    /**
-     * Just to keep the working code some where
-     * 
-     * @see ScoreboardRepository#count()
-     */
-    public long moreEfficientCountImpl()
-    {
+	@Override
+	public long count()
+	{
         int returnValue = 0;
 
         String sql = "SELECT * FROM " + TABLE_NAME;
@@ -72,18 +54,18 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
         }
 
         return returnValue;
-    }
+	}
 
-    @Override
-    public void delete(ScoreboardEntity entity)
-    {
+	@Override
+	public void delete(UniqueId entity)
+	{
         // ensure that delete does the very same as deleteById and vice versa
-        deleteById(entity.getId());
-    }
+        deleteById(entity.getUniqueId());
+	}
 
-    @Override
-    public void deleteAll()
-    {
+	@Override
+	public void deleteAll()
+	{
         // @formatter:off
         try (
                 Connection conn = connect();
@@ -97,14 +79,14 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
         {
             throw new RuntimeException(e);
         }
-    }
+	}
 
-    @Override
-    public void deleteById(Long id)
-    {
+	@Override
+	public void deleteById(Long uniqueId)
+	{
         // @formatter:off
         String sql = "DELETE FROM " + TABLE_NAME +
-                     "  WHERE id=?";
+                     "  WHERE uniqueId=?";
 
         try (
                 Connection conn = connect();
@@ -112,24 +94,24 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
             )
         // @formatter:on
         {
-            pstmt.setLong(1, id);
+            pstmt.setLong(1, uniqueId);
             pstmt.executeUpdate();
         } catch (SQLException e)
         {
             throw new RuntimeException(e);
         }
-    }
+	}
 
-    @Override
-    public boolean existsById(Long id)
-    {
-        return findById(id).isPresent();
-    }
+	@Override
+	public boolean existsById(Long uniqueId)
+	{
+        return findById(uniqueId).isPresent();
+	}
 
-    @Override
-    public Iterable<ScoreboardEntity> findAll()
-    {
-        ArrayList<ScoreboardEntity> resultList = new ArrayList<>();
+	@Override
+	public Iterable<UniqueId> findAll()
+	{
+        ArrayList<UniqueId> resultList = new ArrayList<>();
 
         String sql = "SELECT * FROM " + TABLE_NAME;
 
@@ -144,7 +126,7 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
             {
                 while (rs.next())
                 {
-                    ScoreboardEntity entity = buildScoreboardEntityFromResultSet(rs);
+                	UniqueId entity = buildUniqueIdFromResultSet(rs);
                     resultList.add(entity);
                 }
             }
@@ -154,18 +136,19 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
         }
 
         return resultList;
-    }
+	}
 
-    @Override
-    public Optional<ScoreboardEntity> findById(Long id)
-    {
+
+	@Override
+	public Optional<UniqueId> findById(Long uniqueId)
+	{
         // define your result value for the Optional: may stays null!
-        ScoreboardEntity returnValue = null;
+		UniqueId returnValue = null;
 
         // set up your query with '?' for all variables
         // @formatter:off
         String sql = "SELECT * FROM " + TABLE_NAME +
-                     "  WHERE id=?";
+                     "  WHERE uniqueId=?";
 
         // open connection and prepare statement using 'try-with-resource'
         try (
@@ -175,14 +158,14 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
         // @formatter:on
         {
             // insert variables into the '?' of our prepared query
-            pstmt.setLong(1, id);// 1st param is index of '?'
+            pstmt.setLong(1, uniqueId);// 1st param is index of '?'
 
             // manage query-result with try-with-resources to use the auto-closable feature
             try (ResultSet rs = pstmt.executeQuery();)
             {
                 // find first by id:
                 if (rs.next())
-                { returnValue = buildScoreboardEntityFromResultSet(rs); }
+                { returnValue = buildUniqueIdFromResultSet(rs); }
             }
         } catch (SQLException e)
         {
@@ -193,47 +176,30 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
 
         // Wrap the result in the optional (may be null)
         return Optional.ofNullable(returnValue);
-    }
+	}
 
-    @Override
-    public <S extends ScoreboardEntity> S save(S entity)
-    {
-        if (existsById(entity.getId()))
+	@Override
+	public <S extends UniqueId> S save(S entity)
+	{
+        if (existsById(entity.getUniqueId()))
         {
             return update(entity);
         } else
         {
             return insert(entity);
         }
-    }
-
+	}
+	
     // ========================================================================
     // helpers
     // ========================================================================
     
-    //TODO FOREIGN KEYS not integrated yet     	
-//  ->  FOREIGN KEY (foreign_key_columns)
-//       REFERENCES parent_table(parent_key_columns)
-//          ON UPDATE action/cascade
-//          ON DELETE action;
-    
-    
-    private ScoreboardEntity buildScoreboardEntityFromResultSet(ResultSet rs) throws SQLException
-    {
-        // fetch each parameter from the query-result...
-        Long foundID = rs.getLong("id");
-        String username = rs.getString("username");
-        int score = rs.getInt("score");
 
-        // ... and build a new ScoreboardEntry
-        return new ScoreboardEntity(foundID, username, score);
-    }
-
-    private <S extends ScoreboardEntity> S insert(S entity)
-    {
+	private <S extends UniqueId> S insert(S entity)
+	{
         // @formatter:off
-        String sql =   "INSERT INTO " + TABLE_NAME + "(id,username,score)"
-                     + "  VALUES(?, ?, ?)"
+        String sql =   "INSERT INTO " + TABLE_NAME + "(uniqueId,code)"
+                     + "  VALUES(?, ?)"
                      ;
 
         try (
@@ -241,9 +207,8 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
                 PreparedStatement pstmt = conn.prepareStatement(sql);
             )
         {
-            pstmt.setLong(1, entity.getId());
-            pstmt.setString(2, entity.getUsername());
-            pstmt.setLong(3, entity.getScore());
+            pstmt.setLong(1, entity.getUniqueId());
+            pstmt.setString(2, entity.getCode());
             
             pstmt.executeUpdate();
         } catch (SQLException e)
@@ -253,16 +218,16 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
         // @formatter:on
 
         @SuppressWarnings("unchecked")
-        S s = (S) findById(entity.getId()).get();
+        S s = (S) findById(entity.getUniqueId()).get();
         return s;
-    }
+	}
 
-    private <S extends ScoreboardEntity> S update(S entity)
-    {
-     // @formatter:off
+	private <S extends UniqueId> S update(S entity)
+	{
+	     // @formatter:off
         String sql =   "UPDATE " + TABLE_NAME
-                     + "  SET username=?, score=?"
-                     + "  WHERE id=?"
+                     + "  SET code=?"
+                     + "  WHERE uniqueId=?"
                      ;
 
         try (
@@ -270,9 +235,8 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
                 PreparedStatement pstmt = conn.prepareStatement(sql);
             )
         {
-            pstmt.setString(1, entity.getUsername());
-            pstmt.setLong(2, entity.getScore());
-            pstmt.setLong(3, entity.getId());
+            pstmt.setString(1, entity.getCode());
+            pstmt.setLong(2, entity.getUniqueId());
 
             pstmt.executeUpdate();
         } catch (SQLException e)
@@ -282,8 +246,18 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
         // @formatter:on
 
         @SuppressWarnings("unchecked")
-        S s = (S) findById(entity.getId()).get();
+        S s = (S) findById(entity.getUniqueId()).get();
         return s;
-    }
+	}
 
+	private UniqueId buildUniqueIdFromResultSet(ResultSet rs) throws SQLException
+	{
+        // fetch each parameter from the query-result...
+        Long foundID = rs.getLong("uniqueId");
+        String code = rs.getString("code");
+
+        // ... and build a new ScoreboardEntry
+        return new UniqueId(foundID, code);
+	}
+    
 }

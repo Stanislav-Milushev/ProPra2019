@@ -1,5 +1,9 @@
 package propra.grpproj.quiz.repositories;
-
+/**
+ * 
+ * @author Daniel
+ *
+ */
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

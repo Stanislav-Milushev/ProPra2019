@@ -10,7 +10,11 @@ import org.slf4j.LoggerFactory;
 import propra.grpproj.quiz.dataholders.ScoreboardEntity;
 import propra.grpproj.quiz.repositories.sqlite.ScoreboardRepository;
 import propra.grpproj.quiz.repositories.sqlite.SqliteCoreUtilities;
-
+/**
+ * 
+ * @author Daniel
+ *
+ */
 public class ScoreboardRepositoryDemo
 {
 
@@ -20,6 +24,8 @@ public class ScoreboardRepositoryDemo
     {
         try
         {
+        	
+        	
             // SETUP
             cleanExistingTableAndCreateNewDummyData();
             ScoreboardRepository repo = new ScoreboardRepository();

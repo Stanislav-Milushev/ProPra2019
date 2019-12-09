@@ -10,80 +10,32 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import propra.grpproj.quiz.dataholders.ScoreboardEntity;
-import propra.grpproj.quiz.repositories.CrudRepository;
+import propra.grpproj.quiz.dataholders.PubEvening;
 import propra.grpproj.quiz.repositories.CrudRepositoryAdapter;
 
-/**
- * The Repository to store ScoreboardEntities.
- * 
- * @author Daniel
- *
- */
-public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity, Long>
+public class PubEveningRepository extends CrudRepositoryAdapter<PubEvening, Long>
 {
-
     /**
      * The table name managed by this repository
      */
-    private static final String TABLE_NAME = "scoreboard";
+    private static final String TABLE_NAME = "pubEvening";
 
     /**
      * The SQL query to create this table
      */
-    private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (id INTEGER PRIMARY KEY, username STRING, score INTEGER, "
-    		+ "FOREIGN KEY(userId) REFERENCES user (userId), "
-    		+ "FOREIGN KEY(pubEveningId) REFERENCES pubEvening (pubEveningId))";
+    private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (pubEveningId INTEGER PRIMARY KEY, timeForAnswering INTEGER, "
+    		+ "FOREIGN KEY(pubId) REFERENCES pub (pubId))";
 
-    @Override
-    public long count()
-    {
-        return CrudRepository.convertToList(findAll()).size();
-    }
-
-    /**
-     * Just to keep the working code some where
-     * 
-     * @see ScoreboardRepository#count()
-     */
-    public long moreEfficientCountImpl()
-    {
-        int returnValue = 0;
-
-        String sql = "SELECT * FROM " + TABLE_NAME;
-
-        // @formatter:off
-          try (
-                  Connection conn = connect();
-                  Statement statement = conn.createStatement();
-              )
-        // @formatter:on
-        {
-            try (ResultSet rs = statement.executeQuery(sql);)
-            {
-                while (rs.next())
-                {
-                    ++returnValue;
-                }
-            }
-        } catch (SQLException e)
-        {
-            throw new RuntimeException(e);
-        }
-
-        return returnValue;
-    }
-
-    @Override
-    public void delete(ScoreboardEntity entity)
-    {
+	@Override
+	public void delete(PubEvening entity)
+	{
         // ensure that delete does the very same as deleteById and vice versa
-        deleteById(entity.getId());
-    }
+        deleteById(entity.getPubEveningId());
+	}
 
-    @Override
-    public void deleteAll()
-    {
+	@Override
+	public void deleteAll()
+	{
         // @formatter:off
         try (
                 Connection conn = connect();
@@ -97,14 +49,14 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
         {
             throw new RuntimeException(e);
         }
-    }
+	}
 
-    @Override
-    public void deleteById(Long id)
-    {
+	@Override
+	public void deleteById(Long pubEveningId)
+	{
         // @formatter:off
         String sql = "DELETE FROM " + TABLE_NAME +
-                     "  WHERE id=?";
+                     "  WHERE pubEveningId=?";
 
         try (
                 Connection conn = connect();
@@ -112,24 +64,24 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
             )
         // @formatter:on
         {
-            pstmt.setLong(1, id);
+            pstmt.setLong(1, pubEveningId);
             pstmt.executeUpdate();
         } catch (SQLException e)
         {
             throw new RuntimeException(e);
         }
-    }
+	}
 
-    @Override
-    public boolean existsById(Long id)
-    {
-        return findById(id).isPresent();
-    }
+	@Override
+	public boolean existsById(Long pubEveningId)
+	{
+        return findById(pubEveningId).isPresent();
+	}
 
-    @Override
-    public Iterable<ScoreboardEntity> findAll()
-    {
-        ArrayList<ScoreboardEntity> resultList = new ArrayList<>();
+	@Override
+	public Iterable<PubEvening> findAll()
+	{
+        ArrayList<PubEvening> resultList = new ArrayList<>();
 
         String sql = "SELECT * FROM " + TABLE_NAME;
 
@@ -144,7 +96,7 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
             {
                 while (rs.next())
                 {
-                    ScoreboardEntity entity = buildScoreboardEntityFromResultSet(rs);
+                	PubEvening entity = buildPubEveningFromResultSet(rs);
                     resultList.add(entity);
                 }
             }
@@ -154,18 +106,19 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
         }
 
         return resultList;
-    }
+	}
 
-    @Override
-    public Optional<ScoreboardEntity> findById(Long id)
-    {
+
+	@Override
+	public Optional<PubEvening> findById(Long pubEveningId)
+	{
         // define your result value for the Optional: may stays null!
-        ScoreboardEntity returnValue = null;
+		PubEvening returnValue = null;
 
         // set up your query with '?' for all variables
         // @formatter:off
         String sql = "SELECT * FROM " + TABLE_NAME +
-                     "  WHERE id=?";
+                     "  WHERE pubEveningId=?";
 
         // open connection and prepare statement using 'try-with-resource'
         try (
@@ -175,14 +128,14 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
         // @formatter:on
         {
             // insert variables into the '?' of our prepared query
-            pstmt.setLong(1, id);// 1st param is index of '?'
+            pstmt.setLong(1, pubEveningId);// 1st param is index of '?'
 
             // manage query-result with try-with-resources to use the auto-closable feature
             try (ResultSet rs = pstmt.executeQuery();)
             {
                 // find first by id:
                 if (rs.next())
-                { returnValue = buildScoreboardEntityFromResultSet(rs); }
+                { returnValue = buildPubEveningFromResultSet(rs); }
             }
         } catch (SQLException e)
         {
@@ -193,47 +146,29 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
 
         // Wrap the result in the optional (may be null)
         return Optional.ofNullable(returnValue);
-    }
+	}
 
-    @Override
-    public <S extends ScoreboardEntity> S save(S entity)
-    {
-        if (existsById(entity.getId()))
+	@Override
+	public <S extends PubEvening> S save(S entity)
+	{
+        if (existsById(entity.getPubEveningId()))
         {
             return update(entity);
         } else
         {
             return insert(entity);
         }
-    }
-
+	}
+	
     // ========================================================================
     // helpers
     // ========================================================================
     
-    //TODO FOREIGN KEYS not integrated yet     	
-//  ->  FOREIGN KEY (foreign_key_columns)
-//       REFERENCES parent_table(parent_key_columns)
-//          ON UPDATE action/cascade
-//          ON DELETE action;
-    
-    
-    private ScoreboardEntity buildScoreboardEntityFromResultSet(ResultSet rs) throws SQLException
-    {
-        // fetch each parameter from the query-result...
-        Long foundID = rs.getLong("id");
-        String username = rs.getString("username");
-        int score = rs.getInt("score");
-
-        // ... and build a new ScoreboardEntry
-        return new ScoreboardEntity(foundID, username, score);
-    }
-
-    private <S extends ScoreboardEntity> S insert(S entity)
-    {
+	private <S extends PubEvening> S insert(S entity)
+	{
         // @formatter:off
-        String sql =   "INSERT INTO " + TABLE_NAME + "(id,username,score)"
-                     + "  VALUES(?, ?, ?)"
+        String sql =   "INSERT INTO " + TABLE_NAME + "(pubEveningId,timeForAnswering)"
+                     + "  VALUES(?, ?)"
                      ;
 
         try (
@@ -241,9 +176,8 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
                 PreparedStatement pstmt = conn.prepareStatement(sql);
             )
         {
-            pstmt.setLong(1, entity.getId());
-            pstmt.setString(2, entity.getUsername());
-            pstmt.setLong(3, entity.getScore());
+            pstmt.setLong(1, entity.getPubEveningId());
+            pstmt.setInt(2, entity.getTimeForAnswering());
             
             pstmt.executeUpdate();
         } catch (SQLException e)
@@ -253,16 +187,16 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
         // @formatter:on
 
         @SuppressWarnings("unchecked")
-        S s = (S) findById(entity.getId()).get();
+        S s = (S) findById(entity.getPubEveningId()).get();
         return s;
-    }
+	}
 
-    private <S extends ScoreboardEntity> S update(S entity)
-    {
-     // @formatter:off
+	private <S extends PubEvening> S update(S entity)
+	{
+	     // @formatter:off
         String sql =   "UPDATE " + TABLE_NAME
-                     + "  SET username=?, score=?"
-                     + "  WHERE id=?"
+                     + "  SET timeForAnswering=?"
+                     + "  WHERE pubEveningId=?"
                      ;
 
         try (
@@ -270,9 +204,8 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
                 PreparedStatement pstmt = conn.prepareStatement(sql);
             )
         {
-            pstmt.setString(1, entity.getUsername());
-            pstmt.setLong(2, entity.getScore());
-            pstmt.setLong(3, entity.getId());
+            pstmt.setInt(1, entity.getTimeForAnswering());
+            pstmt.setLong(2, entity.getPubEveningId());
 
             pstmt.executeUpdate();
         } catch (SQLException e)
@@ -282,8 +215,18 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
         // @formatter:on
 
         @SuppressWarnings("unchecked")
-        S s = (S) findById(entity.getId()).get();
+        S s = (S) findById(entity.getPubEveningId()).get();
         return s;
-    }
+	}
+
+	private PubEvening buildPubEveningFromResultSet(ResultSet rs) throws SQLException
+	{
+        // fetch each parameter from the query-result...
+        Long foundID = rs.getLong("pubEveningId");
+        int timeForAnswering = rs.getInt("timeForAnswering");
+        
+        // ... and build a new Pub-Evening
+        return new PubEvening(foundID, timeForAnswering);
+	}
 
 }

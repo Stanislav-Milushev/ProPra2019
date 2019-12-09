@@ -9,7 +9,6 @@ import propra.grpproj.quiz.repositories.CrudRepository;
 import propra.grpproj.quiz.repositories.sqlite.ScoreboardRepository;
 import propra.grpproj.quiz.repositories.sqlite.SqliteCoreUtilities;
 import propra.grpproj.quiz.services.ScoreboardService;
-import propra.grpproj.quiz.services.UserService;
 
 /**
  * The main entry point of the Quiz App
@@ -42,8 +41,8 @@ public class App
             ScoreboardService scoreboardService = new ScoreboardService(scoreboardRepository);
 
             // CrudRepository<User, Long> userRepository = new UserRepository();
-            UserService userService = new UserService(
-                    scoreboardService /* please insert the UserRepository as type: CrudRepository<User, Long> */ );
+//            UserService userService = new UserService(
+//                    scoreboardService /* please insert the UserRepository as type: CrudRepository<User, Long> */ );
 
             ScoreboardRepositoryDemo.cleanExistingTableAndCreateNewDummyData();
 

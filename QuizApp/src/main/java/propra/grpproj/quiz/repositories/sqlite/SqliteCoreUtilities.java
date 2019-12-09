@@ -10,6 +10,11 @@ import java.sql.SQLException;
 /**
  * Methods to be reused with database operations. E.g. a connect method that is
  * to be used by any repository-implementation.
+ * 
+ *
+ * 
+ * @author Daniel
+ *
  */
 public class SqliteCoreUtilities
 {
@@ -67,5 +72,4 @@ public class SqliteCoreUtilities
         return DriverManager.getConnection(FULL_JDBC_DATABASE_URL);
     }
 
-    
 }

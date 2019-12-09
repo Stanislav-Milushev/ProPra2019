@@ -8,6 +8,9 @@ import propra.grpproj.quiz.repositories.CrudRepository;
 
 /**
  * Class containing the low level game logic
+ * 
+ * @author Daniel
+ *
  */
 public class ScoreboardService
 {
@@ -17,7 +20,8 @@ public class ScoreboardService
 
     private CrudRepository<ScoreboardEntity, Long> scoreboardRepository;
 
-    public ScoreboardService(CrudRepository<ScoreboardEntity, Long> scoreboardRepository)
+        
+        public ScoreboardService(CrudRepository<ScoreboardEntity, Long> scoreboardRepository)
     {
         super();
         this.scoreboardRepository = scoreboardRepository;
@@ -30,7 +34,7 @@ public class ScoreboardService
 
     public ScoreboardEntity addUserToActualGame(User user)
     {
-        ScoreboardEntity scoreboardEntity = new ScoreboardEntity(user.getId(), user.getUsername(), INITIAL_SCORE);
+        ScoreboardEntity scoreboardEntity = new ScoreboardEntity(user.getUserId(), user.getUsername(), INITIAL_SCORE);
         return scoreboardRepository.save(scoreboardEntity);
     }
 
