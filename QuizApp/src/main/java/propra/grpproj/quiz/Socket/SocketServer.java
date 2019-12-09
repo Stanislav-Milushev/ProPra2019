@@ -28,7 +28,7 @@ public class SocketServer implements Runnable{
     HashMap<String, Socket> nameToSocket = new HashMap<String, Socket>();
     HashMap<Socket, String> socketToName = new HashMap<Socket, String>();
     
-    public SocketServer(int port){
+    private SocketServer(int port){
         this.port = port;
     }
     
