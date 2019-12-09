@@ -9,6 +9,7 @@ public class PubList implements Serializable{
 	public ArrayList<Pub> getList () {
 		
 		ArrayList<Pub> plist = this.list;
+		
 		return list;
 	}
 }

@@ -332,15 +332,18 @@ public class DatabaseManager {
 		
 		boolean success = false;
 		
-		String query = "Insert into pub (name, address, approved, owner) Values (?,?,?,?)";
+		int pubID = getLatestPubID() +1;
+		
+		String query = "Insert into pub (pubID, name, address, approved, owner) Values (?,?,?,?,?)";
 		
 		PreparedStatement ps = connection.prepareStatement(query);
-		ps.setString(1, name);
-		ps.setString(2, address);
-		ps.setBoolean(3, false);
-		ps.setString(4, owner);
+		ps.setInt(1, pubID);
+		ps.setString(2, name);
+		ps.setString(3, address);
+		ps.setBoolean(4, false);
+		ps.setString(5, owner);
 		
-		success = searchPub(name);
+		// success = PubRepository.existsById(pubID); Long instead of int
 		
 		
 		return success;
@@ -399,5 +402,22 @@ public class DatabaseManager {
 		
 		return check;
 	}
+		
+		public int getLatestPubID () throws SQLException {
+			int pubID = 0;
+			
+			String query = "Select Max(pubID) from pub";
+			
+			Statement stmt = connection.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			for (;rs.next();) {
+				
+				pubID = rs.getInt(1);
+			}
+			
+			return pubID;
+		}
 	
 }
