@@ -180,7 +180,7 @@ public class GuiAdmin {
 		gbl_pPubList.columnWidths = new int[] {0};
 		gbl_pPubList.rowHeights = new int[] {0};
 		gbl_pPubList.columnWeights = new double[]{1.0};
-		gbl_pPubList.rowWeights = new double[]{0.0,1.0};
+		gbl_pPubList.rowWeights = new double[]{0.0};
 		pPubList.setLayout(gbl_pPubList);
 		
 		JLabel lblOverviewPubs = new JLabel("Übersicht der registrierten Kneipen");
@@ -247,7 +247,7 @@ public class GuiAdmin {
 		gbl_pQuestionsList.columnWidths = new int[] {0};
 		gbl_pQuestionsList.rowHeights = new int[] {0};
 		gbl_pQuestionsList.columnWeights = new double[]{1.0};
-		gbl_pQuestionsList.rowWeights = new double[]{0.0,1.0};
+		gbl_pQuestionsList.rowWeights = new double[]{0.0};
 		pQuestionsList.setLayout(gbl_pQuestionsList);
 		
 		JLabel lblQuestionsList = new JLabel("Fragen");
@@ -260,25 +260,35 @@ public class GuiAdmin {
 		gbc_lblQuestionsList.gridy = 0;
 		pQuestionsList.add(lblQuestionsList, gbc_lblQuestionsList);
 		
-		tableQuestions = new JTable(){
+		/*
+		ArrayList<Question> qList = getQuestionList();	
+		tableQuestions = new JTable() {
 			public boolean isCellEditable(int x, int y) {
 				return false;
 			}
 		};
-		tableQuestions.setBackground(new Color(255, 255, 255));
 		tableQuestions.setShowVerticalLines(false);
 		tableQuestions.setColumnSelectionAllowed(true);
 		tableQuestions.setAutoCreateRowSorter(true);
-		tableQuestions.setModel(new DefaultTableModel(
-			new Object[][] {
-				{1, "Golfe", Boolean.TRUE, "bliblablubb"},
-				{2, "Willis Eck", Boolean.FALSE, "Adresse"}
-			},
-			new String[] {
-				"Id", "Frage", "richtige Antwort", "1. falsche Antwort", "2. falsche Antwort", "3. falsche Antwort", "Erläuterung"
-			}
-		));
+	
+		DefaultTableModel qModel = new DefaultTableModel();
+		String qHeaders[] = {
+				"Fragen-ID", "Frage", "richtige Antwort", 
+				"1. falsche Antwort", "2. falsche Antwort", "3. falsche Antwort"};
+		qModel.setColumnIdentifiers(qHeaders);
+		tableQuestions.setModel(qModel);
 		
+		for (int r = 0; r < qList.size(); r++) {
+			pModel.addRow(new Object[] {
+				qList.get(r).getQuestionID;
+				qList.get(r).getQuestion;
+				qList.get(r).getCorrectAnswer;
+				qList.get(r).getWrongsAnswer1;
+				qList.get(r).getWrongAnswer2;
+				qList.get(r).getWrongAnswer3
+			});
+		}
+				
 		JScrollPane scrollPaneQuestions = new JScrollPane(tableQuestions);
 		GridBagConstraints gbc_scrollPaneQuestions = new GridBagConstraints();
 		gbc_scrollPaneQuestions.insets = new Insets(5, 5, 5, 5);
@@ -286,6 +296,7 @@ public class GuiAdmin {
 		gbc_scrollPaneQuestions.gridx = 0;
 		gbc_scrollPaneQuestions.gridy = 1;
 		pQuestionsList.add(scrollPaneQuestions, gbc_scrollPaneQuestions);
+		*/
 		
 		
 		/**
@@ -497,35 +508,7 @@ public class GuiAdmin {
 		gbc_lblQEID.gridx = 0;
 		gbc_lblQEID.gridy = 1;
 		pQuestionEdit.add(lblQEID, gbc_lblQEID);
-		
-		JComboBox<Integer> cbQEID = new JComboBox<Integer>();
-		cbQEID.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Long qID = (Long) cbQEID.getSelectedItem();
 				
-				/*
-				Question q = getQuestion(qID);
-				fillFieldsQE(q);
-				*/
-				
-				/*
-				tfQEQuestion.setEditable(true);
-				tfQECorrectAnswer.setEditable(true);
-				tfQEWrongAnswer1.setEditable(true);
-				tfQEWrongAnswer2.setEditable(true);
-				tfQEWrongAnswer3.setEditable(true);
-				tfQEExplanation.setEditable(true);	
-				*/
-			}
-		});
-		cbQEID.setSelectedIndex(-1);
-		GridBagConstraints gbc_cbQEID = new GridBagConstraints();
-		gbc_cbQEID.insets = new Insets(5, 5, 5, 5);
-		gbc_cbQEID.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cbQEID.gridx = 1;
-		gbc_cbQEID.gridy = 1;
-		pQuestionEdit.add(cbQEID, gbc_cbQEID);
-		
 		JLabel lblQEQuestion = new JLabel("Frage");
 		GridBagConstraints gbc_lblQEQuestion = new GridBagConstraints();
 		gbc_lblQEQuestion.anchor = GridBagConstraints.WEST;
@@ -634,6 +617,32 @@ public class GuiAdmin {
 		gbc_tfQEExplanation.gridy = 7;
 		pQuestionEdit.add(tfQEExplanation, gbc_tfQEExplanation);
 		tfQEExplanation.setColumns(10);
+		
+		JComboBox<Integer> cbQEID = new JComboBox<Integer>();
+		cbQEID.setSelectedIndex(-1);
+		cbQEID.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Long qID = (Long) cbQEID.getSelectedItem();
+				/*
+				Question q = getQuestion(qID);
+				fillFieldsQE(q);
+				*/
+								
+				tfQEQuestion.setEditable(true);
+				tfQECorrectAnswer.setEditable(true);
+				tfQEWrongAnswer1.setEditable(true);
+				tfQEWrongAnswer2.setEditable(true);
+				tfQEWrongAnswer3.setEditable(true);
+				tfQEExplanation.setEditable(true);	
+				
+			}
+		});
+		GridBagConstraints gbc_cbQEID = new GridBagConstraints();
+		gbc_cbQEID.insets = new Insets(5, 5, 5, 5);
+		gbc_cbQEID.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbQEID.gridx = 1;
+		gbc_cbQEID.gridy = 1;
+		pQuestionEdit.add(cbQEID, gbc_cbQEID);
 		
 		JButton bQEDelete = new JButton("Frage löschen");
 		bQEDelete.addActionListener(new ActionListener() {
