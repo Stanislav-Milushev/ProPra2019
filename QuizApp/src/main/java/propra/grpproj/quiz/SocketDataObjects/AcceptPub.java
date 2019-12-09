@@ -1,6 +1,8 @@
 package propra.grpproj.quiz.SocketDataObjects;
 
-public class AcceptPub {
+import java.io.Serializable;
+
+public class AcceptPub implements Serializable{
 	private String name;
 	private String owner;
 

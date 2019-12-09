@@ -1,6 +1,8 @@
 package propra.grpproj.quiz.SocketDataObjects;
 
-public class DeleteUser {
+import java.io.Serializable;
+
+public class DeleteUser implements Serializable{
 	private String username;
 
 	public DeleteUser(String username) {

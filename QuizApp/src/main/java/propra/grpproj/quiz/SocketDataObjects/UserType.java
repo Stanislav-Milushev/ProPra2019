@@ -1,7 +1,10 @@
 package propra.grpproj.quiz.SocketDataObjects;
 
-public enum UserType {
+import java.io.Serializable;
+
+public enum UserType implements Serializable{
 	DEFAULT,
 	KNEIPENBESITZER,
-	ADMIN;
+	ADMIN,
+	ADMINANDKNEIPE;
 }

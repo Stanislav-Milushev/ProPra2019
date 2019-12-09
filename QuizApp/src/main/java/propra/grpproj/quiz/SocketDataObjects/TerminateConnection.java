@@ -1,5 +1,7 @@
 package propra.grpproj.quiz.SocketDataObjects;
 
-public class TerminateConnection {
+import java.io.Serializable;
+
+public class TerminateConnection implements Serializable{
 	public boolean terminate = false;
 }
