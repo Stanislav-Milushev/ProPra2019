@@ -1,4 +1,3 @@
-
 package propra.grpproj.gui; 
 
 
@@ -485,7 +484,20 @@ public class GuiAdmin {
 		JComboBox<Integer> cbQEID = new JComboBox<Integer>();
 		cbQEID.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Anzeige je nach Auswahl anpassen
+				Long qID = (Long) cbQEID.getSelectedItem();
+				
+				/*
+				Question q = getQuestion(qID);
+				fillFieldsQE(q);
+				*/
+				
+				tfQEQuestion.setEditable(true);
+				tfQECorrectAnswer.setEditable(true);
+				tfQEWrongAnswer1.setEditable(true);
+				tfQEWrongAnswer2.setEditable(true);
+				tfQEWrongAnswer3.setEditable(true);
+				tfQEExplanation.setEditable(true);
+				
 			}
 		});
 		cbQEID.setSelectedIndex(-1);
@@ -713,15 +725,12 @@ public class GuiAdmin {
 		JComboBox<Long> cbPEPubID = new JComboBox<Long>();
 		cbPEPubID.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Textfelder anhand der ID befüllen
+				Long pubID = (Long) cbPEPubID.getSelectedItem();
+				
 				/*
-				Hier die Werte vom Objekt ersetzen
-				 */
-				/*
-				String pubID = cbPEPubID.getSelectedItem().toString();
-				Pub p = 
-				fillFieldsPubEdit(p);				
-				*/
+				Pub p = getPub(pubID);
+				fillFieldsPE(p);	
+				*/			
 			}
 		});
 		GridBagConstraints gbc_cbPEPubID = new GridBagConstraints();
@@ -989,11 +998,49 @@ public class GuiAdmin {
 		
 		return imageIcon;
 	}
-
-/*	public void getPubs(PubList list) {
-		//TODO
+ 
+	/*
+	public PubList getPubList() {
+		PubList pList;
+		
+		return pList;
 	}
 	*/
+	
+	/*
+	public QuestionList getQuestionList() {
+		QuestionList qList;
+		
+		return qList;		
+	}
+	*/
+	
+	/*
+	public Pub getPub(Long pID) {
+		PubList pList = getPubList();
+		Pub p;
+		for (int i=0; i<pList.size(); i++) {
+			if (pList.get(i).getPID.equals(pID)) {
+				p = pList.get(i);
+			}
+		}
+		return p;
+	}
+	*/
+	
+	/*
+	public Question getQuestion(LongqID) {
+		QuestionList qList = getQuestionList();
+		Question q;
+		for (int i=0; i<qList.size(); i++) {
+			if (qList.get(i).getQID.equals(qID)) {
+				q = qList.get(i);
+			}
+		}
+		return q;
+	}
+	*/
+
 	public void loadPubList() {
 		
 	}
