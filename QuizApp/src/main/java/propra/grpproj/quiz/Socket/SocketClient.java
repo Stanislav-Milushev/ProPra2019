@@ -8,6 +8,7 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import propra.grpproj.gui.GuiAdmin;
 import propra.grpproj.quiz.SocketDataObjects.AcceptPub;
 import propra.grpproj.quiz.SocketDataObjects.CreatePubevening;
 import propra.grpproj.quiz.SocketDataObjects.DeleteUser;
@@ -127,6 +128,7 @@ public class SocketClient implements Runnable{
     	}
     	if(o instanceof PubList) {
     		PubList publ = (PubList)o;
+    		GuiAdmin.getInstance().getPubListFromServer(publ);
     	}
     	if(o instanceof Question) {
     		Question q = (Question)o;
