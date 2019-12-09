@@ -2,7 +2,10 @@ package propra.grpproj.gui;
 
 
 import propra.grpproj.quiz.Socket.SocketClient;
+import propra.grpproj.quiz.SocketDataObjects.Pub;
 import propra.grpproj.quiz.SocketDataObjects.PubList;
+import propra.grpproj.quiz.SocketDataObjects.Question;
+import propra.grpproj.quiz.SocketDataObjects.QuestionList;
 
 import java.awt.EventQueue;
 import javax.imageio.ImageIO;
@@ -32,6 +35,11 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
+/**
+ * 
+ * @author Lisa Praedel
+ *
+ */
 public class GuiAdmin {
 	
 	private static GuiAdmin instance;
@@ -44,6 +52,7 @@ public class GuiAdmin {
 	private JComboBox<String> cbPEUnblocking, cbQACorrectAnswer, cbQECorrectAnswer;
 	private JComboBox<Long> cbPEPubID, cbQEQuestionID;
 	
+	private static SocketClient c;
 
 	/**
 	 * Launch the application.
@@ -62,13 +71,13 @@ public class GuiAdmin {
 		});
 		
 		
-/*		String ip = "127.0.0.1";
+		String ip = "127.0.0.1";
 		int port = 4000;
 		
-		SocketClient client = new SocketClient(ip, port);
-		Thread clientConnection = new Thread(client);
+		c = new SocketClient(ip, port);
+		Thread clientConnection = new Thread(c);
 		clientConnection.start();
-		
+		/*
 		//TestAnfrage
 		client.sendObject(new PubList());
 		*/
@@ -83,13 +92,13 @@ public class GuiAdmin {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-		frmAdmin = new JFrame();
-		frmAdmin.getContentPane().setEnabled(false);
-		frmAdmin.setTitle("KROMBACHER Kneipenquiz");
-		frmAdmin.setForeground(new Color(255, 255, 255));
-		frmAdmin.getContentPane().setBackground(Color.WHITE);
-		frmAdmin.setBackground(new Color(255, 255, 255));
-		frmAdmin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+		setFrmAdmin(new JFrame());
+		getFrmAdmin().getContentPane().setEnabled(false);
+		getFrmAdmin().setTitle("KROMBACHER Kneipenquiz");
+		getFrmAdmin().setForeground(new Color(255, 255, 255));
+		getFrmAdmin().getContentPane().setBackground(Color.WHITE);
+		getFrmAdmin().setBackground(new Color(255, 255, 255));
+		getFrmAdmin().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		
 		
 		/**
@@ -142,7 +151,7 @@ public class GuiAdmin {
 		gbl_pContent.columnWidths = new int[] {0};
 		gbl_pContent.rowHeights = new int[] {0};
 		gbl_pContent.columnWeights = new double[]{1.0};
-		gbl_pContent.rowWeights = new double[]{1.0, 0.0};
+		gbl_pContent.rowWeights = new double[]{1.0,0.0};
 		pContent.setLayout(gbl_pContent);
 		
 		
@@ -187,14 +196,13 @@ public class GuiAdmin {
 		lblOverviewPubs.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblOverviewPubs.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblOverviewPubs = new GridBagConstraints();
+		gbc_lblOverviewPubs.anchor = GridBagConstraints.NORTH;
 		gbc_lblOverviewPubs.insets = new Insets(5, 5, 5, 5);
 		gbc_lblOverviewPubs.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblOverviewPubs.gridx = 0;
 		gbc_lblOverviewPubs.gridy = 0;
 		pPubList.add(lblOverviewPubs, gbc_lblOverviewPubs);
 		
-		/*
-		ArrayList<Pub> pList = getPubList();	
 		tablePubs = new JTable() {
 			public boolean isCellEditable(int x, int y) {
 				return false;
@@ -203,39 +211,17 @@ public class GuiAdmin {
 		tablePubs.setShowVerticalLines(false);
 		tablePubs.setColumnSelectionAllowed(true);
 		tablePubs.setAutoCreateRowSorter(true);
-	
-		DefaultTableModel pModel = new DefaultTableModel();
-		String pHeaders[] = {
-				"KneipenID", "Kneipenname", "freigegeben", 
-				"BenutzerID", "Benutzername", "Adresse"};
-		pModel.setColumnIdentifiers(pHeaders);
-		tablePubs.setModel(pModel);
-		
-		for (int r = 0; r < pList.size(); r++) {
-			String unblocking = "";
-			if (pList.get(r).getUnblocking == false) {
-				unblocking = "nein";
-			} else {
-				unblocking = "ja";
-			}
-			pModel.addRow(new Object[] {
-					pList.get(r).getPubID,
-					pList.get(r).getPubName,
-					unblocking,
-					pList.get(r).getUserID,
-					pList.get(r).getUserName,
-					pList.get(r).getAddress
-			});
-		}
+		loadPubList();
 		
 		JScrollPane scrollPanePubs = new JScrollPane(tablePubs);
 		GridBagConstraints gbc_scrollPanePubs = new GridBagConstraints();
+		gbc_scrollPanePubs.anchor = GridBagConstraints.NORTH;
 		gbc_scrollPanePubs.insets = new Insets(5, 5, 5, 5);
 		gbc_scrollPanePubs.fill = GridBagConstraints.BOTH;
 		gbc_scrollPanePubs.gridx = 0;
 		gbc_scrollPanePubs.gridy = 1;
 		pPubList.add(scrollPanePubs, gbc_scrollPanePubs);
-		*/
+	
 		
 		/**
 		 * Panel for questions
@@ -260,8 +246,7 @@ public class GuiAdmin {
 		gbc_lblQuestionsList.gridy = 0;
 		pQuestionsList.add(lblQuestionsList, gbc_lblQuestionsList);
 		
-		/*
-		ArrayList<Question> qList = getQuestionList();	
+		
 		tableQuestions = new JTable() {
 			public boolean isCellEditable(int x, int y) {
 				return false;
@@ -270,24 +255,6 @@ public class GuiAdmin {
 		tableQuestions.setShowVerticalLines(false);
 		tableQuestions.setColumnSelectionAllowed(true);
 		tableQuestions.setAutoCreateRowSorter(true);
-	
-		DefaultTableModel qModel = new DefaultTableModel();
-		String qHeaders[] = {
-				"Fragen-ID", "Frage", "richtige Antwort", 
-				"1. falsche Antwort", "2. falsche Antwort", "3. falsche Antwort"};
-		qModel.setColumnIdentifiers(qHeaders);
-		tableQuestions.setModel(qModel);
-		
-		for (int r = 0; r < qList.size(); r++) {
-			pModel.addRow(new Object[] {
-				qList.get(r).getQuestionID;
-				qList.get(r).getQuestion;
-				qList.get(r).getCorrectAnswer;
-				qList.get(r).getWrongsAnswer1;
-				qList.get(r).getWrongAnswer2;
-				qList.get(r).getWrongAnswer3
-			});
-		}
 				
 		JScrollPane scrollPaneQuestions = new JScrollPane(tableQuestions);
 		GridBagConstraints gbc_scrollPaneQuestions = new GridBagConstraints();
@@ -296,7 +263,7 @@ public class GuiAdmin {
 		gbc_scrollPaneQuestions.gridx = 0;
 		gbc_scrollPaneQuestions.gridy = 1;
 		pQuestionsList.add(scrollPaneQuestions, gbc_scrollPaneQuestions);
-		*/
+		
 		
 		
 		/**
@@ -792,6 +759,7 @@ public class GuiAdmin {
 		pPubEdit.add(lblPEUserID, gbc_lblPEUserID);
 		
 		tfPEUserID = new JTextField();
+		tfPEUserID.setEditable(false);
 		GridBagConstraints gbc_tfPEUserID = new GridBagConstraints();
 		gbc_tfPEUserID.insets = new Insets(5, 5, 5, 5);
 		gbc_tfPEUserID.fill = GridBagConstraints.HORIZONTAL;
@@ -1026,21 +994,24 @@ public class GuiAdmin {
 		return imageIcon;
 	}
  
-	/*
-	public ArrayList<Pub> getPubList() {
-		ArrayList<Pub> pList;
-		
+	
+	public void getPubListRequest() {
+		ArrayList<Pub> pList = new ArrayList<Pub>();
+		c.sendObject(new PubList());
+	}
+	
+	public ArrayList<Pub> getPubListFromServer(PubList list) {
+		ArrayList<Pub> pList = list.getList();
 		return pList;
 	}
-	*/
 	
-	/*
+	
 	public ArrayList<Question> getQuestionList() {
-		ArrayList<Question> qList;
-		
+		ArrayList<Question> qList = new ArrayList<Question>();
+		c.sendObject(new QuestionList());
 		return qList;		
 	}
-	*/
+
 	
 	/*
 	public Pub getPub(Long pID) {
@@ -1069,11 +1040,55 @@ public class GuiAdmin {
 	*/
 
 	public void loadPubList() {
-		
+		//ArrayList<Pub> pList = getPubList();
+	
+		DefaultTableModel pModel = new DefaultTableModel();
+		String pHeaders[] = {
+				"KneipenID", "Kneipenname", "freigegeben", 
+				"BenutzerID", "Benutzername", "Adresse"};
+		pModel.setColumnIdentifiers(pHeaders);
+		tablePubs.setModel(pModel);
+		/*
+		for (int r = 0; r < pList.size(); r++) {
+			String unblocking = "";
+			if (pList.get(r).getUnblocking == false) {
+				unblocking = "nein";
+			} else {
+				unblocking = "ja";
+			}
+			pModel.addRow(new Object[] {
+					pList.get(r).getPubID,
+					pList.get(r).getPubName,
+					unblocking,
+					pList.get(r).getUserID,
+					pList.get(r).getUserName,
+					pList.get(r).getAddress
+			});
+		}
+		*/
 	}
 	
 	public void loadQuestionList() {
+		//ArrayList<Question> qList = getQuestionList();	
 		
+		DefaultTableModel qModel = new DefaultTableModel();
+		String qHeaders[] = {
+				"Fragen-ID", "Frage", "richtige Antwort", 
+				"1. falsche Antwort", "2. falsche Antwort", "3. falsche Antwort"};
+		qModel.setColumnIdentifiers(qHeaders);
+		tableQuestions.setModel(qModel);
+		/*
+		for (int r = 0; r < qList.size(); r++) {
+			qModel.addRow(new Object[] {
+					qList.get(r).getQuestionID,
+					qList.get(r).getQuestion,
+					qList.get(r).getCorrectAnswer,
+					qList.get(r).getWrongsAnswer1,
+					qList.get(r).getWrongAnswer2,
+					qList.get(r).getWrongAnswer3
+			});
+		}
+		*/
 	}
 	
 	/*
@@ -1140,7 +1155,16 @@ public class GuiAdmin {
 	public void changePub() {
 		
 	}
+	
 	public static GuiAdmin getInstance(){
 		return instance;
+	}
+	
+	public JFrame getFrmAdmin() {
+		return frmAdmin;
+	}
+
+	public void setFrmAdmin(JFrame frmAdmin) {
+		this.frmAdmin = frmAdmin;
 	}
 }

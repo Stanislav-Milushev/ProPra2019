@@ -1,6 +1,8 @@
 package propra.grpproj.quiz.SocketDataObjects;
 
-public class Scoreboard {
+import java.io.Serializable;
+
+public class Scoreboard implements Serializable{
 	private String user;
 	private float score;
 	
