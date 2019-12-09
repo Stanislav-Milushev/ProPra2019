@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.CardLayout;
 import java.awt.GridBagLayout;
@@ -192,6 +193,8 @@ public class GuiAdmin {
 		gbc_lblOverviewPubs.gridy = 0;
 		pPubList.add(lblOverviewPubs, gbc_lblOverviewPubs);
 		
+		/*
+		ArrayList<Pub> pList = getPubList();	
 		tablePubs = new JTable() {
 			public boolean isCellEditable(int x, int y) {
 				return false;
@@ -200,16 +203,30 @@ public class GuiAdmin {
 		tablePubs.setShowVerticalLines(false);
 		tablePubs.setColumnSelectionAllowed(true);
 		tablePubs.setAutoCreateRowSorter(true);
-		tablePubs.setModel(new DefaultTableModel(
-			new Object[][] {
-				{1, "Golfe", Boolean.TRUE, "", "", "bliblablubb"},
-				{2, "Willis Eck", Boolean.FALSE, "", "", "Adresse"},
-				{3, "Dorfkneipe Krombach", Boolean.TRUE, "", "", "Hinten links"}
-			},
-			new String[] {
-				"KneipenID", "Kneipenname", "freigegeben", "BenutzerID", "Benutzername", "Adresse"
+	
+		DefaultTableModel pModel = new DefaultTableModel();
+		String pHeaders[] = {
+				"KneipenID", "Kneipenname", "freigegeben", 
+				"BenutzerID", "Benutzername", "Adresse"};
+		pModel.setColumnIdentifiers(pHeaders);
+		tablePubs.setModel(pModel);
+		
+		for (int r = 0; r < pList.size(); r++) {
+			String unblocking = "";
+			if (pList.get(r).getUnblocking == false) {
+				unblocking = "nein";
+			} else {
+				unblocking = "ja";
 			}
-		));
+			pModel.addRow(new Object[] {
+					pList.get(r).getPubID,
+					pList.get(r).getPubName,
+					unblocking,
+					pList.get(r).getUserID,
+					pList.get(r).getUserName,
+					pList.get(r).getAddress
+			});
+		}
 		
 		JScrollPane scrollPanePubs = new JScrollPane(tablePubs);
 		GridBagConstraints gbc_scrollPanePubs = new GridBagConstraints();
@@ -218,7 +235,7 @@ public class GuiAdmin {
 		gbc_scrollPanePubs.gridx = 0;
 		gbc_scrollPanePubs.gridy = 1;
 		pPubList.add(scrollPanePubs, gbc_scrollPanePubs);
-		
+		*/
 		
 		/**
 		 * Panel for questions
@@ -491,13 +508,14 @@ public class GuiAdmin {
 				fillFieldsQE(q);
 				*/
 				
+				/*
 				tfQEQuestion.setEditable(true);
 				tfQECorrectAnswer.setEditable(true);
 				tfQEWrongAnswer1.setEditable(true);
 				tfQEWrongAnswer2.setEditable(true);
 				tfQEWrongAnswer3.setEditable(true);
-				tfQEExplanation.setEditable(true);
-				
+				tfQEExplanation.setEditable(true);	
+				*/
 			}
 		});
 		cbQEID.setSelectedIndex(-1);
@@ -1000,16 +1018,16 @@ public class GuiAdmin {
 	}
  
 	/*
-	public PubList getPubList() {
-		PubList pList;
+	public ArrayList<Pub> getPubList() {
+		ArrayList<Pub> pList;
 		
 		return pList;
 	}
 	*/
 	
 	/*
-	public QuestionList getQuestionList() {
-		QuestionList qList;
+	public ArrayList<Question> getQuestionList() {
+		ArrayList<Question> qList;
 		
 		return qList;		
 	}
