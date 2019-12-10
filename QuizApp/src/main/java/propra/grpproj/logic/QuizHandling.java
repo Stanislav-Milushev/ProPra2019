@@ -1,10 +1,10 @@
 package propra.grpproj.logic;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import propra.grpproj.quiz.SocketDataObjects.IntegerMap;
+import propra.grpproj.quiz.SocketDataObjects.Question;
 
 ////////////////////////////////////////////////////////////////////////////
 // Class to create and manage a quiz
@@ -29,25 +29,14 @@ public class QuizHandling {
 		return instance;
 	}
 	
-	public void createQuiz () {
-		
+	public void createQuiz (int QuizID, List<Question> questions) {
+		KneipenAbend abend = new KneipenAbend(questions);
+		quizMap.put(QuizID, abend);
 	}
 	
-	public void continueQuiz () {
-		
-		
-	}
-	
-	public void points () {
-		
-	}
-	
-	public void sendToAll () {
-		
-	}
-	
-	public void addQuiz(int id, KneipenAbend abend) {
-		quizMap.put(id, abend);
+	public void createQuiz (int QuizID, List<Question> questions, int secondsPerQuestion) {
+		KneipenAbend abend = new KneipenAbend(questions, secondsPerQuestion);
+		quizMap.put(QuizID, abend);
 	}
 	
 	public void joinQuiz(String user, int abendID) {

@@ -13,23 +13,22 @@ public class KneipenAbend {
 	private List<Question> questions = new ArrayList<Question>();
 	private Question currentQuestion;
 	private int timePerQuestion = 20;
-	private int KneipenAbendID;
 	private int counter = 0;
 	private int runde = 0;
 	
-	public KneipenAbend(int ID, List<Question> questions) {
+	public KneipenAbend(List<Question> questions) {
 		this.questions = questions;
-		KneipenAbendID = ID;
 	}
 	
-	public KneipenAbend(int ID, List<Question> questions, int secondsPerQuestion) {
+	public KneipenAbend(List<Question> questions, int secondsPerQuestion) {
 		this.questions = questions;
-		KneipenAbendID = ID;
 		timePerQuestion = secondsPerQuestion;
 	}
 	
 	private boolean nextQuestion() {//Boolean overflow
 		counter++;
+		currentQuestion = questions.get(counter);
+		
 		if(counter == questions.size()) {
 			counter = 0;
 			runde++;
