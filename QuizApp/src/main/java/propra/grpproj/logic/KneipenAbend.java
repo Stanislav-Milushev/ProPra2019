@@ -11,6 +11,7 @@ import propra.grpproj.quiz.SocketDataObjects.Question;
 public class KneipenAbend {
 
 	private List<Question> questions = new ArrayList<Question>();
+	private Question currentQuestion;
 	private int timePerQuestion = 20;
 	private int KneipenAbendID;
 	private int counter = 0;
@@ -19,6 +20,12 @@ public class KneipenAbend {
 	public KneipenAbend(int ID, List<Question> questions) {
 		this.questions = questions;
 		KneipenAbendID = ID;
+	}
+	
+	public KneipenAbend(int ID, List<Question> questions, int secondsPerQuestion) {
+		this.questions = questions;
+		KneipenAbendID = ID;
+		timePerQuestion = secondsPerQuestion;
 	}
 	
 	private boolean nextQuestion() {//Boolean overflow
@@ -39,11 +46,20 @@ public class KneipenAbend {
 		}
 	}
 	
+	public double getAnswerPoints(String selectedAnswer) {
+		double points = 0;
+		//TODO bonus points for time
+		if(currentQuestion.getAnswers()[0].equalsIgnoreCase(selectedAnswer)) {
+			points += 100;
+		}
+		
+		return points;
+	}
+	
 	public void start() {
 		Timer timer = new Timer(true);
 		Timertask task = new Timertask();
 		timer.schedule(task, timePerQuestion * 1000);
-		
 	}
 	
 	class Timertask extends TimerTask{
