@@ -158,15 +158,9 @@ public class UserHandling
 	
 	
 	// log the user out
-	public void logout (String email) {
+	public void logout (String username) {
 		
 		boolean success_logout = false;
-		
-		ActiveUserStore aus = new ActiveUserStore();
-		
-		aus.userLogout(email);
-		
-		success_logout = aus.search(email); 
 		
 		
 	}
