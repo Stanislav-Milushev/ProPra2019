@@ -421,9 +421,11 @@ public class DatabaseManager {
 			return pubID;
 		}
 		
-		public String getUserType (String email) throws SQLException {
+		public UserType getUserType (String email) throws SQLException {
 			
-			String user = "";
+			String user = "DEFAULT";
+			
+			UserType usertype;
 			
 			String query = "Select usertype from user Where email =" + email;
 			
@@ -436,8 +438,9 @@ public class DatabaseManager {
 				user = rs.getString(0);
 			}
 			
-			return user;
+			usertype = UserType.valueOf(user);
+			
+			return usertype;
 			
 		}
-	
 }

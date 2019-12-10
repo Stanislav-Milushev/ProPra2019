@@ -30,7 +30,7 @@ public class UserHandling
 		
 		boolean success_reg = false;
 		
-		String usertype;
+		UserType usertype;
 		
 		db.connection();
 		
@@ -57,10 +57,11 @@ public class UserHandling
 
 	// Method to log a user in the quiz system
 	// Calls the function inside the DatabaseManager
-	public void user_login(String email, String passwd, String usertype) throws SQLException 
+	public void user_login(String email, String passwd, UserType usertype) throws SQLException 
 	{
 		
 		DatabaseManager db = new DatabaseManager();
+		
 		ActiveUserStore aus = new ActiveUserStore();
 		
 		boolean success_login; 
