@@ -24,6 +24,12 @@ public class KneipenAbend {
 		timePerQuestion = secondsPerQuestion;
 	}
 	
+	/**
+	 * 
+	 * @return question list overflow
+	 * if true a new questionset needs to be loaded
+	 * @author Yannick
+	 */
 	private boolean nextQuestion() {//Boolean overflow
 		counter++;
 		if(counter == questions.size()) {
@@ -42,6 +48,11 @@ public class KneipenAbend {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return points for selected answer
+	 * @author Yannick
+	 */
 	public double getAnswerPoints() {
 		double points = 0;
 		//TODO bonus points for time
@@ -51,12 +62,19 @@ public class KneipenAbend {
 		return points;
 	}
 	
+	/**
+	 * starts the pubevening
+	 */
 	public void start() {
-		Timer timer = new Timer(true);
 		Timertask task = new Timertask();
-		timer.schedule(task, timePerQuestion * 1000);
+		task.run();
 	}
 	
+	/**
+	 * Starts the next question every x seconds
+	 * @author Yannick
+	 *
+	 */
 	class Timertask extends TimerTask{
 
 		@Override
