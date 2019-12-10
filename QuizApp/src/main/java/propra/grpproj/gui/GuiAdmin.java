@@ -728,6 +728,7 @@ public class GuiAdmin {
 		pPubEdit.add(lblPEPubID, gbc_lblPEPubID);
 		
 		JComboBox<Integer> cbPEPubID = new JComboBox<Integer>();
+		cbPEPubID.setSelectedIndex(-1);
 		cbPEPubID.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int pubID = (int) cbPEPubID.getSelectedItem();
@@ -1090,6 +1091,11 @@ public class GuiAdmin {
 			});
 			
 		}
+		
+		// fill CB with ids
+		for (int ip=0; ip<pList.size(); ip++) {
+			cbPEPubID.addItem(pList.get(ip).getID());
+		}
 	}
 	
 	public void loadQuestionList() {
@@ -1116,6 +1122,11 @@ public class GuiAdmin {
 					wA3,
 					qList.get(r).getExplanation()
 			});
+		}
+		
+		// fill cb with ids
+		for (int iq=0; iq<qList.size(); iq++) {
+			cbQEQuestionID.addItem(qList.get(iq).getID());
 		}
 	}
 	
