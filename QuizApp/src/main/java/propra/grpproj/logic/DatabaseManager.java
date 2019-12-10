@@ -332,7 +332,7 @@ public class DatabaseManager {
 		stmt.close();
 	}
 	
-	public boolean registerPub(String name, String address, boolean approved, String owner) throws SQLException {
+	public boolean registerPub(String name, String address, boolean approved, int ownerid) throws SQLException {
 		
 		boolean success = false;
 		
@@ -345,7 +345,7 @@ public class DatabaseManager {
 		ps.setString(2, name);
 		ps.setString(3, address);
 		ps.setBoolean(4, false);
-		ps.setString(5, owner);
+		ps.setInt(5, ownerid);
 		
 		// success = PubRepository.existsById(pubID); Long instead of int
 		

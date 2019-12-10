@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class PubHandling {
 
 	
-	public void registerPub (String name, String address, String owner) throws SQLException {
+	public void registerPub (String name, String address, int ownerid) throws SQLException {
 		
 		DatabaseManager db = new DatabaseManager();
 		
@@ -25,7 +25,7 @@ public class PubHandling {
 		
 		db.connection();
 		
-		success_reg = db.registerPub(name,address,approved,owner);
+		success_reg = db.registerPub(name,address,approved,ownerid);
 		
 		db.closeconnection();
 		

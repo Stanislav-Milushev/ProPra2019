@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import propra.grpproj.logic.AdminHandling;
+import propra.grpproj.logic.PubHandling;
 import propra.grpproj.logic.QuizHandling;
 import propra.grpproj.logic.ScoreboardUpdate;
 import propra.grpproj.logic.UserHandling;
@@ -213,10 +214,11 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof RegisterPub) {
         		RegisterPub regPub = (RegisterPub)o;
-        		regPub.getName();
-        		regPub.getAddress();
-        		regPub.getOwnerID();
-        		PubHandling pb = 
+        		String name = regPub.getName();
+        		String address = regPub.getAddress();
+        		int ownerid = regPub.getOwnerID();
+        		PubHandling pb = new PubHandling();
+        		pb.registerPub(name, address, ownerid);
         	}
         	if(o instanceof RegisterUser) {
         		RegisterUser regUser = (RegisterUser)o;
