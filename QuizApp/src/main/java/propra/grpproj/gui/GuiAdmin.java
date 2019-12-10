@@ -4,6 +4,10 @@ package propra.grpproj.gui;
 
 import propra.grpproj.quiz.Socket.SocketClient;
 import propra.grpproj.quiz.Socket.SocketServer;
+import propra.grpproj.quiz.SocketDataObjects.AddQuestion;
+import propra.grpproj.quiz.SocketDataObjects.ChangePub;
+import propra.grpproj.quiz.SocketDataObjects.ChangeQuestion;
+import propra.grpproj.quiz.SocketDataObjects.DeleteQuestion;
 import propra.grpproj.quiz.SocketDataObjects.Pub;
 import propra.grpproj.quiz.SocketDataObjects.PubList;
 import propra.grpproj.quiz.SocketDataObjects.Question;
@@ -1190,19 +1194,19 @@ public class GuiAdmin {
 	
 	 
 	public void addQuestion(String qT, String[] answers, String ex) {
-	//	 s.sendObject(new AddQuestion(qT, answers, ex));					//Wie mit ID?
+		 c.sendObject(new AddQuestion(qT, answers, ex));					//Wie mit ID?
 	}
 	
 	public void deleteQuestion(int questionID) {
-	//	s.sendObject(new DeleteQuestion(questionID));
+		c.sendObject(new DeleteQuestion(questionID));
 	}
 	
 	public void changeQuestion(int qID, String qT, String[] answers, String ex) {
-	//	s.sendObject(new ChangeQuestion(qID,qT,answers,ex));
+		c.sendObject(new ChangeQuestion(qID,qT,answers,ex));
 	}
 	
 	public void changePub(int pID, String pName, boolean unblocking, int userID, String userName, String address) {
-	//	s.sendObject(new ChangePub(pID, pName, unblocking, userID, userName, address));
+		c.sendObject(new ChangePub(pID, pName, unblocking, userID, userName, address));
 	}
 	
 	public static GuiAdmin getInstance(){
