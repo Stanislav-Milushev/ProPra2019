@@ -3,6 +3,7 @@ package propra.grpproj.gui;
 
 
 import propra.grpproj.quiz.Socket.SocketClient;
+import propra.grpproj.quiz.Socket.SocketServer;
 import propra.grpproj.quiz.SocketDataObjects.Pub;
 import propra.grpproj.quiz.SocketDataObjects.PubList;
 import propra.grpproj.quiz.SocketDataObjects.Question;
@@ -57,6 +58,7 @@ public class GuiAdmin {
 	private ArrayList<Question> qList;
 	
 	private static SocketClient c;
+	private static SocketServer s;
 
 	/**
 	 * Launch the application.
@@ -75,12 +77,7 @@ public class GuiAdmin {
 		});
 		
 		
-		String ip = "127.0.0.1";
-		int port = 4000;
 		
-		c = new SocketClient(ip, port);
-		Thread clientConnection = new Thread(c);
-		clientConnection.start();
 		
 		
 	}
@@ -89,6 +86,17 @@ public class GuiAdmin {
 	 * Create the application.
 	 */
 	public GuiAdmin() {
+		String ip = "127.0.0.1";
+		int port = 4000;
+		
+		c = new SocketClient(ip, port);
+		Thread clientConnection = new Thread(c);
+		clientConnection.start();
+		/*
+		s = new SocketServer(port);						//So???
+		Thread serverConnection = new Thread(s);
+		serverConnection.start();
+		*/
 		initialize();
 	}
 	
@@ -1182,19 +1190,19 @@ public class GuiAdmin {
 	
 	 
 	public void addQuestion(String qT, String[] answers, String ex) {
-		// Question q = new Question(qT, answers, ex);					//Wie mit ID?
+	//	 s.sendObject(new AddQuestion(qT, answers, ex));					//Wie mit ID?
 	}
 	
 	public void deleteQuestion(int questionID) {
-		
+	//	s.sendObject(new DeleteQuestion(questionID));
 	}
 	
 	public void changeQuestion(int qID, String qT, String[] answers, String ex) {
-		
+	//	s.sendObject(new ChangeQuestion(qID,qT,answers,ex));
 	}
 	
 	public void changePub(int pID, String pName, boolean unblocking, int userID, String userName, String address) {
-		
+	//	s.sendObject(new ChangePub(pID, pName, unblocking, userID, userName, address));
 	}
 	
 	public static GuiAdmin getInstance(){

@@ -68,7 +68,7 @@ public class GuiUserLogin {
 		frmUserLogin.getContentPane().setLayout(new BorderLayout(0, 0));
 		frmUserLogin.setBounds(100, 100, 450, 300);
 		frmUserLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+	
 		/**
 		 * Inititalize header
 		 */	
