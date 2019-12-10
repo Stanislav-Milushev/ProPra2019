@@ -33,21 +33,12 @@ public class KneipenAbend {
 	 * if true a new questionset needs to be loaded
 	 * @author Yannick
 	 */
-	private boolean nextQuestion() {//Boolean overflow
-		counter++;
-		if(counter == questions.size()) {
-			counter = 0;
-			runde++;
-			//Lade neue Fragen
-			return true;
-		} else {
-			//Gib alle user in kneipenabend
-			ArrayList<String> users = new ArrayList<String>();
-			
-			for(String user : users) {
-				SocketServer.getInstance().sendObject(questions.get(counter), user);
-			}
-			return false;
+	private void nextQuestion() {
+		//Gib alle user in kneipenabend
+		ArrayList<String> users = new ArrayList<String>();
+		
+		for(String user : users) {
+			SocketServer.getInstance().sendObject(questions.get(counter), user);
 		}
 	}
 	
@@ -82,22 +73,30 @@ public class KneipenAbend {
 
 		@Override
 		public void run() {
-			if(!nextQuestion()) {
-				Timer timer = new Timer(true);
-				Timertask task = new Timertask();
-				timer.schedule(task, timePerQuestion * 1000);
-			} else {
-				//Schau ob neue runde existiert, wenn ja
-				
-				if(true) {
+			counter++;
+			
+			if(counter == questions.size()) {
+				counter = 0;
+				runde++;
+				//Lade neue Fragen wenn es sie gibt
+				if(true) { //Es gibt neue fragen
+					//Fragen laden
+					nextQuestion();
 					Timer timer = new Timer(true);
 					Timertask task = new Timertask();
 					timer.schedule(task, timePerQuestion * 1000);
 				} else {
-					//Sende an alle leute das ergebnis
+					//Keine neuen fragen
+					
+						//Sende an alle leute das ergebnis
 					
 					QuizHandling.getInstance().removeKneipenAbend(KneipenAbendID);
 				}
+			} else {
+				nextQuestion();
+				Timer timer = new Timer(true);
+				Timertask task = new Timertask();
+				timer.schedule(task, timePerQuestion * 1000);
 			}
 		}
 		
