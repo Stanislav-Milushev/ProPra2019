@@ -1,11 +1,15 @@
 package propra.grpproj.logic;
 
+import java.util.HashMap;
+import java.util.List;
 
+import propra.grpproj.quiz.SocketDataObjects.IntegerMap;
+import propra.grpproj.quiz.SocketDataObjects.Question;
 
 ////////////////////////////////////////////////////////////////////////////
 // Class to create and manage a quiz
 // 
-// @author: Marius Discher
+// @author: Marius Discher, Yannick Lapp
 // 
 //
 //
@@ -13,25 +17,72 @@ package propra.grpproj.logic;
 
 
 public class QuizHandling {
-
+	private HashMap<Integer, KneipenAbend> quizMap = new HashMap<Integer, KneipenAbend>();
+	private HashMap<String, Integer> userMap = new HashMap<String, Integer>();
 	
-	public void createQuiz () {
-		
+	private static QuizHandling instance = null;
+	
+	public static QuizHandling getInstance() {
+		if(instance == null) {
+			instance = new QuizHandling();
+		}
+		return instance;
 	}
 	
-	public void continueQuiz () {
-		
-		
+	/**
+	 * creates a quiz with the given parameters
+	 * @param QuizID
+	 * @param questions
+	 * @author Yannick
+	 */
+	public void createQuiz (int QuizID, List<Question> questions) {
+		KneipenAbend abend = new KneipenAbend(questions);
+		quizMap.put(QuizID, abend);
 	}
 	
-	public void points () {
-		
+	/**
+	 * creates a quiz with the given parameters
+	 * @param QuizID
+	 * @param questions
+	 * @param secondsPerQuestion
+	 * @author Yannick 
+	 */
+	public void createQuiz (int QuizID, List<Question> questions, int secondsPerQuestion) {
+		KneipenAbend abend = new KneipenAbend(questions, secondsPerQuestion);
+		quizMap.put(QuizID, abend);
 	}
 	
-	public void sendToAll () {
-		
-		
+	/**
+	 * Adds user to a quiz
+	 * @param user
+	 * @param abendID
+	 * @author Yannick
+	 */
+	public void joinQuiz(String user, int abendID) {
+		userMap.put(user, abendID);
 	}
 	
+	/**
+	 * gets called to start a quiz
+	 * @param ID
+	 * @author Yannick
+	 */
+	public void startQuiz(int ID) {
+		quizMap.get(ID).start();
+	}
 	
+	/**
+	 * Gets called from Socket server
+	 * @param user
+	 * @param map
+	 * @author Yannick
+	 */
+	public void answer(String user, IntegerMap map) {
+		if(map.getNum1() == 1) {
+			if(map.getNum2() == 1) {//1 ist immer richtig
+				double points = quizMap.get(userMap.get(user)).getAnswerPoints();
+				//In datenbank punkte eintragen
+			}
+		}
+	}
 }
