@@ -16,6 +16,11 @@ public class KneipenAbend {
 	private int counter = 0;
 	private int runde = 0;
 	
+	public KneipenAbend(int ID, List<Question> questions) {
+		this.questions = questions;
+		KneipenAbendID = ID;
+	}
+	
 	private boolean nextQuestion() {//Boolean overflow
 		counter++;
 		if(counter == questions.size()) {
