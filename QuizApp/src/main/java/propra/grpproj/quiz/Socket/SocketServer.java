@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import propra.grpproj.logic.AdminHandling;
+import propra.grpproj.logic.QuizHandling;
 import propra.grpproj.logic.ScoreboardUpdate;
 import propra.grpproj.logic.UserHandling;
 import propra.grpproj.quiz.SocketDataObjects.*;
@@ -232,6 +233,10 @@ public class SocketServer implements Runnable{
         		float score = scbd.getScore();
         		ScoreboardUpdate sco = new ScoreboardUpdate();
         		sco.writeToDB(name, score);
+        	}
+        	if(o instanceof IntegerMap) {
+        		IntegerMap intMap = (IntegerMap)o;
+        		QuizHandling.getInstance().answer(username, intMap);
         	}
         }
     }

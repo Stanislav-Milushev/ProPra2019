@@ -46,12 +46,11 @@ public class KneipenAbend {
 		}
 	}
 	
-	public double getAnswerPoints(String selectedAnswer) {
+	public double getAnswerPoints() {
 		double points = 0;
 		//TODO bonus points for time
-		if(currentQuestion.getAnswers()[0].equalsIgnoreCase(selectedAnswer)) {
-			points += 100;
-		}
+		
+		points += 100;
 		
 		return points;
 	}
