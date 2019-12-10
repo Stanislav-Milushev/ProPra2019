@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 
 
-public class PubHandling {
+public class PubHandling { 
 
 	
 	public void registerPub (String name, String address, int ownerid) throws SQLException {
