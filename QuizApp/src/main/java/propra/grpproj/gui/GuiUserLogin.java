@@ -33,7 +33,7 @@ import java.awt.event.ActionEvent;
 public class GuiUserLogin {
 
 	private JFrame frmUserLogin;
-	private JTextField tfMail;
+	private JTextField tfUserName;
 	private JTextField tfPW;
 
 	/**
@@ -131,22 +131,22 @@ public class GuiUserLogin {
 		gbc_lblText.gridy = 0;
 		pUserLoginInput.add(lblText, gbc_lblText);
 
-		JLabel lblMail = new JLabel("E-Mail");
-		GridBagConstraints gbc_lblMail = new GridBagConstraints();
-		gbc_lblMail.anchor = GridBagConstraints.EAST;
-		gbc_lblMail.insets = new Insets(5, 5, 5, 5);
-		gbc_lblMail.gridx = 0;
-		gbc_lblMail.gridy = 1;
-		pUserLoginInput.add(lblMail, gbc_lblMail);
+		JLabel lblUserName = new JLabel("Benutzername");
+		GridBagConstraints gbc_lblUserName = new GridBagConstraints();
+		gbc_lblUserName.anchor = GridBagConstraints.EAST;
+		gbc_lblUserName.insets = new Insets(5, 5, 5, 5);
+		gbc_lblUserName.gridx = 0;
+		gbc_lblUserName.gridy = 1;
+		pUserLoginInput.add(lblUserName, gbc_lblUserName);
 		
-		tfMail = new JTextField();
-		GridBagConstraints gbc_tfMail = new GridBagConstraints();
-		gbc_tfMail.anchor = GridBagConstraints.WEST;
-		gbc_tfMail.insets = new Insets(5, 5, 5, 0);
-		gbc_tfMail.gridx = 1;
-		gbc_tfMail.gridy = 1;
-		pUserLoginInput.add(tfMail, gbc_tfMail);
-		tfMail.setColumns(10);
+		tfUserName = new JTextField();
+		GridBagConstraints gbc_tfUserName = new GridBagConstraints();
+		gbc_tfUserName.anchor = GridBagConstraints.WEST;
+		gbc_tfUserName.insets = new Insets(5, 5, 5, 5);
+		gbc_tfUserName.gridx = 1;
+		gbc_tfUserName.gridy = 1;
+		pUserLoginInput.add(tfUserName, gbc_tfUserName);
+		tfUserName.setColumns(10);
 		
 		JLabel lblPW = new JLabel("Passwort");
 		GridBagConstraints gbc_lblPW = new GridBagConstraints();
@@ -158,7 +158,7 @@ public class GuiUserLogin {
 		
 		tfPW = new JTextField();
 		GridBagConstraints gbc_tfPW = new GridBagConstraints();
-		gbc_tfPW.insets = new Insets(5, 5, 5, 0);
+		gbc_tfPW.insets = new Insets(5, 5, 5, 5);
 		gbc_tfPW.anchor = GridBagConstraints.WEST;
 		gbc_tfPW.gridx = 1;
 		gbc_tfPW.gridy = 2;
@@ -172,9 +172,9 @@ public class GuiUserLogin {
 		JButton bLogin = new JButton("Login");
 		bLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String mail = tfMail.getText();
+				String username = tfUserName.getText();
 				String pw = tfPW.getText();
-				feedbackLogin(mail, pw);
+				feedbackLogin(username, pw);
 			}
 		});
 		GridBagConstraints gbc_bLogin = new GridBagConstraints();
@@ -210,7 +210,7 @@ public class GuiUserLogin {
 	 * feedback Login via PopUp
 	 */
 	
-	public void feedbackLogin(String mail, String pw) {
+	public void feedbackLogin(String userName, String pw) {
 		
 		JFrame parent = new JFrame();
 		//if () {
