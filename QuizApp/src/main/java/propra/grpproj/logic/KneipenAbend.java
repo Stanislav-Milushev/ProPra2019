@@ -11,7 +11,6 @@ import propra.grpproj.quiz.SocketDataObjects.Question;
 public class KneipenAbend {
 
 	private List<Question> questions = new ArrayList<Question>();
-	private Question currentQuestion;
 	private int timePerQuestion = 20;
 	private int counter = 0;
 	private int runde = 0;
@@ -27,8 +26,6 @@ public class KneipenAbend {
 	
 	private boolean nextQuestion() {//Boolean overflow
 		counter++;
-		currentQuestion = questions.get(counter);
-		
 		if(counter == questions.size()) {
 			counter = 0;
 			runde++;
