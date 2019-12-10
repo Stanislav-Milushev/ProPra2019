@@ -213,6 +213,10 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof RegisterPub) {
         		RegisterPub regPub = (RegisterPub)o;
+        		regPub.getName();
+        		regPub.getAddress();
+        		regPub.getOwnerID();
+        		PubHandling pb = 
         	}
         	if(o instanceof RegisterUser) {
         		RegisterUser regUser = (RegisterUser)o;
