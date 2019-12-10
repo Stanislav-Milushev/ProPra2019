@@ -10,6 +10,6 @@ public class PubList implements Serializable{
 		
 		ArrayList<Pub> plist = this.list;
 		
-		return list;
+		return plist;
 	}
 }
