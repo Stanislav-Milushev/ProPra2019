@@ -10,27 +10,11 @@ import java.util.ArrayList;
 //
 //
 //
-
+//
 
 
 
 public class AdminHandling {
-
-	
-	// Function to get all registered user
-	public void getAllUsers () throws SQLException {
-		
-		DatabaseManager db = new DatabaseManager();
-		
-		db.connection();
-		
-		db.getAllUser();
-		
-		db.closeconnection();
-		
-		
-	}
-	
 	
 	// Function to approve a pub
 	public void approvePub(String name, String owner) throws SQLException {

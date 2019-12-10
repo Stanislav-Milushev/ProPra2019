@@ -61,13 +61,16 @@ public class DatabaseManager {
 		
 		int userid = getLatestID() +1;
 		
-		String query = "Insert into user (userID, username, email, password) Values (?,?,?,?)";
+		String usertyp = "DEFAULT";
+		
+		String query = "Insert into user (userID, username, email, password, type) Values (?,?,?,?,?)";
 		
 		PreparedStatement ps = connection.prepareStatement(query);
 		ps.setInt(1, userid);
 		ps.setString (2,username);
 		ps.setString(2, email);
 		ps.setInt(3, password);
+		ps.setString(4, usertyp);
 		
 		r_check = searchUser(username);
 		
