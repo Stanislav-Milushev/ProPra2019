@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public enum UserType implements Serializable{
 	DEFAULT,
-	KNEIPENBESITZER,
+	PUBOWNER,
 	ADMIN,
-	ADMINANDKNEIPE;
+	ADMINPUBOWNER;
 }

@@ -1,17 +1,13 @@
 package propra.grpproj.logic;
 
 import java.sql.SQLException;
-
-import javax.swing.JOptionPane;
-
 import propra.grpproj.quiz.SocketDataObjects.*;
-
-
 
 ////////////////////////////////////////////////////////////////////////////
 // Handle all the user related actions (login, logout, delete, register)
 // 
 // @author: Marius Discher
+//
 //
 //
 //
@@ -21,20 +17,19 @@ public class UserHandling
 {
 	
 	
-	// Method to register a user in the database
-	// Calls the function in the DatabaseManager
-	public void user_register(String username, String email, String passwd) throws SQLException 
+	/**
+	 * Method to register a user in the database
+	 * Calls the function in the DatabaseManager
+	 * 
+	 */ 
+	public void user_register(String username, String email, String passwd, UserType usertype) throws SQLException 
 	{
 		
 		DatabaseManager db = new DatabaseManager();
 		
 		boolean success_reg = false;
 		
-		UserType usertype;
-		
 		db.connection();
-		
-		usertype = db.getUserType(email);
 		
 		success_reg = db.registerUser(username, email, passwd);
 		
@@ -42,7 +37,7 @@ public class UserHandling
 		
 		if ( success_reg == true ) {
 			
-			user_login(email,passwd,usertype);
+			user_login(email,passwd);
 			
 		} else {
 			
@@ -55,9 +50,12 @@ public class UserHandling
 	
 	
 
-	// Method to log a user in the quiz system
-	// Calls the function inside the DatabaseManager
-	public void user_login(String email, String passwd, UserType usertype) throws SQLException 
+	/**   
+	 *  Method to log a user in the quiz system
+	 *  Calls the function inside the DatabaseManager
+	 *  
+	 */
+	public void user_login(String email, String passwd) throws SQLException 
 	{
 		
 		DatabaseManager db = new DatabaseManager();
@@ -70,10 +68,50 @@ public class UserHandling
 		
 		success_login = db.login(email,passwd);
 		
+		UserType usertype = db.getUserType(email);
+		
 		db.closeconnection();
 		
 		aus.userLogin(email);
 		
+		// Switch case for usertype
+		
+		if (success_login == true) 
+		{
+			switch (usertype) 
+			{
+			
+				case DEFAULT: 
+				{
+					// Int 2 = Menu user
+					break;
+				}
+				case ADMIN:
+				{
+					// Int 3 = Admin menu
+					break;
+				}
+				case PUBOWNER: 
+				{
+					// Int 4 = Pubowner menu
+					break;
+				}
+				case ADMINPUBOWNER: 
+				{
+					// Int 3 or 4 You can switch between both
+					break;
+				
+				}
+				default: 
+				{
+					// Int 5 = Error message: type is not clear 
+				
+				}
+			}
+		} else {
+			
+			// Int 6 = Error login
+		}
 	
 		// Send object to GUI 
 		// Case 1: login successfully
@@ -87,7 +125,8 @@ public class UserHandling
 	// Method to create a temp user
 	public void createTempUser () throws SQLException 
 	{
-
+		boolean success = false;
+		
 		DatabaseManager db = new DatabaseManager();
 		
 		db.connection();
@@ -100,14 +139,18 @@ public class UserHandling
 		
 		String passwd = "temporaer";
 		
-		db.registerUser(name, email, passwd);
+		success = db.registerUser(name, email, passwd);
+		
+		if ( success == true) {
+			
+			db.login(email, passwd);
+			
+		} else {
+			
+			// Int 7 = Cannot register the temp User
+		}
 		
 		db.closeconnection();
-		
-		// Dont need to give a return value to the gui
-		// The register function will do this
-		
-		
 		
 		
 	}
@@ -144,7 +187,4 @@ public class UserHandling
 		
 		
 	}
-	
-	
-
 }

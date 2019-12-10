@@ -191,7 +191,7 @@ public class SocketServer implements Runnable{
         		String passwd = lin.getPassword();
         		UserType type = lin.getType();
         		UserHandling login = new UserHandling();
-        		login.user_login(email, passwd,type);
+        		login.user_login(email, passwd);
         	}
         	if(o instanceof Pub) {
         		Pub pub = (Pub)o;
@@ -213,8 +213,10 @@ public class SocketServer implements Runnable{
         		String passwd = regUser.getPassword();
         		String mail = regUser.getMail();
         		String name = regUser.getUsername();
+        		String type = "DEFAULT";
+        		UserType usertype = UserType.valueOf(type);
         		UserHandling register = new UserHandling();
-        		register.user_register(name, mail, passwd);
+        		register.user_register(name, mail, passwd, usertype);
         	}
         	if(o instanceof RepeatPubevening) {
         		RepeatPubevening rpEvening = (RepeatPubevening)o;
