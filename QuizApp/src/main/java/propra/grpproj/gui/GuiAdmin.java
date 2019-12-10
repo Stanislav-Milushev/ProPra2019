@@ -89,7 +89,10 @@ public class GuiAdmin {
 	 * Create the application.
 	 */
 	public GuiAdmin() {
+		initialize();
+	}
 	
+	private void initialize() {
 		ArrayList<Pub> pList = new ArrayList<Pub>();
 		ArrayList<Question> qList = new ArrayList<Question>();
 		getPubListRequest();
@@ -1063,6 +1066,7 @@ public class GuiAdmin {
 
 	public void loadPubList() {
 		getPubListRequest();
+		
 		DefaultTableModel pModel = new DefaultTableModel();
 		String pHeaders[] = {
 				"KneipenID", "Kneipenname", "freigegeben", 
@@ -1084,6 +1088,7 @@ public class GuiAdmin {
 					pList.get(r).getOwnerName(),
 					pList.get(r).getAdresse()
 			});
+			
 		}
 	}
 	
