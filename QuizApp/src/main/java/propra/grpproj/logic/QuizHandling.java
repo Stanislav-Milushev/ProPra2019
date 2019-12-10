@@ -36,7 +36,7 @@ public class QuizHandling {
 	 * @author Yannick
 	 */
 	public void createQuiz (int QuizID, List<Question> questions) {
-		KneipenAbend abend = new KneipenAbend(questions);
+		KneipenAbend abend = new KneipenAbend(questions, QuizID);
 		quizMap.put(QuizID, abend);
 	}
 	
@@ -48,7 +48,7 @@ public class QuizHandling {
 	 * @author Yannick 
 	 */
 	public void createQuiz (int QuizID, List<Question> questions, int secondsPerQuestion) {
-		KneipenAbend abend = new KneipenAbend(questions, secondsPerQuestion);
+		KneipenAbend abend = new KneipenAbend(questions, secondsPerQuestion, QuizID);
 		quizMap.put(QuizID, abend);
 	}
 	
@@ -82,6 +82,20 @@ public class QuizHandling {
 			if(map.getNum2() == 1) {//1 ist immer richtig
 				double points = quizMap.get(userMap.get(user)).getAnswerPoints();
 				//In datenbank punkte eintragen
+			}
+		}
+	}
+	
+	/**
+	 * Removes the KneipenAbend from the HashMaps
+	 * @param QuizID ID of quiz
+	 * @author Yannick
+	 */
+	public void removeKneipenAbend(int QuizID) {
+		quizMap.remove(QuizID);
+		for(String s : userMap.keySet()) {
+			if(userMap.get(s) == QuizID) {
+				userMap.remove(s);
 			}
 		}
 	}
