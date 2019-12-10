@@ -11,17 +11,20 @@ import propra.grpproj.quiz.SocketDataObjects.Question;
 public class KneipenAbend {
 
 	private List<Question> questions = new ArrayList<Question>();
+	private int KneipenAbendID;
 	private int timePerQuestion = 20;
 	private int counter = 0;
 	private int runde = 0;
 	
-	public KneipenAbend(List<Question> questions) {
+	public KneipenAbend(List<Question> questions, int ID) {
 		this.questions = questions;
+		KneipenAbendID = ID;
 	}
 	
-	public KneipenAbend(List<Question> questions, int secondsPerQuestion) {
+	public KneipenAbend(List<Question> questions, int secondsPerQuestion, int ID) {
 		this.questions = questions;
 		timePerQuestion = secondsPerQuestion;
+		KneipenAbendID = ID;
 	}
 	
 	/**
@@ -92,6 +95,8 @@ public class KneipenAbend {
 					timer.schedule(task, timePerQuestion * 1000);
 				} else {
 					//Sende an alle leute das ergebnis
+					
+					QuizHandling.getInstance().removeKneipenAbend(KneipenAbendID);
 				}
 			}
 		}
