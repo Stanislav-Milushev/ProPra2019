@@ -34,6 +34,11 @@ public class SocketServer implements Runnable{
         this.port = port;
     }
     
+    /**
+     * Starts the server on its own thread
+     * @param port
+     * @author Yannick
+     */
     public static void start(int port) {
     	if(instance == null) {
     		instance = new SocketServer(port);
@@ -47,7 +52,7 @@ public class SocketServer implements Runnable{
     }
     
     /**
-     * 
+     * Sends a given object to a specified user
      * @param o SocketDataObject that is sent to the client
      * @param username Name of the client
      * @author Yannick
@@ -58,7 +63,6 @@ public class SocketServer implements Runnable{
 				nameToSocket.get(username).oos.writeObject(o);
 				nameToSocket.get(username).oos.flush();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}    		
     	}
@@ -84,7 +88,7 @@ public class SocketServer implements Runnable{
 
             LOG.info("Client accepted");
 
-            ClientConnection s = new ClientConnection(socket);
+            ClientConnection s = new ClientConnection(socket); //Create thread for client
             executor.submit(s);
         } catch (IOException i) {
             System.out.println(i);
@@ -92,19 +96,23 @@ public class SocketServer implements Runnable{
         }
         run();
     }
-
+    
     /**
-     * 
+     * Holds streams
      * @author Yannick
-     * Represents a connection from the server to a client
-     * Listens for data from the client
+     *
      */
     class User{
     	Socket socket;
     	ObjectOutputStream oos;
     	ObjectInputStream ois;
     }
-    
+
+    /**
+     * Represents a connection from the server to a client
+     * Listens for data from the client
+     * @author Yannick
+     */
     class ClientConnection implements Runnable{
         private User user;
         private String username;
@@ -116,14 +124,14 @@ public class SocketServer implements Runnable{
         
         @Override
         public void run() {
-            try {
+            try {//Create streams
                 user.oos = new ObjectOutputStream(user.socket.getOutputStream());
             	user.ois = new ObjectInputStream(user.socket.getInputStream());
             } catch (IOException e) {
                 e.printStackTrace();
             }
             
-            Object recieve = null;
+            Object recieve = null; //Listen for client
             do {
             	try {
 					recieve = user.ois.readObject();
@@ -141,11 +149,9 @@ public class SocketServer implements Runnable{
 		        		recieveObject(recieve);
 		        	}
 				
-				} catch (ClassNotFoundException | IOException e) {
+				} catch (ClassNotFoundException | IOException | SQLException e) {
 					e.printStackTrace();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} 
             } while(!(recieve instanceof TerminateConnection));
             
             LOG.info("Closing connection");

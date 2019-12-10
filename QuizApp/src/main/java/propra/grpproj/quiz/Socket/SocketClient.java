@@ -32,7 +32,7 @@ public class SocketClient implements Runnable{
 	private static final Logger LOG = LoggerFactory.getLogger(SocketClient.class);
 	 
 	 /**
-	  * 
+	  * Creates a SocketClient to connect to the server
 	  * @param ip IP of the server
 	  * @param port Port the server is listening
 	  * @author Yannick
@@ -49,7 +49,7 @@ public class SocketClient implements Runnable{
 	
 	@Override
 	public void run() {
-		try {
+		try { //Create streams
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
@@ -58,7 +58,7 @@ public class SocketClient implements Runnable{
 		}		
 		
         Object recieve = null;
-        
+        //Read from the server until terminateconnection = true
         do {
         	try {
 				recieve = ois.readObject();
@@ -68,7 +68,7 @@ public class SocketClient implements Runnable{
 			}
         } while(!(recieve instanceof TerminateConnection) && !terminateConnection);
 
-        try {
+        try {//Close the connection
             oos.close();
             ois.close();
             socket.close();
@@ -80,7 +80,7 @@ public class SocketClient implements Runnable{
 	}
 	
 	/**
-	 * 
+	 * Sends a given object to the server
 	 * @param o Object to be sent to the server
 	 * @author Yannick
 	 */
@@ -100,7 +100,8 @@ public class SocketClient implements Runnable{
 	}
 	
 	/**
-	 * 
+	 * Compares object from the server to known objects
+	 * and calls the responding functions in the gui
 	 * @param o object recieved from the server
 	 * @author Yannick
 	 */
