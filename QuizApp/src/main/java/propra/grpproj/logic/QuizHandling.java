@@ -15,7 +15,8 @@ import java.util.List;
 
 
 public class QuizHandling {
-	private static HashMap<Integer, KneipenAbend> users = new HashMap<Integer, KneipenAbend>();
+	private HashMap<Integer, KneipenAbend> quizMap = new HashMap<Integer, KneipenAbend>();
+	private HashMap<String, KneipenAbend> userMap = new HashMap<String, KneipenAbend>();
 	
 	public void createQuiz () {
 		
@@ -34,8 +35,19 @@ public class QuizHandling {
 		
 	}
 	
-	public void joinQuiz(String user, String code) {
-		//In datenbank schauen welches quiz
+	public void addQuiz(int id, KneipenAbend abend) {
+		quizMap.put(id, abend);
 	}
 	
+	public void joinQuiz(String user, KneipenAbend abend) {
+		userMap.put(user, abend);
+	}
+	
+	public void joinQuiz(String user, int ID) {
+		userMap.put(user, quizMap.get(ID));
+	}
+	
+	public void startQuiz(int ID) {
+		quizMap.get(ID).start();
+	}
 }
