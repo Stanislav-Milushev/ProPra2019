@@ -165,7 +165,7 @@ public class UserHandling
 		
 		aus.userLogout(email);
 		
-		success_logout = aus.search(email);
+		success_logout = aus.search(email); 
 		
 		
 	}
