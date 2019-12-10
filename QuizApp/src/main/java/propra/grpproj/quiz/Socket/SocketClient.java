@@ -135,6 +135,7 @@ public class SocketClient implements Runnable{
     	}
     	if(o instanceof QuestionList) {
     		QuestionList ql = (QuestionList)o;
+    		GuiAdmin.getInstance().getQuestionListFromServer(ql);
     	}
     	if(o instanceof RegisterPub) {
     		RegisterPub regPub = (RegisterPub)o;
