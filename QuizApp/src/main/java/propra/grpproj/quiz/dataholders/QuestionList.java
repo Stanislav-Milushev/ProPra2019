@@ -5,12 +5,12 @@ package propra.grpproj.quiz.dataholders;
  * @author Daniel
  *
  */
-public class QuestionsAndAnswers
+public class QuestionList
 {
 	/**
 	 * Primary Key
 	 */
-	private Long questionAnswersId;
+	private Long questionListId;
 
 	private String question;
 	private String answerTrue;
@@ -19,11 +19,11 @@ public class QuestionsAndAnswers
 	private String answerFalse3;
 	private String description;
 
-	public QuestionsAndAnswers(Long questionAnswersId, String question, String answerTrue, String answerFalse1,
+	public QuestionList(Long questionListId, String question, String answerTrue, String answerFalse1,
 			String answerFalse2, String answerFalse3, String description)
 	{
 		super();
-		this.questionAnswersId = questionAnswersId;
+		this.questionListId = questionListId;
 		this.question = question;
 		this.answerTrue = answerTrue;
 		this.answerFalse1 = answerFalse1;
@@ -35,7 +35,7 @@ public class QuestionsAndAnswers
 	@Override
 	public String toString()
 	{
-		return "Questions [questionAnswersId=" + questionAnswersId + ", question=" + question + ", answerTrue="
+		return "Questions [questionListId=" + questionListId + ", question=" + question + ", answerTrue="
 				+ answerTrue + ", answerFalse1=" + answerFalse1 + ", answerFalse2=" + answerFalse2 + ", answerFalse3="
 				+ answerFalse3 + ", description=" + description + "]";
 	}
@@ -51,7 +51,7 @@ public class QuestionsAndAnswers
 		result = prime * result + ((answerTrue == null) ? 0 : answerTrue.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((question == null) ? 0 : question.hashCode());
-		result = prime * result + ((questionAnswersId == null) ? 0 : questionAnswersId.hashCode());
+		result = prime * result + ((questionListId == null) ? 0 : questionListId.hashCode());
 		return result;
 	}
 
@@ -64,7 +64,7 @@ public class QuestionsAndAnswers
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		QuestionsAndAnswers other = (QuestionsAndAnswers) obj;
+		QuestionList other = (QuestionList) obj;
 		if (answerFalse1 == null) {
 			if (other.answerFalse1 != null)
 				return false;
@@ -95,17 +95,17 @@ public class QuestionsAndAnswers
 				return false;
 		} else if (!question.equals(other.question))
 			return false;
-		if (questionAnswersId == null) {
-			if (other.questionAnswersId != null)
+		if (questionListId == null) {
+			if (other.questionListId != null)
 				return false;
-		} else if (!questionAnswersId.equals(other.questionAnswersId))
+		} else if (!questionListId.equals(other.questionListId))
 			return false;
 		return true;
 	}
 
-	public Long getQuestionAnswersId()
+	public Long getQuestionListId()
 	{
-		return questionAnswersId;
+		return questionListId;
 	}
 
 	public String getQuestion()

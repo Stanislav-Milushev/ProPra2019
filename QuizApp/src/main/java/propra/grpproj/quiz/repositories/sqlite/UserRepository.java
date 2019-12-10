@@ -203,14 +203,14 @@ public class UserRepository extends CrudRepositoryAdapter<User, Long>
         String password = rs.getString("password");
         String email = rs.getString("email");
 
-        // ... and build a new ScoreboardEntry
+        // ... and build a new User-Entry
         return new User(foundID, username, password, email);
 	}
 
 	private <S extends User> S insert(S entity)
 	{
 		// @formatter:off
-		String sql =   "INSERT INTO " + TABLE_NAME + "(id,username,password,email)"
+		String sql =   "INSERT INTO " + TABLE_NAME + "(userId,username,password,email)"
 				+ "  VALUES(?, ?, ?, ?)"
 				;
 		
@@ -219,7 +219,7 @@ public class UserRepository extends CrudRepositoryAdapter<User, Long>
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				)
 		{
-			pstmt.setLong(1, entity.findFreeId());
+			pstmt.setLong(1, entity.getUserId());
 			pstmt.setString(2, entity.getUsername());
 			pstmt.setString(3, entity.getPassword());
 			pstmt.setString(4, entity.getEmail());

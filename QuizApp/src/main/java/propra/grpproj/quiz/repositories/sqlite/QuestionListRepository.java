@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import propra.grpproj.quiz.dataholders.QuestionsAndAnswers;
+import propra.grpproj.quiz.dataholders.QuestionList;
 import propra.grpproj.quiz.repositories.CrudRepositoryAdapter;
 
 /**
@@ -18,25 +18,25 @@ import propra.grpproj.quiz.repositories.CrudRepositoryAdapter;
  * @author Daniel
  *
  */
-public class QuestionsAndAnswersRepository extends CrudRepositoryAdapter<QuestionsAndAnswers, Long>
+public class QuestionListRepository extends CrudRepositoryAdapter<QuestionList, Long>
 {
 
 	/**
 	 * The table name managed by this repository
 	 */
-	private static final String TABLE_NAME = "questionsandanswers";
+	private static final String TABLE_NAME = "questionList";
 
 	/**
 	 * The SQL query to create this table
 	 */
 	private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME
-			+ " (questionAnswersId INTEGER PRIMARY KEY, question STRING, answerTrue STRING, answerFalse1 STRING"
+			+ " (questionListId INTEGER PRIMARY KEY, question STRING, answerTrue STRING, answerFalse1 STRING"
 			+ ", answerFalse2 STRING, answerFalse3 STRING, description STRING)";
 
 	@Override
-	public void delete(QuestionsAndAnswers entity)
+	public void delete(QuestionList entity)
 	{
-		deleteById(entity.getQuestionAnswersId());
+		deleteById(entity.getQuestionListId());
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class QuestionsAndAnswersRepository extends CrudRepositoryAdapter<Questio
 	}
 
 	@Override
-	public void deleteById(Long questionAnswersId)
+	public void deleteById(Long questionListId)
 	{
 		// @formatter:off
 		String sql = "DELETE FROM " + TABLE_NAME + "  WHERE questionAnswersId=?";
@@ -62,7 +62,7 @@ public class QuestionsAndAnswersRepository extends CrudRepositoryAdapter<Questio
 		try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql);)
 		// @formatter:on
 		{
-			pstmt.setLong(1, questionAnswersId);
+			pstmt.setLong(1, questionListId);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -70,15 +70,15 @@ public class QuestionsAndAnswersRepository extends CrudRepositoryAdapter<Questio
 	}
 
 	@Override
-	public boolean existsById(Long questionAnswersId)
+	public boolean existsById(Long questionListId)
 	{
-		return findById(questionAnswersId).isPresent();
+		return findById(questionListId).isPresent();
 	}
 
 	@Override
-	public Iterable<QuestionsAndAnswers> findAll()
+	public Iterable<QuestionList> findAll()
 	{
-		ArrayList<QuestionsAndAnswers> resultList = new ArrayList<>();
+		ArrayList<QuestionList> resultList = new ArrayList<>();
 
 		String sql = "SELECT * FROM " + TABLE_NAME;
 
@@ -88,7 +88,7 @@ public class QuestionsAndAnswersRepository extends CrudRepositoryAdapter<Questio
 		{
 			try (ResultSet rs = statement.executeQuery(sql);) {
 				while (rs.next()) {
-					QuestionsAndAnswers entity = buildQuestionsAndAnswersFromResultSet(rs);
+					QuestionList entity = buildQuestionListFromResultSet(rs);
 					resultList.add(entity);
 				}
 			}
@@ -100,27 +100,27 @@ public class QuestionsAndAnswersRepository extends CrudRepositoryAdapter<Questio
 	}
 
 	@Override
-	public Optional<QuestionsAndAnswers> findById(Long questionAnswersId)
+	public Optional<QuestionList> findById(Long questionListId)
 	{
 		// define your result value for the Optional: may stays null!
-		QuestionsAndAnswers returnValue = null;
+		QuestionList returnValue = null;
 
 		// set up your query with '?' for all variables
 		// @formatter:off
-		String sql = "SELECT * FROM " + TABLE_NAME + "  WHERE questionAnswersId=?";
+		String sql = "SELECT * FROM " + TABLE_NAME + "  WHERE questionListId=?";
 
 		// open connection and prepare statement using 'try-with-resource'
 		try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql);)
 		// @formatter:on
 		{
 			// insert variables into the '?' of our prepared query
-			pstmt.setLong(1, questionAnswersId);// 1st param is index of '?'
+			pstmt.setLong(1, questionListId);// 1st param is index of '?'
 
 			// manage query-result with try-with-resources to use the auto-closable feature
 			try (ResultSet rs = pstmt.executeQuery();) {
 				// find first by id:
 				if (rs.next()) {
-					returnValue = buildQuestionsAndAnswersFromResultSet(rs);
+					returnValue = buildQuestionListFromResultSet(rs);
 				}
 			}
 		} catch (SQLException e) {
@@ -134,9 +134,9 @@ public class QuestionsAndAnswersRepository extends CrudRepositoryAdapter<Questio
 	}
 
 	@Override
-	public <S extends QuestionsAndAnswers> S save(S entity)
+	public <S extends QuestionList> S save(S entity)
 	{
-		if (existsById(entity.getQuestionAnswersId())) {
+		if (existsById(entity.getQuestionListId())) {
 			return update(entity);
 		} else {
 			return insert(entity);
@@ -147,10 +147,10 @@ public class QuestionsAndAnswersRepository extends CrudRepositoryAdapter<Questio
 	// helpers
 	// ========================================================================
 
-	private QuestionsAndAnswers buildQuestionsAndAnswersFromResultSet(ResultSet rs) throws SQLException
+	private QuestionList buildQuestionListFromResultSet(ResultSet rs) throws SQLException
 	{
 		// fetch each parameter from the query-result...
-		Long foundID = rs.getLong("questionAnswersId");
+		Long foundID = rs.getLong("questionListId");
 		String question = rs.getString("question");
 		String answerTrue = rs.getString("answerTrue");
 		String answerFalse1 = rs.getString("answerFalse1");
@@ -159,19 +159,19 @@ public class QuestionsAndAnswersRepository extends CrudRepositoryAdapter<Questio
 		String description = rs.getString("description");
 
 		// ... and build a new QuestionsAndAnswers-Entry
-		return new QuestionsAndAnswers(foundID, question, answerTrue, answerFalse1, answerFalse2, answerFalse3,
+		return new QuestionList(foundID, question, answerTrue, answerFalse1, answerFalse2, answerFalse3,
 				description);
 	}
 
-	private <S extends QuestionsAndAnswers> S insert(S entity)
+	private <S extends QuestionList> S insert(S entity)
 	{
 		// @formatter:off
 		String sql = "INSERT INTO " + TABLE_NAME
-				+ "(questionAnswersId,question,answerTrue,answerFalse1,answerFalse2,answerFalse3,description)"
+				+ "(questionListId,question,answerTrue,answerFalse1,answerFalse2,answerFalse3,description)"
 				+ "  VALUES(?, ?, ?, ?, ?, ?, ?)";
 
 		try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
-			pstmt.setLong(1, entity.getQuestionAnswersId());
+			pstmt.setLong(1, entity.getQuestionListId());
 			pstmt.setString(2, entity.getQuestion());
 			pstmt.setString(3, entity.getAnswerTrue());
 			pstmt.setString(4, entity.getAnswerFalse1());
@@ -186,25 +186,29 @@ public class QuestionsAndAnswersRepository extends CrudRepositoryAdapter<Questio
 		// @formatter:on
 
 		@SuppressWarnings("unchecked")
-		S s = (S) findById(entity.getQuestionAnswersId()).get();
+		S s = (S) findById(entity.getQuestionListId()).get();
 		return s;
 	}
 
-	private <S extends QuestionsAndAnswers> S update(S entity)
+	private <S extends QuestionList> S update(S entity)
 	{
 		// @formatter:off
 		String sql = "UPDATE " + TABLE_NAME
 				+ "  SET question=?, answerTrue=?, answerFalse1=?, answerFalse2=?, answerFalse3=?, description=?"
-				+ "  WHERE questionAnswersId=?";
+				+ "  WHERE questionListId=?";
 
-		try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+		try (
+				Connection conn = connect(); 
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+			) 
+		{
 			pstmt.setString(1, entity.getQuestion());
 			pstmt.setString(2, entity.getAnswerTrue());
 			pstmt.setString(3, entity.getAnswerFalse1());
 			pstmt.setString(4, entity.getAnswerFalse2());
 			pstmt.setString(5, entity.getAnswerFalse3());
 			pstmt.setString(6, entity.getDescription());
-			pstmt.setLong(7, entity.getQuestionAnswersId());
+			pstmt.setLong(7, entity.getQuestionListId());
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -213,7 +217,7 @@ public class QuestionsAndAnswersRepository extends CrudRepositoryAdapter<Questio
 		// @formatter:on
 
 		@SuppressWarnings("unchecked")
-		S s = (S) findById(entity.getQuestionAnswersId()).get();
+		S s = (S) findById(entity.getQuestionListId()).get();
 		return s;
 	}
 }

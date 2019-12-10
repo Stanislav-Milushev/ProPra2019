@@ -24,7 +24,7 @@ public class QuestionRoundRepository extends CrudRepositoryAdapter<QuestionRound
     /**
      * The SQL query to create this table
      */
-    private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (roundId INTEGER PRIMARY KEY, pause INTEGER, "
+    private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (roundId INTEGER PRIMARY KEY, pause INTEGER, pubEveningId INTEGER "
     		+ "FOREIGN KEY(pubEveningId) REFERENCES pubevening (pubEveningId))";
 
 	@Override
@@ -194,8 +194,8 @@ public class QuestionRoundRepository extends CrudRepositoryAdapter<QuestionRound
 	private <S extends QuestionRound> S insert(S entity)
 	{
         // @formatter:off
-        String sql =   "INSERT INTO " + TABLE_NAME + "(roundId,pause)"
-                     + "  VALUES(?, ?)"
+        String sql =   "INSERT INTO " + TABLE_NAME + "(roundId,pause,pubEveningId)"
+                     + "  VALUES(?, ?, ?)"
                      ;
 
         try (
@@ -205,6 +205,7 @@ public class QuestionRoundRepository extends CrudRepositoryAdapter<QuestionRound
         {
             pstmt.setLong(1, entity.getRoundId());
             pstmt.setInt(2, entity.getPause());
+            pstmt.setLong(3, entity.getPubEveningId());
             
             pstmt.executeUpdate();
         } catch (SQLException e)
@@ -222,7 +223,7 @@ public class QuestionRoundRepository extends CrudRepositoryAdapter<QuestionRound
 	{
 	     // @formatter:off
         String sql =   "UPDATE " + TABLE_NAME
-                     + "  SET round=?"
+                     + "  SET round=?,pubEveningId=?"
                      + "  WHERE roundId=?"
                      ;
 
@@ -232,7 +233,8 @@ public class QuestionRoundRepository extends CrudRepositoryAdapter<QuestionRound
             )
         {
             pstmt.setInt(1, entity.getPause());
-            pstmt.setLong(2, entity.getRoundId());
+            pstmt.setLong(2, entity.getPubEveningId());
+            pstmt.setLong(3, entity.getRoundId());
 
             pstmt.executeUpdate();
         } catch (SQLException e)
@@ -251,8 +253,9 @@ public class QuestionRoundRepository extends CrudRepositoryAdapter<QuestionRound
         // fetch each parameter from the query-result...
         Long foundID = rs.getLong("roundId");
         int pause = rs.getInt("pause");
+        Long pubEveningId = rs.getLong("pubEveningId");
         
         // ... and build a new QuestionRound
-        return new QuestionRound(foundID, pause);
+        return new QuestionRound(foundID, pause, pubEveningId);
 	}
 }

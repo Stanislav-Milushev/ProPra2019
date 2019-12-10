@@ -24,7 +24,7 @@ public class PubRepository extends CrudRepositoryAdapter<Pub, Long>
 	 * The SQL query to create this table
 	 */
 	private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME
-			+ " (pubId INTEGER PRIMARY KEY, registered BOOLEAN, name STRING, "
+			+ " (pubId INTEGER PRIMARY KEY, registered BOOLEAN, name STRING, userId INTEGER"
 			+ "FOREIGN KEY(userId) REFERENCES user (userId))";
 
 	@Override
@@ -167,12 +167,16 @@ public class PubRepository extends CrudRepositoryAdapter<Pub, Long>
             return insert(entity);
         }
 	}
+	
+	// ========================================================================
+	// helpers
+	// ========================================================================
 
 	private <S extends Pub> S insert(S entity)
 	{
         // @formatter:off
-        String sql =   "INSERT INTO " + TABLE_NAME + "(pubId,registered,name)"
-                     + "  VALUES(?, ?, ?)"
+        String sql =   "INSERT INTO " + TABLE_NAME + "(pubId,registered,name,userId)"
+                     + "  VALUES(?, ?, ?, ?)"
                      ;
 
         try (
@@ -182,7 +186,8 @@ public class PubRepository extends CrudRepositoryAdapter<Pub, Long>
         {
             pstmt.setLong(1, entity.getPubId());
             pstmt.setBoolean(2, entity.isRegistered());
-            pstmt.setString(2, entity.getName());
+            pstmt.setString(3, entity.getName());
+            pstmt.setLong(4, entity.getUserId());
             
             pstmt.executeUpdate();
         } catch (SQLException e)
@@ -200,7 +205,7 @@ public class PubRepository extends CrudRepositoryAdapter<Pub, Long>
 	{
 	     // @formatter:off
         String sql =   "UPDATE " + TABLE_NAME
-                     + "  SET registered=?,name=?"
+                     + "  SET registered=?,name=?,userId=?"
                      + "  WHERE pubId=?"
                      ;
 
@@ -211,7 +216,8 @@ public class PubRepository extends CrudRepositoryAdapter<Pub, Long>
         {
             pstmt.setBoolean(1, entity.isRegistered());
             pstmt.setString(2, entity.getName());
-            pstmt.setLong(3, entity.getPubId());
+            pstmt.setLong(3, entity.getUserId());
+            pstmt.setLong(4, entity.getPubId());
 
             pstmt.executeUpdate();
         } catch (SQLException e)
@@ -231,8 +237,9 @@ public class PubRepository extends CrudRepositoryAdapter<Pub, Long>
         Long foundID = rs.getLong("pubId");
         boolean registered = rs.getBoolean("registered");
         String name = rs.getString("name");
+        Long userId = rs.getLong("userId");
         
         // ... and build a new Pub-Evening
-        return new Pub(foundID, registered, name);
+        return new Pub(foundID, registered, name, userId);
 	}
 }

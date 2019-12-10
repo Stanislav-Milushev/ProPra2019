@@ -6,24 +6,31 @@ package propra.grpproj.quiz.dataholders;
  */
 public class Pub
 {
+	/**
+	 * Primary key
+	 */
 	private Long pubId;
 	
-	//FK private Long userId;
+	/**
+	 * Foreign key for linking the tables
+	 */
+	private Long userId;
 	
 	private boolean registered;
 	private String name;
 	
-	public Pub(Long pubId, boolean registered, String name)
+	public Pub(Long pubId, boolean registered, String name, Long userId)
 	{
 		super();
 		this.pubId = pubId;
 		this.registered = registered;
 		this.name = name;
+		this.userId = userId;
 	}
 	@Override
 	public String toString()
 	{
-		return "Pub [pubId=" + pubId + ", registered=" + registered + ", name=" + name + "]";
+		return "Pub [pubId=" + pubId + ", registered=" + registered + ", name=" + name + ", userId=" + userId + "]";
 	}
 	@Override
 	public int hashCode()
@@ -79,6 +86,10 @@ public class Pub
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+	public Long getUserId()
+	{
+		return userId;
 	}
 	
 	

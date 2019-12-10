@@ -31,7 +31,9 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
     /**
      * The SQL query to create this table
      */
-    private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (id INTEGER PRIMARY KEY, username STRING, score INTEGER, "
+    private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME 
+    		+ " (id INTEGER PRIMARY KEY, username STRING, score INTEGER, "
+    		+ "userId INTEGER, pubEveningId INTEGER, "
     		+ "FOREIGN KEY(userId) REFERENCES user (userId), "
     		+ "FOREIGN KEY(pubEveningId) REFERENCES pubEvening (pubEveningId))";
 
@@ -224,16 +226,18 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
         Long foundID = rs.getLong("id");
         String username = rs.getString("username");
         int score = rs.getInt("score");
+        Long userId = rs.getLong("userId");
+        Long pubEveningId = rs.getLong("pubEveningId");
 
         // ... and build a new ScoreboardEntry
-        return new ScoreboardEntity(foundID, username, score);
+        return new ScoreboardEntity(foundID, username, score, userId, pubEveningId);
     }
 
     private <S extends ScoreboardEntity> S insert(S entity)
     {
         // @formatter:off
-        String sql =   "INSERT INTO " + TABLE_NAME + "(id,username,score)"
-                     + "  VALUES(?, ?, ?)"
+        String sql =   "INSERT INTO " + TABLE_NAME + "(id,username,score,userId,pubEveningId)"
+                     + "  VALUES(?, ?, ?, ?, ?)"
                      ;
 
         try (
@@ -244,6 +248,8 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
             pstmt.setLong(1, entity.getId());
             pstmt.setString(2, entity.getUsername());
             pstmt.setLong(3, entity.getScore());
+            pstmt.setLong(4, entity.getUserId());
+            pstmt.setLong(5, entity.getPubEveningId());
             
             pstmt.executeUpdate();
         } catch (SQLException e)
@@ -261,7 +267,7 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
     {
      // @formatter:off
         String sql =   "UPDATE " + TABLE_NAME
-                     + "  SET username=?, score=?"
+                     + "  SET username=?, score=?, userId=?, pubEveningId=?"
                      + "  WHERE id=?"
                      ;
 
@@ -272,7 +278,9 @@ public class ScoreboardRepository extends CrudRepositoryAdapter<ScoreboardEntity
         {
             pstmt.setString(1, entity.getUsername());
             pstmt.setLong(2, entity.getScore());
-            pstmt.setLong(3, entity.getId());
+            pstmt.setLong(3, entity.getUserId());
+            pstmt.setLong(4, entity.getPubEveningId());
+            pstmt.setLong(5, entity.getId());
 
             pstmt.executeUpdate();
         } catch (SQLException e)

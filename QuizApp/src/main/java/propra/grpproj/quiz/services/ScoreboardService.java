@@ -32,10 +32,10 @@ public class ScoreboardService
         return CrudRepository.convertToList(scoreboardRepository.findAll());
     }
 
-    public ScoreboardEntity addUserToActualGame(User user)
-    {
-        ScoreboardEntity scoreboardEntity = new ScoreboardEntity(user.getUserId(), user.getUsername(), INITIAL_SCORE);
-        return scoreboardRepository.save(scoreboardEntity);
-    }
+//    public ScoreboardEntity addUserToActualGame(User user)
+//    {
+//        ScoreboardEntity scoreboardEntity = new ScoreboardEntity(user.getUserId(), user.getUsername(), INITIAL_SCORE);
+//        return scoreboardRepository.save(scoreboardEntity);
+//    }
 
 }

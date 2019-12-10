@@ -7,18 +7,22 @@ public class QuestionsPool
 	 */
 	private Long poolId;
 
-	// FK private Long questionAnswersId;
+	/**
+	 * Foreign key for linking the tables
+	 */
+	private Long questionAnswersId;
 
-	public QuestionsPool(Long poolId)
+	public QuestionsPool(Long poolId, Long questionAnswersId)
 	{
 		super();
 		this.poolId = poolId;
+		this.questionAnswersId = questionAnswersId;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "QuestionsPool [poolId=" + poolId + "]";
+		return "QuestionsPool [poolId=" + poolId + ", questionAnswersId=" + questionAnswersId + "]";
 	}
 
 	@Override
@@ -51,6 +55,11 @@ public class QuestionsPool
 	public Long getPoolId()
 	{
 		return poolId;
+	}
+
+	public Long getQuestionAnswersId()
+	{
+		return questionAnswersId;
 	}
 
 }

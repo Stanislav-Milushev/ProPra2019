@@ -18,12 +18,13 @@ public class QuestionsPoolRepository extends CrudRepositoryAdapter<QuestionsPool
 	/**
 	 * The table name managed by this repository
 	 */
-	private static final String TABLE_NAME = "scoreboard";
+	private static final String TABLE_NAME = "questionPool";
 
 	/**
 	 * The SQL query to create this table
 	 */
-	private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (poolId INTEGER PRIMARY KEY, "
+	private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + 
+			" (poolId INTEGER PRIMARY KEY, questionAnswersId INTEGER "
 			+ "FOREIGN KEY(questionAnswersId) REFERENCES questionsandanswers (questionAnswersId)";
 
 	@Override
@@ -124,27 +125,53 @@ public class QuestionsPoolRepository extends CrudRepositoryAdapter<QuestionsPool
 	@Override
 	public <S extends QuestionsPool> S save(S entity)
 	{
-			return insert(entity);
+        if (existsById(entity.getPoolId()))
+        {
+            return update(entity);
+        } else{
+            return insert(entity);
+        }
 	}
 
 	// ========================================================================
 	// helpers
 	// ========================================================================
 
-	private QuestionsPool buildQuestionsPoolFromResultSet(ResultSet rs) throws SQLException
+	private <S extends QuestionsPool> S update(S entity)
 	{
-		// fetch each parameter from the query-result...
-		Long foundID = rs.getLong("poolId");
+	     // @formatter:off
+        String sql =   "UPDATE " + TABLE_NAME
+                     + "  SET questionAnswersId=?"
+                     + "  WHERE poolId=?"
+                     ;
 
-		// ... and build a new QuestionsPool-Entry
-		return new QuestionsPool(foundID);
+        try (
+                Connection conn = connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+            )
+        {
+            pstmt.setLong(1, entity.getQuestionAnswersId());
+            pstmt.setLong(2, entity.getPoolId());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+        // @formatter:on
+
+        @SuppressWarnings("unchecked")
+        S s = (S) findById(entity.getPoolId()).get();
+        return s;
 	}
+
+
 
 	private <S extends QuestionsPool> S insert(S entity)
 	{
         // @formatter:off
-        String sql =   "INSERT INTO " + TABLE_NAME + "(poolId)"
-                     + "  VALUES(?)"
+        String sql =   "INSERT INTO " + TABLE_NAME + "(poolId,questionAnswersId)"
+                     + "  VALUES(?, ?)"
                      ;
 
         try (
@@ -153,6 +180,7 @@ public class QuestionsPoolRepository extends CrudRepositoryAdapter<QuestionsPool
             )
         {
             pstmt.setLong(1, entity.getPoolId());
+            pstmt.setLong(2, entity.getQuestionAnswersId());
             
             pstmt.executeUpdate();
         } catch (SQLException e)
@@ -164,6 +192,16 @@ public class QuestionsPoolRepository extends CrudRepositoryAdapter<QuestionsPool
         @SuppressWarnings("unchecked")
         S s = (S) findById(entity.getPoolId()).get();
         return s;
+	}
+	
+	private QuestionsPool buildQuestionsPoolFromResultSet(ResultSet rs) throws SQLException
+	{
+		// fetch each parameter from the query-result...
+		Long foundID = rs.getLong("poolId");
+		Long questionAnswersId = rs.getLong("questionAnswersId");
+
+		// ... and build a new QuestionsPool-Entry
+		return new QuestionsPool(foundID, questionAnswersId);
 	}
 
 }

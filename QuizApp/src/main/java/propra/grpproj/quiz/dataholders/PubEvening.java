@@ -11,20 +11,25 @@ public class PubEvening
 	 */
 	private Long pubEveningId;
 	
-	// FK private Long pubId;
+	/**
+	 * Foreign key for linking the tables
+	 */
+	private Long pubId;
+	
 	private int timeForAnswering;
 	
-	public PubEvening(Long pubEveningId, int timeForAnswering)
+	public PubEvening(Long pubEveningId, int timeForAnswering, Long pubId)
 	{
 		super();
 		this.pubEveningId = pubEveningId;
 		this.timeForAnswering = timeForAnswering;
+		this.pubId = pubId;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "PubEvening [pubEveningId=" + pubEveningId + ", timeForAnswering=" + timeForAnswering + "]";
+		return "PubEvening [pubEveningId=" + pubEveningId + ", timeForAnswering=" + timeForAnswering + ", pubId=" + pubId + "]";
 	}
 
 	@Override
@@ -70,5 +75,10 @@ public class PubEvening
 	public Long getPubEveningId()
 	{
 		return pubEveningId;
+	}
+
+	public Long getPubId()
+	{
+		return pubId;
 	}
 }

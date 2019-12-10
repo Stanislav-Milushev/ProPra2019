@@ -11,21 +11,25 @@ public class QuestionRound
 	 * Primary Key
 	 */
 	private Long roundId;
-
-	// FK private Long pubEveningId;
+	
+	/**
+	 * Foreign key for linking the tables
+	 */
+	private Long pubEveningId;
 	private int pause;
 
-	public QuestionRound(Long roundId, int pause)
+	public QuestionRound(Long roundId, int pause, Long pubEveningId)
 	{
 		super();
 		this.roundId = roundId;
 		this.pause = pause;
+		this.pubEveningId = pubEveningId;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "QuestionRound [roundId=" + roundId + ", pause=" + pause + "]";
+		return "QuestionRound [roundId=" + roundId + ", pause=" + pause + ", pubEveningId=" + pubEveningId + "]";
 	}
 
 	@Override
@@ -71,6 +75,11 @@ public class QuestionRound
 	public void setPause(int pause)
 	{
 		this.pause = pause;
+	}
+
+	public Long getPubEveningId()
+	{
+		return pubEveningId;
 	}
 
 }

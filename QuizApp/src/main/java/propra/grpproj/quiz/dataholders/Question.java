@@ -11,19 +11,25 @@ public class Question
 	 * Primary Key
 	 */
 	private Long questionId;
-	// FK private Long roundId;
-	// FK private Long userId;
+	
+	/**
+	 * Foreign key for linking the tables
+	 */
+	private Long roundId;
+	private Long userId;
 
-	public Question(Long questionId)
+	public Question(Long questionId, Long roundId, Long userId)
 	{
 		super();
 		this.questionId = questionId;
+		this.roundId = roundId;
+		this.userId = userId;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "Question [questionId=" + questionId + "]";
+		return "Question [questionId=" + questionId + ", roundId=" + roundId + ", userId=" + userId + "]";
 	}
 
 	@Override
@@ -56,6 +62,16 @@ public class Question
 	public Long getQuestionId()
 	{
 		return questionId;
+	}
+
+	public Long getRoundId()
+	{
+		return roundId;
+	}
+
+	public Long getUserId()
+	{
+		return userId;
 	}
 
 }

@@ -1,11 +1,8 @@
 package propra.grpproj.quiz.dataholders;
 
-import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import org.apache.logging.log4j.util.Strings;
-
-import propra.grpproj.quiz.services.ScoreboardService;
 /**
  * 
  * @author Daniel
@@ -22,7 +19,7 @@ public class User
     private String password;
     private String email;
     
-    private ScoreboardService scoreboardservice;
+    //private ScoreboardService scoreboardservice;
     
     
 
@@ -41,36 +38,37 @@ public class User
         this.email = email;
     }
     
-    public User(ScoreboardService scoreboardservice) {
-    	super();
-    	this.scoreboardservice = scoreboardservice;
-    }
+//    public User(ScoreboardService scoreboardservice) {
+//    	super();
+//    	this.scoreboardservice = scoreboardservice;
+//    }
     
-  public long findFreeId()
-  {
-      // @formatter:off
-      // (1) find all users from database
-      
-      // (2) sort result list by id ascending
-      // (3) take greatest id / last entry in sorted list
-      //     => find greatest
-
-      // (4) + 1 to that id
-
-      return  1 +
-              scoreboardservice
-                  .getScoreBoard()
-                  .stream()
-                  .mapToLong( scoreboardEntity ->{ return scoreboardEntity.getId(); })
-                  .max()
-                  .orElseThrow(NoSuchElementException::new);
-      // @formatter:on
-  }
+//  public long findFreeId()
+//  {
+//      // @formatter:off
+//      // (1) find all users from database
+//      
+//      // (2) sort result list by id ascending
+//      // (3) take greatest id / last entry in sorted list
+//      //     => find greatest
+//
+//      // (4) + 1 to that id
+//
+//      return  1 +
+//              scoreboardservice
+//                  .getScoreBoard()
+//                  .stream()
+//                  .mapToLong( scoreboardEntity ->{ return scoreboardEntity.getId(); })
+//                  .max()
+//                  .orElseThrow(NoSuchElementException::new);
+//      // @formatter:on
+//  }
 
     @Override
     public String toString()
     {
-        return "User [userId=" + userId + ", username=" + username + "]";
+        return "User [userId=" + userId + ", username=" + username + ", "
+        		+ "password=" + password + ", email=" + email + "]";
     }
 
     @Override
@@ -101,7 +99,6 @@ public class User
         return true;
     }
 
-    // TODO transfer password to hashcode
     public String getPassword()
 	{
 		return password;

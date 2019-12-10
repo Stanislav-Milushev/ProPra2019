@@ -25,7 +25,8 @@ public class QuestionRepository extends CrudRepositoryAdapter<Question, Long>
 	 * The SQL query to create this table
 	 */
 	private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME
-			+ " (questionId INTEGER PRIMARY KEY, " + "FOREIGN KEY(userId) REFERENCES user (userId), "
+			+ " (questionId INTEGER PRIMARY KEY, userId INTEGER, roundId INTEGER," 
+			+ "FOREIGN KEY(userId) REFERENCES user (userId), "
 			+ "FOREIGN KEY(roundId) REFERENCES questionRound (roundId))";
 
 	@Override
@@ -149,20 +150,58 @@ public class QuestionRepository extends CrudRepositoryAdapter<Question, Long>
 	@Override
 	public <S extends Question> S save(S entity)
 	{
-		return insert(entity);
+        if (existsById(entity.getQuestionId()))
+        {
+            return update(entity);
+        } else
+        {
+            return insert(entity);
+        }
 	}
 
 	// ========================================================================
 	// helpers
 	// ========================================================================
 
+	private <S extends Question> S update(S entity)
+	{
+	     // @formatter:off
+        String sql =   "UPDATE " + TABLE_NAME
+                     + "  SET userId=?,roundId=?"
+                     + "  WHERE questionId=?"
+                     ;
+
+        try (
+                Connection conn = connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+            )
+        {
+            pstmt.setLong(1, entity.getUserId());
+            pstmt.setLong(2, entity.getRoundId());
+            pstmt.setLong(3, entity.getQuestionId());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+        // @formatter:on
+
+        @SuppressWarnings("unchecked")
+        S s = (S) findById(entity.getQuestionId()).get();
+        return s;
+	}
+
 	private <S extends Question> S insert(S entity)
 	{
 		// @formatter:off
-		String sql = "INSERT INTO " + TABLE_NAME + "(questionId)" + "  VALUES(?)";
+		String sql = "INSERT INTO " + TABLE_NAME + "(questionId,userId,roundId)" 
+		+ "  VALUES(?, ?, ?)";
 
 		try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setLong(1, entity.getQuestionId());
+			pstmt.setLong(2, entity.getUserId());
+			pstmt.setLong(3, entity.getRoundId());
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -179,9 +218,11 @@ public class QuestionRepository extends CrudRepositoryAdapter<Question, Long>
 	{
 		// fetch each parameter from the query-result...
 		Long foundID = rs.getLong("questionId");
+		Long userId = rs.getLong("userId");
+		Long roundId = rs.getLong("roundId");
 
 		// ... and build a new Question
-		return new Question(foundID);
+		return new Question(foundID, userId, roundId);
 	}
 
 }

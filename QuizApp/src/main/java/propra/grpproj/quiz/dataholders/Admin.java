@@ -11,18 +11,22 @@ public class Admin
 	 */
 	private Long adminId;
 	
-	// FK private Long userId;
+	/**
+	 * Foreign key for linking the tables
+	 */
+	private Long userId;
 
-	public Admin(Long adminId)
+	public Admin(Long adminId, Long userId)
 	{
 		super();
 		this.adminId = adminId;
+		this.userId = userId;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "Admin [adminId=" + adminId + "]";
+		return "Admin [adminId=" + adminId + ", userId=" + userId + "]";
 	}
 
 	@Override
@@ -55,6 +59,11 @@ public class Admin
 	public Long getAdminId()
 	{
 		return adminId;
+	}
+
+	public Long getUserId()
+	{
+		return userId;
 	}	
 	
 }

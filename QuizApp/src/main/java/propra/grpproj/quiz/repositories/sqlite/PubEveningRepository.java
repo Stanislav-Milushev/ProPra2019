@@ -23,7 +23,7 @@ public class PubEveningRepository extends CrudRepositoryAdapter<PubEvening, Long
     /**
      * The SQL query to create this table
      */
-    private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (pubEveningId INTEGER PRIMARY KEY, timeForAnswering INTEGER, "
+    private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (pubEveningId INTEGER PRIMARY KEY, timeForAnswering INTEGER, pubId INTEGER, "
     		+ "FOREIGN KEY(pubId) REFERENCES pub (pubId))";
 
 	@Override
@@ -167,8 +167,8 @@ public class PubEveningRepository extends CrudRepositoryAdapter<PubEvening, Long
 	private <S extends PubEvening> S insert(S entity)
 	{
         // @formatter:off
-        String sql =   "INSERT INTO " + TABLE_NAME + "(pubEveningId,timeForAnswering)"
-                     + "  VALUES(?, ?)"
+        String sql =   "INSERT INTO " + TABLE_NAME + "(pubEveningId,timeForAnswering,pubId)"
+                     + "  VALUES(?, ?, ?)"
                      ;
 
         try (
@@ -177,7 +177,8 @@ public class PubEveningRepository extends CrudRepositoryAdapter<PubEvening, Long
             )
         {
             pstmt.setLong(1, entity.getPubEveningId());
-            pstmt.setInt(2, entity.getTimeForAnswering());
+            pstmt.setLong(2, entity.getPubId());
+            pstmt.setInt(3, entity.getTimeForAnswering());
             
             pstmt.executeUpdate();
         } catch (SQLException e)
@@ -195,7 +196,7 @@ public class PubEveningRepository extends CrudRepositoryAdapter<PubEvening, Long
 	{
 	     // @formatter:off
         String sql =   "UPDATE " + TABLE_NAME
-                     + "  SET timeForAnswering=?"
+                     + "  SET timeForAnswering=?,pubId=?"
                      + "  WHERE pubEveningId=?"
                      ;
 
@@ -205,7 +206,8 @@ public class PubEveningRepository extends CrudRepositoryAdapter<PubEvening, Long
             )
         {
             pstmt.setInt(1, entity.getTimeForAnswering());
-            pstmt.setLong(2, entity.getPubEveningId());
+            pstmt.setLong(2, entity.getPubId());
+            pstmt.setLong(3, entity.getPubEveningId());
 
             pstmt.executeUpdate();
         } catch (SQLException e)
@@ -224,9 +226,10 @@ public class PubEveningRepository extends CrudRepositoryAdapter<PubEvening, Long
         // fetch each parameter from the query-result...
         Long foundID = rs.getLong("pubEveningId");
         int timeForAnswering = rs.getInt("timeForAnswering");
+        Long pubId = rs.getLong("pubId");
         
         // ... and build a new Pub-Evening
-        return new PubEvening(foundID, timeForAnswering);
+        return new PubEvening(foundID, timeForAnswering, pubId);
 	}
 
 }

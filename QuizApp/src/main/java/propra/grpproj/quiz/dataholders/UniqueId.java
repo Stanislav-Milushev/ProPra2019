@@ -13,20 +13,26 @@ public class UniqueId
 	private Long uniqueId;
 
 	private String code;
-	// FK private Long pubEveningId;
-	// FK private Long userId;
+	
+	/**
+	 * Foreign key for linking the tables
+	 */
+	private Long pubEveningId;
+	private Long userId;
 
-	public UniqueId(Long uniqueId, String code)
+	public UniqueId(Long uniqueId, String code, Long pubEveningId, Long userId)
 	{
 		super();
 		this.uniqueId = uniqueId;
 		this.code = code;
+		this.pubEveningId = pubEveningId;
+		this.userId = userId;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "UniqueId [uniqueId=" + uniqueId + ", code=" + code + "]";
+		return "UniqueId [uniqueId=" + uniqueId + ", code=" + code + ", pubEveningId=" + pubEveningId + ", userId=" + userId + "]";
 	}
 
 	@Override
@@ -75,6 +81,16 @@ public class UniqueId
 	public void setCode(String code)
 	{
 		this.code = code;
+	}
+
+	public Long getPubEveningId()
+	{
+		return pubEveningId;
+	}
+
+	public Long getUserId()
+	{
+		return userId;
 	}
 
 }

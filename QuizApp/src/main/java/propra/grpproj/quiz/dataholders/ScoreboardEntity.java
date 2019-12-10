@@ -12,23 +12,31 @@ public class ScoreboardEntity
 	 * Primary key for persistence-technology management
 	 */
 	private Long scoreboardEntityId;
-	// FK private Long pubEveningId;
-	// FK private Long userId;
+	
+	/**
+	 * Foreign key for linking the tables
+	 */
+	private Long pubEveningId;
+	private Long userId;
+	
 	private String username;
 	private int score;
 
-	public ScoreboardEntity(Long id, String username, int score)
+	public ScoreboardEntity(Long id, String username, int score, Long userId, Long pubEveningId)
 	{
 		super();
 		this.scoreboardEntityId = id;
 		this.username = username;
 		this.score = score;
+		this.userId = userId;
+		this.pubEveningId = pubEveningId;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "ScoreboardEntry [id=" + scoreboardEntityId + ", username=" + username + ", score=" + score + "]";
+		return "ScoreboardEntry [id=" + scoreboardEntityId + ", username=" + username + ", score=" + score + ", userId="
+				+ userId + ", pubEveningId=" + pubEveningId + "]";
 	}
 
 	@Override
@@ -81,5 +89,15 @@ public class ScoreboardEntity
 	public void setScore(int score)
 	{
 		this.score = score;
+	}
+
+	public Long getUserId()
+	{
+		return userId;
+	}
+
+	public Long getPubEveningId()
+	{
+		return pubEveningId;
 	}
 }

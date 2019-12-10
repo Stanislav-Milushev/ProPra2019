@@ -18,12 +18,12 @@ public class AdminRepository extends CrudRepositoryAdapter<Admin, Long>
 	/**
 	 * The table name managed by this repository
 	 */
-	private static final String TABLE_NAME = "scoreboard";
+	private static final String TABLE_NAME = "admin";
 
 	/**
 	 * The SQL query to create this table
 	 */
-	private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (adminId INTEGER PRIMARY KEY, "
+	private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (adminId INTEGER PRIMARY KEY, userId INTEGER "
 			+ "FOREIGN KEY(userId) REFERENCES user (userId)) ";
 
 	@Override
@@ -45,6 +45,43 @@ public class AdminRepository extends CrudRepositoryAdapter<Admin, Long>
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	
+
+	@Override
+	public long count()
+	{
+        int returnValue = 0;
+
+        String sql = "SELECT * FROM " + TABLE_NAME;
+
+        // @formatter:off
+          try (
+                  Connection conn = connect();
+                  Statement statement = conn.createStatement();
+              )
+        // @formatter:on
+        {
+            try (ResultSet rs = statement.executeQuery(sql);)
+            {
+                while (rs.next())
+                {
+                    ++returnValue;
+                }
+            }
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        return returnValue;
+	}
+
+	@Override
+	public boolean existsById(Long adminId)
+	{
+		 return findById(adminId).isPresent();
 	}
 
 	@Override
@@ -134,8 +171,8 @@ public class AdminRepository extends CrudRepositoryAdapter<Admin, Long>
 	private <S extends Admin> S insert(S entity)
 	{
         // @formatter:off
-        String sql =   "INSERT INTO " + TABLE_NAME + "(adminId)"
-                     + "  VALUES(?)"
+        String sql =   "INSERT INTO " + TABLE_NAME + "(adminId,userId)"
+                     + "  VALUES(?, ?)"
                      ;
 
         try (
@@ -144,6 +181,7 @@ public class AdminRepository extends CrudRepositoryAdapter<Admin, Long>
             )
         {
             pstmt.setLong(1, entity.getAdminId());
+            pstmt.setLong(2, entity.getUserId());
             
             pstmt.executeUpdate();
         } catch (SQLException e)
@@ -161,8 +199,9 @@ public class AdminRepository extends CrudRepositoryAdapter<Admin, Long>
 	{
 		// fetch each parameter from the query-result...
 		Long foundID = rs.getLong("adminId");
+		Long userId = rs.getLong("userId");
 
 		// ... and build a new Admin
-		return new Admin(foundID);
+		return new Admin(foundID, userId);
 	}
 }

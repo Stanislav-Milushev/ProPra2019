@@ -3,12 +3,13 @@ package propra.grpproj.quiz;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import TEMP_TESTING_CODE.ScoreboardRepositoryDemo;
-import propra.grpproj.gui.GuiAdmin;
+import TEMP_TESTING_CODE.RepositoryDemo;
 import propra.grpproj.quiz.dataholders.ScoreboardEntity;
+import propra.grpproj.quiz.dataholders.User;
 import propra.grpproj.quiz.repositories.CrudRepository;
 import propra.grpproj.quiz.repositories.sqlite.ScoreboardRepository;
 import propra.grpproj.quiz.repositories.sqlite.SqliteCoreUtilities;
+import propra.grpproj.quiz.repositories.sqlite.UserRepository;
 import propra.grpproj.quiz.services.ScoreboardService;
 
 /**
@@ -32,6 +33,8 @@ public class App
             SqliteCoreUtilities.initializeDrive();
             SqliteCoreUtilities.initializeDatabase();
 
+            
+            
             /*
              * TODO setup up with dependency injection...
              */
@@ -39,13 +42,11 @@ public class App
             LOG.info("Create services...");
 
             CrudRepository<ScoreboardEntity, Long> scoreboardRepository = new ScoreboardRepository();
-            ScoreboardService scoreboardService = new ScoreboardService(scoreboardRepository);
+//            ScoreboardService scoreboardService = new ScoreboardService(scoreboardRepository);
 
-            // CrudRepository<User, Long> userRepository = new UserRepository();
-//            UserService userService = new UserService(
-//                    scoreboardService /* please insert the UserRepository as type: CrudRepository<User, Long> */ );
+            CrudRepository<User, Long> userRepository = new UserRepository();
 
-            ScoreboardRepositoryDemo.cleanExistingTableAndCreateNewDummyData();
+            RepositoryDemo.cleanExistingTableAndCreateNewDummyData();
 
             /*
              * TODO setup up and show GUI...

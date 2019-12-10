@@ -23,7 +23,8 @@ public class UniqueIdRepository extends CrudRepositoryAdapter<UniqueId, Long>
     /**
      * The SQL query to create this table
      */
-    private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (uniqueId INTEGER PRIMARY KEY, code STRING, "
+    private static final String SQL_TO_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (uniqueId INTEGER PRIMARY KEY, code STRING,"
+    		+ " userId INTEGER, pubEveningId INTEGER"
     		+ "FOREIGN KEY(userId) REFERENCES user (userId), "
     		+ "FOREIGN KEY(pubEveningId) REFERENCES pubEvening (pubEveningId))";
 
@@ -198,8 +199,8 @@ public class UniqueIdRepository extends CrudRepositoryAdapter<UniqueId, Long>
 	private <S extends UniqueId> S insert(S entity)
 	{
         // @formatter:off
-        String sql =   "INSERT INTO " + TABLE_NAME + "(uniqueId,code)"
-                     + "  VALUES(?, ?)"
+        String sql =   "INSERT INTO " + TABLE_NAME + "(uniqueId,code,userId,pubEveningId)"
+                     + "  VALUES(?, ?, ?, ?)"
                      ;
 
         try (
@@ -209,6 +210,8 @@ public class UniqueIdRepository extends CrudRepositoryAdapter<UniqueId, Long>
         {
             pstmt.setLong(1, entity.getUniqueId());
             pstmt.setString(2, entity.getCode());
+            pstmt.setLong(3, entity.getUserId());
+            pstmt.setLong(4, entity.getPubEveningId());
             
             pstmt.executeUpdate();
         } catch (SQLException e)
@@ -226,7 +229,7 @@ public class UniqueIdRepository extends CrudRepositoryAdapter<UniqueId, Long>
 	{
 	     // @formatter:off
         String sql =   "UPDATE " + TABLE_NAME
-                     + "  SET code=?"
+                     + "  SET code=?,userId=?,pubEveningId=?"
                      + "  WHERE uniqueId=?"
                      ;
 
@@ -236,7 +239,9 @@ public class UniqueIdRepository extends CrudRepositoryAdapter<UniqueId, Long>
             )
         {
             pstmt.setString(1, entity.getCode());
-            pstmt.setLong(2, entity.getUniqueId());
+            pstmt.setLong(2, entity.getUserId());
+            pstmt.setLong(3, entity.getPubEveningId());
+            pstmt.setLong(4, entity.getUniqueId());
 
             pstmt.executeUpdate();
         } catch (SQLException e)
@@ -255,9 +260,11 @@ public class UniqueIdRepository extends CrudRepositoryAdapter<UniqueId, Long>
         // fetch each parameter from the query-result...
         Long foundID = rs.getLong("uniqueId");
         String code = rs.getString("code");
+        Long userId = rs.getLong("userId");
+        Long pubEveningId = rs.getLong("pubEveningId");
 
-        // ... and build a new ScoreboardEntry
-        return new UniqueId(foundID, code);
+        // ... and build a new UniqueId-Entry
+        return new UniqueId(foundID, code, userId, pubEveningId);
 	}
     
 }
