@@ -4,6 +4,8 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
+import propra.grpproj.quiz.SocketDataObjects.*;
+
 
 
 ////////////////////////////////////////////////////////////////////////////
@@ -28,11 +30,24 @@ public class UserHandling
 		
 		boolean success_reg = false;
 		
+		String usertype;
+		
 		db.connection();
+		
+		usertype = db.getUserType(email);
 		
 		success_reg = db.registerUser(username, email, passwd);
 		
 		db.closeconnection();
+		
+		if ( success_reg == true ) {
+			
+			user_login(email,passwd,usertype);
+			
+		} else {
+			
+			// Send Message to GUI: Failed to register the User
+		}
 		
 		// Send success to GUI back
 		
@@ -42,7 +57,7 @@ public class UserHandling
 
 	// Method to log a user in the quiz system
 	// Calls the function inside the DatabaseManager
-	public void user_login(String email, String passwd) throws SQLException 
+	public void user_login(String email, String passwd, String usertype) throws SQLException 
 	{
 		
 		DatabaseManager db = new DatabaseManager();

@@ -190,8 +190,9 @@ public class SocketServer implements Runnable{
         		String email = lin.getUserName();
         		String passwd = lin.getPassword();
         		UserType type = lin.getType();
+        		String usertype = type.name();
         		UserHandling login = new UserHandling();
-        		login.user_login(email, passwd);
+        		login.user_login(email, passwd,usertype);
         	}
         	if(o instanceof Pub) {
         		Pub pub = (Pub)o;

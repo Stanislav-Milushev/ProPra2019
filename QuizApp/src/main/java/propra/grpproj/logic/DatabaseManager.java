@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 import propra.grpproj.quiz.dataholders.Pub;
 import propra.grpproj.quiz.repositories.sqlite.*;
+import propra.grpproj.quiz.SocketDataObjects.*;
 
 
 ////////////////////////////////////////////////////////////////////////////
@@ -418,6 +419,25 @@ public class DatabaseManager {
 			}
 			
 			return pubID;
+		}
+		
+		public String getUserType (String email) throws SQLException {
+			
+			String user = "";
+			
+			String query = "Select usertype from user Where email =" + email;
+			
+			Statement stmt = connection.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			for (;rs.next();) {
+				
+				user = rs.getString(0);
+			}
+			
+			return user;
+			
 		}
 	
 }
