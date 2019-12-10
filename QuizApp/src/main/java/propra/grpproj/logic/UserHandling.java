@@ -19,7 +19,7 @@ public class UserHandling
 	
 	/**
 	 * Method to register a user in the database
-	 * Calls the function in the DatabaseManager
+	 * Calls the function user_register in the DatabaseManager
 	 * 
 	 */ 
 	public void user_register(String username, String email, String passwd, UserType usertype) throws SQLException 
@@ -41,7 +41,7 @@ public class UserHandling
 			
 		} else {
 			
-			// Send Message to GUI: Failed to register the User
+			// Cannot register the user
 		}
 		
 		// Send success to GUI back
@@ -73,6 +73,7 @@ public class UserHandling
 		db.closeconnection();
 		
 		aus.userLogin(email);
+		
 		
 		// Switch case for usertype
 		

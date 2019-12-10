@@ -20,18 +20,25 @@ import propra.grpproj.quiz.SocketDataObjects.*;
 
 public class SocketServer implements Runnable{
 	private static SocketServer instance = null;
+	
     private static final Logger LOG = LoggerFactory.getLogger(SocketServer.class);
+    
     private ExecutorService executor = null;
     private int port;
+    
     private ServerSocket server = null;
     
-    HashMap<String, Socket> nameToSocket = new HashMap<String, Socket>();
-    HashMap<Socket, String> socketToName = new HashMap<Socket, String>();
+    HashMap<String, User> nameToSocket = new HashMap<String, User>();
     
     private SocketServer(int port){
         this.port = port;
     }
     
+    /**
+     * Starts the server on its own thread
+     * @param port
+     * @author Yannick
+     */
     public static void start(int port) {
     	if(instance == null) {
     		instance = new SocketServer(port);
@@ -45,7 +52,7 @@ public class SocketServer implements Runnable{
     }
     
     /**
-     * 
+     * Sends a given object to a specified user
      * @param o SocketDataObject that is sent to the client
      * @param username Name of the client
      * @author Yannick
@@ -53,10 +60,9 @@ public class SocketServer implements Runnable{
     public void sendObject(Object o, String username) {
     	if(nameToSocket.containsKey(username)) {
     		try {
-				ObjectOutputStream oos = new ObjectOutputStream(nameToSocket.get(username).getOutputStream());
-				oos.writeObject(o);
+				nameToSocket.get(username).oos.writeObject(o);
+				nameToSocket.get(username).oos.flush();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}    		
     	}
@@ -72,7 +78,6 @@ public class SocketServer implements Runnable{
         		 LOG.info("Server started");
 				server = new ServerSocket(port);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         }
@@ -83,7 +88,7 @@ public class SocketServer implements Runnable{
 
             LOG.info("Client accepted");
 
-            ClientConnection s = new ClientConnection(socket);
+            ClientConnection s = new ClientConnection(socket); //Create thread for client
             executor.submit(s);
         } catch (IOException i) {
             System.out.println(i);
@@ -91,67 +96,78 @@ public class SocketServer implements Runnable{
         }
         run();
     }
-
+    
     /**
-     * 
-     * @param s socket to be removed from the maps
+     * Holds streams
      * @author Yannick
+     *
      */
-    private void removeSocket(Socket s){
-    	nameToSocket.remove(socketToName.get(s));
-        socketToName.remove(s);        
+    class User{
+    	Socket socket;
+    	ObjectOutputStream oos;
+    	ObjectInputStream ois;
     }
 
     /**
-     * 
-     * @author Yannick
      * Represents a connection from the server to a client
      * Listens for data from the client
+     * @author Yannick
      */
     class ClientConnection implements Runnable{
-        private Socket s;
+        private User user;
+        private String username;
         
         public ClientConnection(Socket socket) {
-			s = socket;
+			user = new User();
+			user.socket = socket;
 		}
+        
         @Override
         public void run() {
-        	ObjectInputStream data = null;
-        	ObjectOutputStream dataout = null;
-
-            try {
-                dataout = new ObjectOutputStream(s.getOutputStream());
-            	data = new ObjectInputStream(s.getInputStream());
+            try {//Create streams
+                user.oos = new ObjectOutputStream(user.socket.getOutputStream());
+            	user.ois = new ObjectInputStream(user.socket.getInputStream());
             } catch (IOException e) {
                 e.printStackTrace();
             }
             
-            Object recieve = null;
+            Object recieve = null; //Listen for client
             do {
             	try {
-					recieve = data.readObject();
-					recieveObject(recieve);
-				} catch (ClassNotFoundException | IOException e) {
+					recieve = user.ois.readObject();
+					
+		        	if(recieve instanceof CreateConnection) {
+		        		CreateConnection c = (CreateConnection) recieve;
+		        		username = c.getUserName();
+		        		
+		        		while(nameToSocket.containsKey(username)) {
+		        			username = username + "#";
+		        		}
+		        		
+		        		nameToSocket.put(username, user);
+		        	} else {
+		        		recieveObject(recieve);
+		        	}
+				
+				} catch (ClassNotFoundException | IOException | SQLException e) {
 					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				} 
             } while(!(recieve instanceof TerminateConnection));
             
-            LOG.info("Closing connection to" + socketToName.get(s));
+            LOG.info("Closing connection");
             
             // close connection
             try {
-                s.close();
-                data.close();
-                dataout.close();
+            	user.oos.close();
+            	user.ois.close();
+            	user.socket.close();
                 LOG.info("Closing connection to client");
             } catch (IOException e) {
                 e.printStackTrace();
                 LOG.error("Failed to close connection to client");
             }
-            removeSocket(s);
+            
+            nameToSocket.remove(username);
         }
         
         /**
@@ -161,12 +177,6 @@ public class SocketServer implements Runnable{
          * @throws SQLException 
          */
         private void recieveObject(Object o) throws SQLException {
-        	if(o instanceof CreateConnection) {
-        		CreateConnection c = (CreateConnection) o;
-        		String name = c.getUserName();
-        		nameToSocket.put(name, s);
-        		socketToName.put(s, name);
-        	}
         	if(o instanceof AcceptPub) {
         		AcceptPub acp = (AcceptPub) o;
         		String name = acp.getName();
