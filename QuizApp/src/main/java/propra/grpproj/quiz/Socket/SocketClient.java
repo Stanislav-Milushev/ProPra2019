@@ -25,6 +25,9 @@ import propra.grpproj.quiz.SocketDataObjects.TerminateConnection;
 
 public class SocketClient implements Runnable{
 	private Socket socket;
+	private ObjectOutputStream oos;
+	private ObjectInputStream ois;
+	
 	private boolean terminateConnection = false;
 	private static final Logger LOG = LoggerFactory.getLogger(SocketClient.class);
 	 
@@ -46,13 +49,11 @@ public class SocketClient implements Runnable{
 	
 	@Override
 	public void run() {
-		ObjectInputStream input = null;
-		ObjectOutputStream output = null;
 		try {
-			output = new ObjectOutputStream(socket.getOutputStream());
-			input = new ObjectInputStream(socket.getInputStream());
-		} catch (IOException e1) {
-			e1.printStackTrace();
+			oos = new ObjectOutputStream(socket.getOutputStream());
+			ois = new ObjectInputStream(socket.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
 			LOG.error("failed to open streams to server");
 		}		
 		
@@ -60,17 +61,16 @@ public class SocketClient implements Runnable{
         
         do {
         	try {
-				recieve = input.readObject();
+				recieve = ois.readObject();
 				recieveObject(recieve);
 			} catch (ClassNotFoundException | IOException e) {
 				e.printStackTrace();
 			}
         } while(!(recieve instanceof TerminateConnection) && !terminateConnection);
-        // close the connection
 
         try {
-            input.close();
-            output.close();
+            oos.close();
+            ois.close();
             socket.close();
 			LOG.info("Closed connection");
         } catch (IOException i) {
@@ -85,15 +85,9 @@ public class SocketClient implements Runnable{
 	 * @author Yannick
 	 */
 	public void sendObject(Object o) {
-		ObjectOutputStream output = null;;
 		try {
-			output = new ObjectOutputStream(socket.getOutputStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-			LOG.error("Failed to open outputstream");
-		}
-		try {
-			output.writeObject(o);
+			oos.writeObject(o);
+			oos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 			LOG.error("Failed to send object to server");

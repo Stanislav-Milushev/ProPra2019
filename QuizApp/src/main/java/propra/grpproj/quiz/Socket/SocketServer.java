@@ -20,13 +20,15 @@ import propra.grpproj.quiz.SocketDataObjects.*;
 
 public class SocketServer implements Runnable{
 	private static SocketServer instance = null;
+	
     private static final Logger LOG = LoggerFactory.getLogger(SocketServer.class);
+    
     private ExecutorService executor = null;
     private int port;
+    
     private ServerSocket server = null;
     
-    HashMap<String, Socket> nameToSocket = new HashMap<String, Socket>();
-    HashMap<Socket, String> socketToName = new HashMap<Socket, String>();
+    HashMap<String, User> nameToSocket = new HashMap<String, User>();
     
     private SocketServer(int port){
         this.port = port;
@@ -53,8 +55,8 @@ public class SocketServer implements Runnable{
     public void sendObject(Object o, String username) {
     	if(nameToSocket.containsKey(username)) {
     		try {
-				ObjectOutputStream oos = new ObjectOutputStream(nameToSocket.get(username).getOutputStream());
-				oos.writeObject(o);
+				nameToSocket.get(username).oos.writeObject(o);
+				nameToSocket.get(username).oos.flush();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -72,7 +74,6 @@ public class SocketServer implements Runnable{
         		 LOG.info("Server started");
 				server = new ServerSocket(port);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         }
@@ -94,34 +95,30 @@ public class SocketServer implements Runnable{
 
     /**
      * 
-     * @param s socket to be removed from the maps
-     * @author Yannick
-     */
-    private void removeSocket(Socket s){
-    	nameToSocket.remove(socketToName.get(s));
-        socketToName.remove(s);        
-    }
-
-    /**
-     * 
      * @author Yannick
      * Represents a connection from the server to a client
      * Listens for data from the client
      */
+    class User{
+    	Socket socket;
+    	ObjectOutputStream oos;
+    	ObjectInputStream ois;
+    }
+    
     class ClientConnection implements Runnable{
-        private Socket s;
+        private User user;
+        private String username;
         
         public ClientConnection(Socket socket) {
-			s = socket;
+			user = new User();
+			user.socket = socket;
 		}
+        
         @Override
         public void run() {
-        	ObjectInputStream data = null;
-        	ObjectOutputStream dataout = null;
-
             try {
-                dataout = new ObjectOutputStream(s.getOutputStream());
-            	data = new ObjectInputStream(s.getInputStream());
+                user.oos = new ObjectOutputStream(user.socket.getOutputStream());
+            	user.ois = new ObjectInputStream(user.socket.getInputStream());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -129,29 +126,42 @@ public class SocketServer implements Runnable{
             Object recieve = null;
             do {
             	try {
-					recieve = data.readObject();
-					recieveObject(recieve);
+					recieve = user.ois.readObject();
+					
+		        	if(recieve instanceof CreateConnection) {
+		        		CreateConnection c = (CreateConnection) recieve;
+		        		username = c.getUserName();
+		        		
+		        		while(nameToSocket.containsKey(username)) {
+		        			username = username + "#";
+		        		}
+		        		
+		        		nameToSocket.put(username, user);
+		        	} else {
+		        		recieveObject(recieve);
+		        	}
+				
 				} catch (ClassNotFoundException | IOException e) {
 					e.printStackTrace();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
             } while(!(recieve instanceof TerminateConnection));
             
-            LOG.info("Closing connection to" + socketToName.get(s));
+            LOG.info("Closing connection");
             
             // close connection
             try {
-                s.close();
-                data.close();
-                dataout.close();
+            	user.oos.close();
+            	user.ois.close();
+            	user.socket.close();
                 LOG.info("Closing connection to client");
             } catch (IOException e) {
                 e.printStackTrace();
                 LOG.error("Failed to close connection to client");
             }
-            removeSocket(s);
+            
+            nameToSocket.remove(username);
         }
         
         /**
@@ -161,12 +171,6 @@ public class SocketServer implements Runnable{
          * @throws SQLException 
          */
         private void recieveObject(Object o) throws SQLException {
-        	if(o instanceof CreateConnection) {
-        		CreateConnection c = (CreateConnection) o;
-        		String name = c.getUserName();
-        		nameToSocket.put(name, s);
-        		socketToName.put(s, name);
-        	}
         	if(o instanceof AcceptPub) {
         		AcceptPub acp = (AcceptPub) o;
         		String name = acp.getName();
