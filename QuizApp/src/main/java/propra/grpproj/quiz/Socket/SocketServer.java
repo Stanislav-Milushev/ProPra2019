@@ -139,11 +139,6 @@ public class SocketServer implements Runnable{
 		        	if(recieve instanceof CreateConnection) {
 		        		CreateConnection c = (CreateConnection) recieve;
 		        		username = c.getUserName();
-		        		
-		        		while(nameToSocket.containsKey(username)) {
-		        			username = username + "#";
-		        		}
-		        		
 		        		nameToSocket.put(username, user);
 		        	} else {
 		        		recieveObject(recieve);
