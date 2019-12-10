@@ -1,11 +1,13 @@
 package propra.grpproj.gui; 
 
 
+
 import propra.grpproj.quiz.Socket.SocketClient;
 import propra.grpproj.quiz.SocketDataObjects.Pub;
 import propra.grpproj.quiz.SocketDataObjects.PubList;
 import propra.grpproj.quiz.SocketDataObjects.Question;
 import propra.grpproj.quiz.SocketDataObjects.QuestionList;
+
 
 import java.awt.EventQueue;
 import javax.imageio.ImageIO;
@@ -48,9 +50,11 @@ public class GuiAdmin {
 	private JTable tablePubs, tableQuestions;
 	private JTextField tfQAQuestion, tfQACorrectAnswer, tfQAWrongAnswer1, tfQAWrongAnswer2, tfQAWrongAnswer3, tfQAExplanation;
 	private JTextField tfQEQuestion, tfQECorrectAnswer, tfQEWrongAnswer1, tfQEWrongAnswer2, tfQEWrongAnswer3, tfQEExplanation;
-	private JTextField tfPEPubName, tfPEUserID, tfPEAddress;
+	private JTextField tfPEPubName, tfPEUserID, tfPEUserName, tfPEAddress;
 	private JComboBox<String> cbPEUnblocking, cbQACorrectAnswer, cbQECorrectAnswer;
-	private JComboBox<Long> cbPEPubID, cbQEQuestionID;
+	private JComboBox<Integer> cbPEPubID, cbQEQuestionID;
+	private ArrayList<Pub> pList;
+	private ArrayList<Question> qList;
 	
 	private static SocketClient c;
 
@@ -77,17 +81,19 @@ public class GuiAdmin {
 		c = new SocketClient(ip, port);
 		Thread clientConnection = new Thread(c);
 		clientConnection.start();
-		/*
-		//TestAnfrage
-		client.sendObject(new PubList());
-		*/
+		
+		
 	}
 
 	/**
 	 * Create the application.
 	 */
 	public GuiAdmin() {
-		
+	
+		ArrayList<Pub> pList = new ArrayList<Pub>();
+		ArrayList<Question> qList = new ArrayList<Question>();
+		getPubListRequest();
+		getQuestionListRequest();
 
 	/**
 	 * Initialize the contents of the frame.
@@ -211,7 +217,6 @@ public class GuiAdmin {
 		tablePubs.setShowVerticalLines(false);
 		tablePubs.setColumnSelectionAllowed(true);
 		tablePubs.setAutoCreateRowSorter(true);
-		loadPubList();
 		
 		JScrollPane scrollPanePubs = new JScrollPane(tablePubs);
 		GridBagConstraints gbc_scrollPanePubs = new GridBagConstraints();
@@ -424,9 +429,11 @@ public class GuiAdmin {
 				String wA1 = tfQAWrongAnswer1.getText();
 				String wA2 = tfQAWrongAnswer2.getText();
 				String wA3 = tfQAWrongAnswer3.getText();
+				String[] answers = {cA, wA1, wA2, wA3};
 				String ex = tfQAExplanation.getText();
 				
-				addQuestion(qT, cA, wA1, wA2, wA3, ex);
+				
+				addQuestion(qT, answers, ex);
 				
 				tfQAQuestion.setText("");
 				tfQACorrectAnswer.setText("");
@@ -589,11 +596,11 @@ public class GuiAdmin {
 		cbQEID.setSelectedIndex(-1);
 		cbQEID.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Long qID = (Long) cbQEID.getSelectedItem();
-				/*
+				int qID = (int) cbQEID.getSelectedItem();
+				
 				Question q = getQuestion(qID);
 				fillFieldsQE(q);
-				*/
+				
 								
 				tfQEQuestion.setEditable(true);
 				tfQECorrectAnswer.setEditable(true);
@@ -614,7 +621,7 @@ public class GuiAdmin {
 		JButton bQEDelete = new JButton("Frage löschen");
 		bQEDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Long questionID = (Long) cbQEQuestionID.getSelectedItem();
+				int questionID = (int) cbQEQuestionID.getSelectedItem();
 				deleteQuestion(questionID);
 				
 				tfQAQuestion.setText("");
@@ -638,15 +645,16 @@ public class GuiAdmin {
 		JButton bQuestionSave = new JButton("Speichern");
 		bQuestionSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Long qID = (Long) cbQEQuestionID.getSelectedItem();
+				int qID = (int) cbQEQuestionID.getSelectedItem();
 				String q = tfQEQuestion.getText();
 				String cA = tfQECorrectAnswer.getText();
 				String wA1 = tfQEWrongAnswer1.getText();
 				String wA2 = tfQEWrongAnswer2.getText();
 				String wA3 = tfQEWrongAnswer3.getText();
 				String ex = tfQEExplanation.getText();
-				
-				changeQuestion(qID, q, cA, wA1, wA2, wA3, ex);
+				String[] answers = {cA, wA1, wA2, wA3};
+								
+				changeQuestion(qID, q, answers, ex);
 				
 				cbQEQuestionID.setSelectedIndex(-1);
 				tfQAQuestion.setText("");
@@ -716,15 +724,14 @@ public class GuiAdmin {
 		gbc_lblPEPubID.gridy = 1;
 		pPubEdit.add(lblPEPubID, gbc_lblPEPubID);
 		
-		JComboBox<Long> cbPEPubID = new JComboBox<Long>();
+		JComboBox<Integer> cbPEPubID = new JComboBox<Integer>();
 		cbPEPubID.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Long pubID = (Long) cbPEPubID.getSelectedItem();
+				int pubID = (int) cbPEPubID.getSelectedItem();
 				
-				/*
 				Pub p = getPub(pubID);
 				fillFieldsPE(p);	
-				*/			
+		
 			}
 		});
 		GridBagConstraints gbc_cbPEPubID = new GridBagConstraints();
@@ -758,13 +765,31 @@ public class GuiAdmin {
 		gbc_lblPEUserID.gridy = 4;
 		pPubEdit.add(lblPEUserID, gbc_lblPEUserID);
 		
+		tfPEUserName = new JTextField();
+		tfPEUserName.setEditable(false);
+		GridBagConstraints gbc_tfPEUserName = new GridBagConstraints();
+		gbc_tfPEUserName.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPEUserName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfPEUserName.gridx = 1;
+		gbc_tfPEUserName.gridy = 4;
+		pPubEdit.add(tfPEUserName, gbc_tfPEUserName);
+		tfPEUserID.setColumns(10);
+		
+		JLabel lblPEUserName = new JLabel("Benutzer-ID");
+		GridBagConstraints gbc_lblPEUserName = new GridBagConstraints();
+		gbc_lblPEUserName.anchor = GridBagConstraints.WEST;
+		gbc_lblPEUserName.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPEUserName.gridx = 0;
+		gbc_lblPEUserName.gridy = 5;
+		pPubEdit.add(lblPEUserName, gbc_lblPEUserName);
+		
 		tfPEUserID = new JTextField();
 		tfPEUserID.setEditable(false);
 		GridBagConstraints gbc_tfPEUserID = new GridBagConstraints();
 		gbc_tfPEUserID.insets = new Insets(5, 5, 5, 5);
 		gbc_tfPEUserID.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tfPEUserID.gridx = 1;
-		gbc_tfPEUserID.gridy = 4;
+		gbc_tfPEUserID.gridy = 5;
 		pPubEdit.add(tfPEUserID, gbc_tfPEUserID);
 		tfPEUserID.setColumns(10);
 		
@@ -773,7 +798,7 @@ public class GuiAdmin {
 		gbc_lblPEAddress.insets = new Insets(5, 5, 5, 5);
 		gbc_lblPEAddress.anchor = GridBagConstraints.WEST;
 		gbc_lblPEAddress.gridx = 0;
-		gbc_lblPEAddress.gridy = 5;
+		gbc_lblPEAddress.gridy = 6;
 		pPubEdit.add(lblPEAddress, gbc_lblPEAddress);
 		
 		tfPEAddress = new JTextField();
@@ -782,23 +807,24 @@ public class GuiAdmin {
 		gbc_tfPEAddress.insets = new Insets(5, 5, 5, 5);
 		gbc_tfPEAddress.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tfPEAddress.gridx = 1;
-		gbc_tfPEAddress.gridy = 5;
+		gbc_tfPEAddress.gridy = 6;
 		pPubEdit.add(tfPEAddress, gbc_tfPEAddress);
 		tfPEAddress.setColumns(10);
 		
 		JButton bPESave = new JButton("Speichern");
 		bPESave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Long pID = (Long) cbPEPubID.getSelectedItem();
+				int pID = (int) cbPEPubID.getSelectedItem();
 				String pName = tfPEPubName.getText();
 				boolean unblocking = false;
 				if (cbPEUnblocking.getSelectedIndex() == 1) {
 					unblocking = true;
 				};
-				String uID = tfPEUserID.getText();
+				int uID = Integer.parseInt(tfPEUserID.getText());
+				String uName = tfPEUserName.getText();
 				String address = tfPEAddress.getText();
 				
-				changePub();
+				changePub(pID, pName, unblocking, uID, uName, address);
 				
 				cbPEPubID.setSelectedIndex(-1);
 				cbPEUnblocking.setSelectedIndex(0);
@@ -861,7 +887,7 @@ public class GuiAdmin {
 		JButton bPubEdit = new JButton("Kneipe bearbeiten");
 		bPubEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loadPubList();
+				getPubListRequest();
 				 cardLayout1.show(pCardLayoutList, "pPubList");
 				 cardLayout2.show(pCardLayoutInput, "pPubEdit");
 			}
@@ -995,108 +1021,105 @@ public class GuiAdmin {
 	}
  
 	
-	public void getPubListRequest() {
-		ArrayList<Pub> pList = new ArrayList<Pub>();
+	public static void getPubListRequest() {
 		c.sendObject(new PubList());
 	}
 	
-	public ArrayList<Pub> getPubListFromServer(PubList list) {
-		ArrayList<Pub> pList = list.getList();
-		return pList;
-	}
-	
-	
-	public ArrayList<Question> getQuestionList() {
-		ArrayList<Question> qList = new ArrayList<Question>();
-		c.sendObject(new QuestionList());
-		return qList;		
+	public void getPubListFromServer(PubList list) {
+		pList = list.getList();
 	}
 
+	public static void getQuestionListRequest() {
+		c.sendObject(new QuestionList());
+	}
 	
-	/*
-	public Pub getPub(Long pID) {
-		PubList pList = getPubList();
-		Pub p;
+	public void getQuestionListFromServer(QuestionList list) {
+		qList = list.getList();
+	}
+
+
+	public Pub getPub(int pID) {
+		Pub p = null;										//Geht das so?
 		for (int i=0; i<pList.size(); i++) {
-			if (pList.get(i).getPID.equals(pID)) {
+			if (pList.get(i).getID() == pID) {
 				p = pList.get(i);
 			}
 		}
 		return p;
 	}
-	*/
 	
-	/*
-	public Question getQuestion(LongqID) {
-		QuestionList qList = getQuestionList();
-		Question q;
+	
+	
+	public Question getQuestion(int qID) {
+		Question q = null;									//Geht das so?
 		for (int i=0; i<qList.size(); i++) {
-			if (qList.get(i).getQID.equals(qID)) {
+			if (qList.get(i).getID() == qID) {
 				q = qList.get(i);
 			}
 		}
 		return q;
 	}
-	*/
+	
 
 	public void loadPubList() {
-		//ArrayList<Pub> pList = getPubList();
-	
+		getPubListRequest();
 		DefaultTableModel pModel = new DefaultTableModel();
 		String pHeaders[] = {
 				"KneipenID", "Kneipenname", "freigegeben", 
 				"BenutzerID", "Benutzername", "Adresse"};
 		pModel.setColumnIdentifiers(pHeaders);
 		tablePubs.setModel(pModel);
-		/*
 		for (int r = 0; r < pList.size(); r++) {
 			String unblocking = "";
-			if (pList.get(r).getUnblocking == false) {
+			if (pList.get(r).isAllowed() == false) {
 				unblocking = "nein";
 			} else {
 				unblocking = "ja";
 			}
 			pModel.addRow(new Object[] {
-					pList.get(r).getPubID,
-					pList.get(r).getPubName,
+					pList.get(r).getID(),
+					pList.get(r).getName(),
 					unblocking,
-					pList.get(r).getUserID,
-					pList.get(r).getUserName,
-					pList.get(r).getAddress
+					pList.get(r).getOwnerID(),
+					pList.get(r).getOwnerName(),
+					pList.get(r).getAdresse()
 			});
 		}
-		*/
 	}
 	
 	public void loadQuestionList() {
-		//ArrayList<Question> qList = getQuestionList();	
-		
+		getQuestionListRequest();
 		DefaultTableModel qModel = new DefaultTableModel();
 		String qHeaders[] = {
 				"Fragen-ID", "Frage", "richtige Antwort", 
-				"1. falsche Antwort", "2. falsche Antwort", "3. falsche Antwort"};
+				"1. falsche Antwort", "2. falsche Antwort", "3. falsche Antwort",
+				"Erläuterung"};
 		qModel.setColumnIdentifiers(qHeaders);
 		tableQuestions.setModel(qModel);
-		/*
 		for (int r = 0; r < qList.size(); r++) {
+			String[] answers = qList.get(r).getAnswers();
+			String cA = answers[0];
+			String wA1 = answers[1];
+			String wA2 = answers[2];
+			String wA3 = answers[3];
 			qModel.addRow(new Object[] {
-					qList.get(r).getQuestionID,
-					qList.get(r).getQuestion,
-					qList.get(r).getCorrectAnswer,
-					qList.get(r).getWrongsAnswer1,
-					qList.get(r).getWrongAnswer2,
-					qList.get(r).getWrongAnswer3
+					qList.get(r).getID(),
+					qList.get(r).getQuestion(),
+					cA,
+					wA1,
+					wA2,
+					wA3,
+					qList.get(r).getExplanation()
 			});
 		}
-		*/
 	}
 	
-	/*
+
 	 public void fillFieldsPE(Pub p){
 		 String pubName = p.getName();
 		 boolean unblocking = p.isAllowed();
-		 Long userID = p.getOwnerID();
-		 String stringUserID = Long.toString(userID);
+		 int userID = p.getOwnerID();
+		 String userName = p.getOwnerName();
 		 String address = p.getAdresse();
 		 
 		 tfPEPubName.setText(pubName);
@@ -1105,22 +1128,24 @@ public class GuiAdmin {
 		 } else {
 			 cbPEUnblocking.setSelectedIndex(0);
 		 }
-		 tfPEUserID.setText(stringUserID);
-		 tfPEAdress.setText(address);
+		 tfPEUserID.setText(Integer.toString(userID));
+		 tfPEUserName.setText(userName);
+		 tfPEAddress.setText(address);
 		 
 		 tfPEPubName.setEditable(true);
 		 tfPEUserID.setEditable(true);
-		 tfPEAdress.setEditable(true);
+		 tfPEUserName.setEditable(true);
+		 tfPEAddress.setEditable(true);
 	 }
-	 */
+	 
 	
-	/*
+	
 	public void fillFieldsQE(Question q) {
 		String qT = q.getQuestion();
-		String cA = q.getCorrectAnswer();
-		String wA1 = q.getWrongAnswer1();
-		String wA2 = q.getwrongAnswer2();
-		String wA3 = q.getWrongAnswer3();
+		String cA = q.getAnswers()[0];
+		String wA1 = q.getAnswers()[1];
+		String wA2 = q.getAnswers()[2];
+		String wA3 = q.getAnswers()[3];
 		String ex = q.getExplanation();
 		
 		tfQEQuestion.setText(qT);
@@ -1138,21 +1163,21 @@ public class GuiAdmin {
 		cbQECorrectAnswer.setEditable(true);
 		tfQEExplanation.setEditable(true);		
 	}
-	*/
+	
 	 
-	public void addQuestion(String qT, String cA, String wA1, String wA2, String wA3, String ex) {
-		//Question q = new Question(q, cA, wA1, wA2, wA3, ex);
+	public void addQuestion(String qT, String[] answers, String ex) {
+		// Question q = new Question(qT, answers, ex);					//Wie mit ID?
 	}
 	
-	public void deleteQuestion(Long questionID) {
+	public void deleteQuestion(int questionID) {
 		
 	}
 	
-	public void changeQuestion(Long qID, String qT, String cA, String wA1, String wA2, String wA3, String ex) {
+	public void changeQuestion(int qID, String qT, String[] answers, String ex) {
 		
 	}
 	
-	public void changePub() {
+	public void changePub(int pID, String pName, boolean unblocking, int userID, String userName, String address) {
 		
 	}
 	
