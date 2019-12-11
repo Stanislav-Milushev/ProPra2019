@@ -148,6 +148,7 @@ public class SocketServer implements Runnable{
 				
 				} catch (ClassNotFoundException | IOException | SQLException e) {
 					e.printStackTrace();
+					break;
 				} 
             } while(!(recieve instanceof TerminateConnection));
             
@@ -195,13 +196,15 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof Login) {
         		Login lin = (Login)o;
-        		login.user_login(lin);
+        		UserHandling user = new UserHandling();
+        		user.user_login(lin);
         	}
         	if(o instanceof Pub) {
         		Pub pub = (Pub)o;
         	}
         	if(o instanceof PubList) {
         		PubList publ = (PubList)o;
+        		PubHandling ph = new PubHandling();
         		
         	}
         	if(o instanceof Question) {
@@ -212,11 +215,7 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof RegisterPub) {
         		RegisterPub regPub = (RegisterPub)o;
-        		String name = regPub.getName();
-        		String address = regPub.getAddress();
-        		int ownerid = regPub.getOwnerID();
-        		PubHandling pb = new PubHandling();
-        		pb.registerPub(name, address, ownerid);
+        		PubHandling.registerPub(regPub, username);
         	}
         	if(o instanceof RegisterUser) {
         		RegisterUser regUser = (RegisterUser)o;
@@ -230,6 +229,7 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof RepeatPubevening) {
         		RepeatPubevening rpEvening = (RepeatPubevening)o;
+        		QuizHandling.getInstance().createQuiz(rpEvening);
         	}
         	if(o instanceof Scoreboard) {
         		Scoreboard scbd = (Scoreboard)o;
