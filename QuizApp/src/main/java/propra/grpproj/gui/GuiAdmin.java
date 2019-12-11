@@ -1038,7 +1038,7 @@ public class GuiAdmin {
  
 	
 	public static void getPubListRequest() {
-		c.sendObject(new PubList());
+		//c.sendObject(new PubList());
 	}
 	
 	public void getPubListFromServer(PubList list) {
