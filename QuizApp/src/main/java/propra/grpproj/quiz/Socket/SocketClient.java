@@ -127,7 +127,7 @@ public class SocketClient implements Runnable{
     		PubList publ = (PubList)o;
     		GuiAdmin.getInstance().getPubListFromServer(publ);
     	}
-    	if(o instanceof Question) {
+    	if(o instanceof Question) { 
     		Question q = (Question)o;
     	}
     	if(o instanceof QuestionList) {
