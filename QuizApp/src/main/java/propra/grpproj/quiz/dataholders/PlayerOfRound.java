@@ -2,7 +2,10 @@ package propra.grpproj.quiz.dataholders;
 
 /**
  * This class holds the reference-association between a actual user and the
- * {@link RoundsOfEvening} where the player play a game und hat uebel gesoffen jung!
+ * {@link RoundsOfEvening} where the player play a game.
+ * 
+ * @author Daniel
+ * 
  */
 public class PlayerOfRound
 {

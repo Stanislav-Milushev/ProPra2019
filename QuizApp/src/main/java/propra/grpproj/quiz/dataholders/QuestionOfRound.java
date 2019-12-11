@@ -3,6 +3,9 @@ package propra.grpproj.quiz.dataholders;
 /**
  * A class holding the reference-association between one question and one
  * round of an evening that was asked there.
+ * 
+ * @author Daniel
+ * 
  */
 public class QuestionOfRound
 {

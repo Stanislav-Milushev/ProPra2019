@@ -3,6 +3,12 @@ package propra.grpproj.quiz.services;
 import propra.grpproj.quiz.dataholders.Question;
 import propra.grpproj.quiz.repositories.sqlite.QuestionRepository;
 
+
+/**
+ * 
+ * @author Daniel
+ *
+ */
 public class QuestionService
 {
 

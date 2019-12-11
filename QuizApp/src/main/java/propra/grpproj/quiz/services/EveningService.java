@@ -7,6 +7,12 @@ import propra.grpproj.quiz.dataholders.Pub;
 import propra.grpproj.quiz.repositories.sqlite.EveningRepository;
 import propra.grpproj.quiz.repositories.sqlite.PubRepository;
 
+
+/**
+ * 
+ * @author Daniel
+ *
+ */
 public class EveningService
 {
 

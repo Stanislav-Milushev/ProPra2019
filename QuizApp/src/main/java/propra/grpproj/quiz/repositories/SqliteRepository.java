@@ -1,5 +1,10 @@
 package propra.grpproj.quiz.repositories;
 
+/**
+ * 
+ * @author Daniel
+ *
+ */
 public interface SqliteRepository
 {
 

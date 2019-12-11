@@ -13,6 +13,11 @@ import java.util.Optional;
 import propra.grpproj.quiz.dataholders.Evening;
 import propra.grpproj.quiz.repositories.CrudRepositoryAdapter;
 
+/**
+ * 
+ * @author Daniel
+ *
+ */
 public class EveningRepository extends CrudRepositoryAdapter<Evening, Long>
 {
 

@@ -15,6 +15,11 @@ import propra.grpproj.quiz.dataholders.Pub;
 import propra.grpproj.quiz.repositories.CrudRepository;
 import propra.grpproj.quiz.repositories.CrudRepositoryAdapter;
 
+/**
+ * 
+ * @author Daniel
+ *
+ */
 public class PubRepository extends CrudRepositoryAdapter<Pub, Long>
 {
 

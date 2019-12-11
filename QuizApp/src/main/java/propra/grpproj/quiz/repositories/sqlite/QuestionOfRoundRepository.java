@@ -13,6 +13,12 @@ import java.util.Optional;
 import propra.grpproj.quiz.dataholders.QuestionOfRound;
 import propra.grpproj.quiz.repositories.CrudRepositoryAdapter;
 
+
+/**
+ * 
+ * @author Daniel
+ *
+ */
 public class QuestionOfRoundRepository extends CrudRepositoryAdapter<QuestionOfRound, Long>
 {
 

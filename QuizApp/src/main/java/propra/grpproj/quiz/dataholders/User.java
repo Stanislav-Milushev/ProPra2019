@@ -6,6 +6,8 @@ package propra.grpproj.quiz.dataholders;
  * <p>
  * A user can be referenced by {@link PlayerOfRound}.
  *
+ * @author Daniel
+ *
  */
 public class User
 {

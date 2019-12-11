@@ -1,9 +1,5 @@
 package propra.grpproj.quiz.repositories;
-/**
- * 
- * @author Daniel
- *
- */
+
 import java.util.Optional;
 
 /**
@@ -15,6 +11,9 @@ import java.util.Optional;
  *
  * @param <T> Type of the entity to be managed by this repository
  * @param <ID> Type of the id (primary key) of the managed entity
+ * 
+ * @author Daniel
+ * 
  */
 public abstract class CrudRepositoryAdapter<T, ID> implements CrudRepository<T, ID>, SqliteRepository
 {

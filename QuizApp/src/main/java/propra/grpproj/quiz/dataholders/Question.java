@@ -20,7 +20,7 @@ import com.opencsv.exceptions.CsvException;
  * <p>
  * This class is immutable.
  * 
- * @author DanielTessmann
+ * @author Daniel
  *
  */
 public class Question

@@ -22,6 +22,9 @@ import propra.grpproj.quiz.repositories.sqlite.UserRepository;
  * NOTICE: the Service layer is the only layer that must use the XxxRepository
  * classes. If a feature is missing here, please added a new function, but do
  * never use the Repositories directly!
+ * 
+ * @author Daniel
+ * 
  */
 public class PubService
 {

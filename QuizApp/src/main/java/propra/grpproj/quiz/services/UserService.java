@@ -6,6 +6,12 @@ import propra.grpproj.quiz.dataholders.User;
 import propra.grpproj.quiz.dataholders.UserType;
 import propra.grpproj.quiz.repositories.sqlite.UserRepository;
 
+
+/**
+ * 
+ * @author Daniel
+ *
+ */
 public class UserService
 {
 

@@ -13,6 +13,12 @@ import java.util.Optional;
 import propra.grpproj.quiz.dataholders.Question;
 import propra.grpproj.quiz.repositories.CrudRepositoryAdapter;
 
+
+/**
+ * 
+ * @author Daniel
+ *
+ */
 public class QuestionRepository extends CrudRepositoryAdapter<Question, Long>
 {
 

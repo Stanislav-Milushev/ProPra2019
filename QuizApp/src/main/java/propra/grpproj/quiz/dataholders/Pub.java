@@ -3,6 +3,9 @@ package propra.grpproj.quiz.dataholders;
 /**
  * This class holds the information of a pub. Basically this is the owner aka
  * barkeeper and the name of the pub.
+ * 
+ * @author Daniel
+ * 
  */
 public class Pub
 {

@@ -2,6 +2,9 @@ package propra.grpproj.quiz.dataholders;
 
 /**
  * A class holding the reference-association between one round of one evening.
+ * 
+ * @author Daniel
+ * 
  */
 public class RoundsOfEvening
 {

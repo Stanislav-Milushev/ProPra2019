@@ -7,6 +7,9 @@ package propra.grpproj.quiz.dataholders;
  * On the other hand, the class {@link RoundsOfEvening} references this class,
  * so that we are able to associate players and questions and rounds to one
  * "KneipenAbend"!
+ * 
+ * @author Daniel
+ * 
  */
 public class Evening
 {
