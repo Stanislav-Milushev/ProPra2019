@@ -17,6 +17,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import propra.grpproj.quiz.SocketDataObjects.Login;
+import propra.grpproj.quiz.SocketDataObjects.UserType;
+
 import java.awt.Color;
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
@@ -39,7 +42,7 @@ public class GuiUserLogin {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main1(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -207,20 +210,63 @@ public class GuiUserLogin {
 	}
 	
 	/**
-	 * feedback Login via PopUp
+	 * Login and usertype check
 	 */
 	
-	public void feedbackLogin() {
-		
+	public void Login_Return(Login login) {
 		
 		JFrame parent = new JFrame();
 		
-		JOptionPane.showMessageDialog(parent, "Login successfull");
+		UserType usertype = login.getType();
 		
-		// Open new Gui Menu
 		
-		JOptionPane.showMessageDialog(parent, "Cannot login with the given credentials");
-		// New Credentials for login
+		switch (usertype) {
+		
+		case DEFAULT:
+			
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as user.");
+			
+			GuiMenu menu = new GuiMenu();
+			menu.getFrame().setVisible(true);
+			frmUserLogin.dispose();
+			
+			break;
+			
+		case ADMIN:
+			
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as admin.");
+			
+			GuiAdmin admin = new GuiAdmin();
+			admin.getFrmAdmin().setVisible(true);
+			frmUserLogin.dispose();
+			
+			break;
+			
+		case PUBOWNER:
+			
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as pubowner.");
+			
+			GuiPubOwner pubowner = new GuiPubOwner();
+			pubowner.getFrame().setVisible(true);
+			frmUserLogin.dispose();
+			
+			break;
+			
+		case ADMINPUBOWNER:
+			
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as admin & pubowner.");
+			
+			GuiOptions option = new GuiOptions();
+			option.getFrame().setVisible(true);
+			
+			break;
+			
+		case ERROR:
+			JOptionPane.showMessageDialog(parent, "Cannot login. Please check your login data and try again.");
+			break;
+		}
+		
+		
 	
 	}
 	
@@ -228,7 +274,11 @@ public class GuiUserLogin {
 		
 		
 		
+	}
+	
+	public JFrame getFrame () {
 		
+		return frmUserLogin;
 	}
 	
 }
