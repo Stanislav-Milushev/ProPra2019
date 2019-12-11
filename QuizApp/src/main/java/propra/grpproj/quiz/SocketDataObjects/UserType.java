@@ -6,5 +6,6 @@ public enum UserType implements Serializable{
 	DEFAULT,
 	PUBOWNER,
 	ADMIN,
-	ADMINPUBOWNER;
+	ADMINPUBOWNER,
+	ERROR;
 }
