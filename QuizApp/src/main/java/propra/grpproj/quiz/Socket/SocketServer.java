@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import propra.grpproj.logic.AdminHandling;
 import propra.grpproj.logic.PubHandling;
+import propra.grpproj.logic.QuestionHandling;
 import propra.grpproj.logic.QuizHandling;
 import propra.grpproj.logic.ScoreboardUpdate;
 import propra.grpproj.logic.UserHandling;
@@ -212,6 +213,7 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof QuestionList) {
         		QuestionList ql = (QuestionList)o;
+        		QuestionHandling.questionImport(ql);
         	}
         	if(o instanceof RegisterPub) {
         		RegisterPub regPub = (RegisterPub)o;
