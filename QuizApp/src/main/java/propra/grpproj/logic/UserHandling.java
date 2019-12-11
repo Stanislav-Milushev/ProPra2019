@@ -35,7 +35,7 @@ public class UserHandling
 		
 		db.connection();
 		
-		success_reg = db.registerUser(username, email, passwd,usertype);
+		success_reg = db.registerUser(username, email, passwd, usertype);
 		
 		db.closeconnection();
 		

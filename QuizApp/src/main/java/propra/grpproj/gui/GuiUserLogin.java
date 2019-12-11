@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * 
- * @author Lisa Praedel
+ * @author Lisa Praedel & Marius Discher
  *
  */
 
@@ -174,7 +174,7 @@ public class GuiUserLogin {
 			public void actionPerformed(ActionEvent e) {
 				String username = tfUserName.getText();
 				String pw = tfPW.getText();
-				feedbackLogin(username, pw);
+				handleLogin(username, pw);
 			}
 		});
 		GridBagConstraints gbc_bLogin = new GridBagConstraints();
@@ -210,14 +210,25 @@ public class GuiUserLogin {
 	 * feedback Login via PopUp
 	 */
 	
-	public void feedbackLogin(String userName, String pw) {
+	public void feedbackLogin() {
+		
 		
 		JFrame parent = new JFrame();
-		//if () {
-		JOptionPane.showMessageDialog(parent, "Login möglich");
-		//} else {
-		JOptionPane.showMessageDialog(parent, "Login leider nicht möglich");
-		//}
+		
+		JOptionPane.showMessageDialog(parent, "Login successfull");
+		
+		// Open new Gui Menu
+		
+		JOptionPane.showMessageDialog(parent, "Cannot login with the given credentials");
+		// New Credentials for login
+	
+	}
+	
+	public void handleLogin(String userName, String pw) {
+		
+		
+		
+		
 	}
 	
 }
