@@ -262,7 +262,9 @@ public class GuiUserLogin {
 			break;
 			
 		case ERROR:
+			
 			JOptionPane.showMessageDialog(parent, "Cannot login. Please check your login data and try again.");
+			
 			break;
 		}
 		
