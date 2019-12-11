@@ -52,6 +52,7 @@ public class DatabaseManager {
 	
 	
 	// Function to register a user
+	//usertype added
 	public boolean registerUser(String username, String email, String passwd, UserType usertype) throws SQLException {
 		
 		// false = cannot register the user
@@ -425,13 +426,13 @@ public class DatabaseManager {
 			return pubID;
 		}
 		
-		public UserType getUserType (String email) throws SQLException {
+		public UserType getUserType (String name) throws SQLException {
 			
 			String user = "DEFAULT";
 			
 			UserType usertype;
 			
-			String query = "Select usertype from user Where email =" + email;
+			String query = "Select usertype from user Where email =" + name;
 			
 			Statement stmt = connection.createStatement();
 			
@@ -448,14 +449,5 @@ public class DatabaseManager {
 			
 		}
 		
-		public void setUsertype (UserType usertype) throws SQLException {
-			
-			String user = usertype.toString();
-			
-			String query = "Update user value usertype = ?";
-			
-			PreparedStatement ps = connection.prepareStatement(query);
-			ps.setString(1, user);
-			
-		}
+		//setUserType nachträglich type ändern
 }

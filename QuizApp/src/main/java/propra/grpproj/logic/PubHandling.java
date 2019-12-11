@@ -1,17 +1,14 @@
 package propra.grpproj.logic;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import propra.grpproj.quiz.Socket.SocketServer;
-import propra.grpproj.quiz.SocketDataObjects.Pub;
-import propra.grpproj.quiz.SocketDataObjects.PubList;
 import propra.grpproj.quiz.SocketDataObjects.RegisterPub;
 
 ////////////////////////////////////////////////////////////////////////////
 // Class to register pubs
 // 
-// @author: Marius Discher
+// @author: Marius Discher & Stanislav Milushev
 //
 //
 //
@@ -19,15 +16,9 @@ import propra.grpproj.quiz.SocketDataObjects.RegisterPub;
 
 
 public class PubHandling { 
+
 	
-	/**
-	 * Tries to register the pub in the database, sends client success
-	 * @param pub
-	 * @param username
-	 * @throws SQLException
-	 * @author Yannick, Marius Discher
-	 */
-	public static void registerPub (RegisterPub pub, String username) throws SQLException {
+	public void registerPub (String name, String address, int ownerid) throws SQLException {
 		
 		DatabaseManager db = new DatabaseManager();
 		
@@ -37,30 +28,16 @@ public class PubHandling {
 		
 		db.connection();
 		
-		success_reg = db.registerPub(pub.getName(),pub.getAddress(),approved,pub.getOwnerID());
+		success_reg = db.registerPub(name,address,approved,ownerid);
 		
 		db.closeconnection();
 		
-		pub.setSuccess(success_reg);
+		RegisterPub regProg = new RegisterPub(name,address,ownerid);
 		
-		SocketServer.getInstance().sendObject(pub, username);
+		regProg.setRegisterProg(true);
 		
-	}
-	
-	/**
-	 * Returns a copy of the database pubs
-	 * @param pub
-	 * @param username
-	 * @throws SQLException
-	 * @author Yannick
-	 */
-	public static void getPubs (PubList pub, String username) throws SQLException {
-		ArrayList<Pub> pubs = new ArrayList<Pub>();
-		//TODO Füllen
+		SocketServer.getInstance().sendObject(regProg, name);
 		
-		pub.setList(pubs);
-		
-		SocketServer.getInstance().sendObject(pub, username);
 	}
 		
 }

@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import propra.grpproj.logic.AdminHandling;
 import propra.grpproj.logic.PubHandling;
-import propra.grpproj.logic.QuestionHandling;
 import propra.grpproj.logic.QuizHandling;
 import propra.grpproj.logic.ScoreboardUpdate;
 import propra.grpproj.logic.UserHandling;
@@ -149,7 +148,6 @@ public class SocketServer implements Runnable{
 				
 				} catch (ClassNotFoundException | IOException | SQLException e) {
 					e.printStackTrace();
-					break;
 				} 
             } while(!(recieve instanceof TerminateConnection));
             
@@ -172,7 +170,7 @@ public class SocketServer implements Runnable{
         /**
          * 
          * @param o Object to be sent to the client
-         * @author Yannick & Marius
+         * @author Yannick & Marius & Stan
          * @throws SQLException 
          */
         private void recieveObject(Object o) throws SQLException {
@@ -205,18 +203,21 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof PubList) {
         		PubList publ = (PubList)o;
-        		PubHandling.getPubs(publ, username);
+        		
         	}
         	if(o instanceof Question) {
         		Question q = (Question)o;
         	}
         	if(o instanceof QuestionList) {
         		QuestionList ql = (QuestionList)o;
-        		QuestionHandling.questionImport(ql);
         	}
         	if(o instanceof RegisterPub) {
         		RegisterPub regPub = (RegisterPub)o;
-        		PubHandling.registerPub(regPub, username);
+        		String name = regPub.getName();
+        		String address = regPub.getAddress();
+        		int ownerid = regPub.getOwnerID();
+        		PubHandling pb = new PubHandling();
+        		pb.registerPub(name, address, ownerid);
         	}
         	if(o instanceof RegisterUser) {
         		RegisterUser regUser = (RegisterUser)o;
@@ -230,7 +231,6 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof RepeatPubevening) {
         		RepeatPubevening rpEvening = (RepeatPubevening)o;
-        		QuizHandling.getInstance().createQuiz(rpEvening);
         	}
         	if(o instanceof Scoreboard) {
         		Scoreboard scbd = (Scoreboard)o;

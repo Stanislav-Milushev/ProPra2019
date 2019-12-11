@@ -6,7 +6,7 @@ import java.util.Date;
 public class CreatePubevening implements Serializable{
 	private int secPerQuestion = 20;
 	private Date start;
-	private int questionSets;
+	private int[] questionSets;
 	private String name; //TODO ???
 	
 	/**
@@ -15,7 +15,7 @@ public class CreatePubevening implements Serializable{
 	 * @param start time when the game starts
 	 * @param questionSets sets that hold the questions
 	 */
-	public CreatePubevening(int secPerQuestion, Date start, int questionSets, String name) {
+	public CreatePubevening(int secPerQuestion, Date start, int[] questionSets, String name) {
 		this.secPerQuestion = secPerQuestion;
 		this.start = start;
 		this.questionSets = questionSets;
@@ -34,7 +34,7 @@ public class CreatePubevening implements Serializable{
 		return start;
 	}
 
-	public int getQuestionSets() {
+	public int[] getQuestionSets() {
 		return questionSets;
 	}
 	
