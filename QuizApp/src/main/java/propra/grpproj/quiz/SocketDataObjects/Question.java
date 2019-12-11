@@ -30,4 +30,11 @@ public class Question implements Serializable{
 		this.answers = answers;
 		this.explanation = explanation;
 	}
+	
+	public Question(int iD, String question, String[] answers) {
+		this.ID = iD;
+		this.question = question;
+		this.answers = answers;
+		this.explanation = "";
+	}
 }
