@@ -195,7 +195,8 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof Login) {
         		Login lin = (Login)o;
-        		login.user_login(lin);
+        		UserHandling user = new UserHandling();
+        		user.user_login(lin);
         	}
         	if(o instanceof Pub) {
         		Pub pub = (Pub)o;
