@@ -1,5 +1,7 @@
 package propra.grpproj.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -36,6 +38,8 @@ public class GuiMenu {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(255, 255, 255));
+		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
