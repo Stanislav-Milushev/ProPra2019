@@ -36,6 +36,8 @@ import java.awt.event.ActionEvent;
 
 public class GuiUserLogin {
 
+	private static GuiUserLogin instance;
+	
 	private JFrame frmUserLogin;
 	private JTextField tfUserName;
 	private JTextField tfPW;
@@ -286,6 +288,10 @@ public class GuiUserLogin {
 	public JFrame getFrame () {
 		
 		return frmUserLogin;
+	}
+	
+	public static GuiUserLogin getInstance(){
+		return instance;
 	}
 	
 }

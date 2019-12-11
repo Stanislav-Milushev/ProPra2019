@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import propra.grpproj.gui.GuiAdmin;
+import propra.grpproj.gui.GuiUserLogin;
 import propra.grpproj.quiz.SocketDataObjects.AcceptPub;
 import propra.grpproj.quiz.SocketDataObjects.CreatePubevening;
 import propra.grpproj.quiz.SocketDataObjects.DeleteUser;
@@ -117,6 +118,7 @@ public class SocketClient implements Runnable{
     	}
     	if(o instanceof Login) {
     		Login lin = (Login)o;
+    		GuiUserLogin.getInstance().Login_Return(lin);
     	}
     	if(o instanceof Pub) {
     		Pub pub = (Pub)o;
