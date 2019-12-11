@@ -7,6 +7,13 @@ import java.util.List;
 
 import propra.grpproj.quiz.SocketDataObjects.Question;
 import propra.grpproj.quiz.repositories.sqlite.SqliteCoreUtilities;
+////////////////////////////////////////////////////////////////////////////
+//Class to load and manage a questions
+//
+//@author: Stanislav Milushev
+//
+//
+//
 
 public class QuestionHandling {  // Fragen aus der db in runden Paken , dann zu QuizHandling und Kneipenabend
 	List<Question> questions = new ArrayList<Question>();
@@ -22,9 +29,10 @@ public class QuestionHandling {  // Fragen aus der db in runden Paken , dann zu 
 			int qid= Integer.valueOf(qSplit[0]);
 			String qquestion= qSplit[1];
 			// Antwort array Format?
-			String[] qanswer=null;
+			String[] qanswer=null;//
+			String qexpl= null;//
 			
-			Question Q = new Question(qid,qquestion,qanswer);
+			Question Q = new Question(qid,qquestion,qanswer,qexpl);
 			questions.add(Q); 
 		}
 	}
@@ -46,6 +54,9 @@ public class QuestionHandling {  // Fragen aus der db in runden Paken , dann zu 
 		return rounds.get(roundNum);
 	}
 
+	public void questionImport() {
+		
+	}
 
 	
 	

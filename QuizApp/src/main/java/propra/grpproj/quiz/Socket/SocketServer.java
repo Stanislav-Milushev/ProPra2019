@@ -32,7 +32,7 @@ public class SocketServer implements Runnable{
     
     HashMap<String, User> nameToSocket = new HashMap<String, User>();
     
-    private SocketServer(int port){
+    public SocketServer(int port){
         this.port = port;
     }
     
@@ -206,6 +206,7 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof PubList) {
         		PubList publ = (PubList)o;
+        		
         	}
         	if(o instanceof Question) {
         		Question q = (Question)o;

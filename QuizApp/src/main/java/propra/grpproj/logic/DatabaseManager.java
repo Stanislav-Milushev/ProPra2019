@@ -52,7 +52,8 @@ public class DatabaseManager {
 	
 	
 	// Function to register a user
-	public boolean registerUser(String username, String email, String passwd) throws SQLException {
+	//usertype added
+	public boolean registerUser(String username, String email, String passwd, UserType usertype) throws SQLException {
 		
 		// false = cannot register the user
 		boolean r_check = false;
@@ -61,7 +62,7 @@ public class DatabaseManager {
 		
 		int userid = getLatestID() +1;
 		
-		String usertyp = "DEFAULT";
+		String usertyp = String.valueOf(usertype);
 		
 		String query = "Insert into user (userID, username, email, password, type) Values (?,?,?,?,?)";
 		
@@ -182,8 +183,9 @@ public class DatabaseManager {
 		
 		for (int i=0;rs.next();) {
 			
-			var = rs.getObject(i);
-			
+			//pubs = (ArrayList<Pub>) rs.getObject(i);
+			//var = rs.getObject(i);
+			 pubs.add((Pub) rs.getObject(i));
 		}
 		
 		return pubs;

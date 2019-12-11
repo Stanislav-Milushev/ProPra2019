@@ -6,11 +6,14 @@ public class RegisterUser implements Serializable{
 	private String username;
 	private String password;
 	private String mail;
+	UserType usertype;
+	private boolean registerProg;
 	
-	public RegisterUser(String username, String password, String mail) {
+	public RegisterUser(String username, String password, String mail,UserType usertype) {
 		this.username = username;
 		this.password = password;
 		this.mail = mail;
+		this.usertype= usertype;
 	}
 
 	public String getUsername() {
@@ -23,6 +26,22 @@ public class RegisterUser implements Serializable{
 
 	public String getMail() {
 		return mail;
+	}
+
+	public boolean isRegisterProg() {
+		return registerProg;
+	}
+
+	public void setRegisterProg(boolean registerProg) {
+		this.registerProg = registerProg;
+	}
+
+	public UserType getUsertype() {
+		return usertype;
+	}
+
+	public void setUsertype(UserType usertype) {
+		this.usertype = usertype;
 	}
 	
 }

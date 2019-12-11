@@ -1,12 +1,16 @@
 package propra.grpproj.logic;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import propra.grpproj.quiz.Socket.SocketServer;
 import propra.grpproj.quiz.SocketDataObjects.*;
 
 ////////////////////////////////////////////////////////////////////////////
 // Handle all the user related actions (login, logout, delete, register)
 // 
-// @author: Marius Discher
+// @author: Marius Discher & Stanislav Miushev
 //
 //
 //
@@ -31,7 +35,7 @@ public class UserHandling
 		
 		db.connection();
 		
-		success_reg = db.registerUser(username, email, passwd);
+		success_reg = db.registerUser(username, email, passwd,usertype);
 		
 		db.closeconnection();
 		
@@ -39,12 +43,15 @@ public class UserHandling
 			
 			user_login(email,passwd);
 			
-		} else {
-			
-			// Cannot register the user
+		} else if(success_reg == false) {
+			RegisterUser registerfail = new RegisterUser(username,email,passwd,usertype);
+			registerfail.setRegisterProg(success_reg);
+			SocketServer.getInstance().sendObject(registerfail, username);
 		}
 		
-		// Send success to GUI back
+		RegisterUser registerfail = new RegisterUser(username,email,passwd,usertype);
+		registerfail.setRegisterProg(success_reg);
+		SocketServer.getInstance().sendObject(registerfail, username);
 		
 	}
 	
@@ -140,7 +147,9 @@ public class UserHandling
 		
 		String passwd = "temporaer";
 		
-		success = db.registerUser(name, email, passwd);
+		UserType usertype= UserType.DEFAULT; 
+		
+		success = db.registerUser(name, email, passwd,usertype);
 		
 		if ( success == true) {
 			
@@ -167,17 +176,48 @@ public class UserHandling
 	
 	
 	// delete the user after successfully authenticated
-	public boolean deleteUser (String id, String passwd) 
+	// checks if user exist then deletes from Database
+	// sends DeleteUser back to Gui
+	public boolean deleteUser (String id, String passwd) throws SQLException 
 	{
 		
-		// Check the password
+		boolean del_check = true;
 		
-		Encrypt e = new Encrypt();
-		boolean success; 
-		success = e.delete(id,passwd);
-		return success;
+		DatabaseManager db = new DatabaseManager();
 		
+		db.connection();
 		
+		String query = "Select password From user Where id =" + id;
+		
+		Statement stmt = db.connection.createStatement();
+		
+		ResultSet rs = stmt.executeQuery(query);
+	
+		int columns = rs.getMetaData().getColumnCount();
+		
+		while (rs.next()) {
+			
+			for(int i = 1; i<=columns; i++) {
+				del_check = db.isEmpty(rs.getString(i));
+			}
+		}
+		
+		rs.close();
+		stmt.close();
+		
+		if (del_check) {
+			String queryD = "Delete From user Where id =" + id;
+			Statement stmtD = db.connection.createStatement();
+			ResultSet rsD = stmt.executeQuery(query);
+			rsD.close();
+			stmtD.close();
+		}
+		db.closeconnection();
+		
+		return del_check;
+		DeleteUser deldone ;
+		deldone.setDeleteProgress(del_check);
+		SocketServer.getInstance().sendObject(deldone, username); // how do i get the username?
 		
 		
 		

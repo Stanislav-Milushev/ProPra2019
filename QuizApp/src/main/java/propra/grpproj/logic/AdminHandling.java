@@ -3,6 +3,9 @@ package propra.grpproj.logic;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import propra.grpproj.quiz.Socket.SocketServer;
+import propra.grpproj.quiz.SocketDataObjects.AcceptPub;
+import propra.grpproj.quiz.SocketDataObjects.PubList;
 ////////////////////////////////////////////////////////////////////////////
 // Admin functions
 // 
@@ -11,6 +14,7 @@ import java.util.ArrayList;
 //
 //
 //
+import propra.grpproj.quiz.dataholders.Pub;
 
 
 
@@ -28,22 +32,30 @@ public class AdminHandling {
 		db.closeconnection();
 		
 		
+		AcceptPub accept = new AcceptPub(name, owner);
+		SocketServer.getInstance().sendObject(accept, name);
+		
+		
 	}
 	
 	
 	
 	// Function to give a list off all registered pubs to the administrative GUI
-	public ArrayList<String> getAllPubs() throws SQLException{
+	public ArrayList<Pub> getAllPubs() throws SQLException{
 		
-		ArrayList <String> pubs = new ArrayList<String>();
+		ArrayList<Pub> pubs = new ArrayList<Pub>();
 		
 		DatabaseManager db = new DatabaseManager();
 		db.connection();
 		
-		db.getPubs();
+		pubs = db.getPubs();
 		
 		db.closeconnection();
 		return pubs;
+		
+		//PubList publist = new PubList(pubs);
+		//SocketServer.getInstance().sendObject(publist,name );
+		
 		
 	}
 	

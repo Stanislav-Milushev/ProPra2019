@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class DeleteUser implements Serializable{
 	private String username;
+	private boolean deleteProgress;
 
 	public DeleteUser(String username) {
 		this.username = username;
@@ -11,6 +12,14 @@ public class DeleteUser implements Serializable{
 
 	public String getUsername() {
 		return username;
+	}
+
+	public boolean isDeleteProgress() {
+		return deleteProgress;
+	}
+
+	public void setDeleteProgress(boolean deleteProgress) {
+		this.deleteProgress = deleteProgress;
 	}
 	
 }
