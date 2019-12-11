@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import propra.grpproj.quiz.Socket.SocketServer;
+import propra.grpproj.quiz.SocketDataObjects.Explanation;
 import propra.grpproj.quiz.SocketDataObjects.Question;
 
 public class KneipenAbend {
@@ -28,17 +29,26 @@ public class KneipenAbend {
 	}
 	
 	/**
-	 * 
-	 * @return question list overflow
-	 * if true a new questionset needs to be loaded
+	 * Sends the current Question to all participants
 	 * @author Yannick
 	 */
-	private void nextQuestion() {
+	private void sendQuestion() {
 		//Gib alle user in kneipenabend
 		ArrayList<String> users = new ArrayList<String>();
 		
 		for(String user : users) {
 			SocketServer.getInstance().sendObject(questions.get(counter), user);
+		}
+	}
+	
+	private void sendAnswer() {
+		//Gib alle user in kneipenabend
+		ArrayList<String> users = new ArrayList<String>();
+		String explanation = ""; //Get explanation from database
+		
+		Explanation exp = new Explanation(explanation);
+		for(String user : users) {
+			SocketServer.getInstance().sendObject(exp, user);
 		}
 	}
 	
@@ -60,7 +70,7 @@ public class KneipenAbend {
 	 * starts the pubevening
 	 */
 	public void start() {
-		Timertask task = new Timertask();
+		WaitQuestion task = new WaitQuestion();
 		task.run();
 	}
 	
@@ -69,7 +79,7 @@ public class KneipenAbend {
 	 * @author Yannick
 	 *
 	 */
-	class Timertask extends TimerTask{
+	class WaitQuestion extends TimerTask{
 
 		@Override
 		public void run() {
@@ -81,10 +91,10 @@ public class KneipenAbend {
 				//Lade neue Fragen wenn es sie gibt
 				if(true) { //Es gibt neue fragen
 					//Fragen laden
-					nextQuestion();
+					sendQuestion();
 					Timer timer = new Timer(true);
-					Timertask task = new Timertask();
-					timer.schedule(task, timePerQuestion * 1000);
+					WaitExplanation task = new WaitExplanation();
+					timer.schedule(task, 10 * 1000);
 				} else {
 					//Keine neuen fragen
 					
@@ -93,11 +103,23 @@ public class KneipenAbend {
 					QuizHandling.getInstance().removeKneipenAbend(KneipenAbendID);
 				}
 			} else {
-				nextQuestion();
+				sendQuestion();
 				Timer timer = new Timer(true);
-				Timertask task = new Timertask();
-				timer.schedule(task, timePerQuestion * 1000);
+				WaitExplanation task = new WaitExplanation();
+				timer.schedule(task, 10 * 1000);
 			}
+		}
+		
+	}
+	
+	class WaitExplanation extends TimerTask{
+
+		@Override
+		public void run() {
+			sendAnswer();
+			Timer timer = new Timer(true);
+			WaitQuestion task = new WaitQuestion();
+			timer.schedule(task, timePerQuestion * 1000);
 		}
 		
 	}
