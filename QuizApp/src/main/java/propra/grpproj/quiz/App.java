@@ -17,11 +17,11 @@ import propra.grpproj.quiz.repositories.sqlite.QuestionRepository;
 import propra.grpproj.quiz.repositories.sqlite.RoundsOfEveningRepository;
 import propra.grpproj.quiz.repositories.sqlite.UserRepository;
 import propra.grpproj.quiz.repositories.sqlite.utilities.SqliteCoreUtilities;
-import propra.grpproj.quiz.services.EveningService;
-import propra.grpproj.quiz.services.PubService;
-import propra.grpproj.quiz.services.QuestionService;
-import propra.grpproj.quiz.services.UserService;
-import propra.grpproj.quiz.socket.SocketServer;
+//import propra.grpproj.quiz.services.EveningService;
+//import propra.grpproj.quiz.services.PubService;
+//import propra.grpproj.quiz.services.QuestionService;
+//import propra.grpproj.quiz.services.UserService;
+//import propra.grpproj.quiz.socket.SocketServer;
 
 /**
  * The main entry point of the Quiz App
@@ -85,10 +85,10 @@ public class App
 
             LOG.info("Create services...");
 
-            PubService pubService = new PubService(pubRepository, userRepository);
-            EveningService eveningService = new EveningService(eveningRepository, pubRepository);
-            UserService userService = new UserService(userRepository);
-            QuestionService questionService = new QuestionService(questionRepository);
+//            PubService pubService = new PubService(pubRepository, userRepository);
+//            EveningService eveningService = new EveningService(eveningRepository, pubRepository);
+//            UserService userService = new UserService(userRepository);
+//            QuestionService questionService = new QuestionService(questionRepository);
 
             // @formatter:off
 
@@ -112,7 +112,7 @@ public class App
             // ...
             
             
-            startTheServer(pubService, eveningService, userService, questionService);
+//            startTheServer(pubService, eveningService, userService, questionService);
 
             
             /*
@@ -157,32 +157,32 @@ public class App
      * @param userService
      * @param questionService
      */
-    private static void startTheServer(
-            PubService pubService, EveningService eveningService, UserService userService,
-            QuestionService questionService
-    )
-    {
-        SocketServer socketServer = new SocketServer(SERVER_PORT, pubService, eveningService, userService,
-                questionService);
-        ExecutorService executor = Executors.newFixedThreadPool(2,
-                runnable -> { return new Thread(runnable, "SocketServerThread"); });
-        Future<?> future = executor.submit(socketServer);
-        executor.submit(() -> {
-            // submit a second task, that awaits the socketServer to get terminated and if
-            // that has happened,
-            // we destroy this thread-pool itself!
-            // This all should be executed if the Master-Gui gets closed...
-            try
-            {
-                future.get();
-            } catch (Exception e)
-            {
-                /* app was closed, silence please! */
-            } finally
-            {
-                executor.shutdownNow();
-            }
-        });
-    }
+//    private static void startTheServer(
+//            PubService pubService, EveningService eveningService, UserService userService,
+//            QuestionService questionService
+//    )
+//    {
+//        SocketServer socketServer = new SocketServer(SERVER_PORT, pubService, eveningService, userService,
+//                questionService);
+//        ExecutorService executor = Executors.newFixedThreadPool(2,
+//                runnable -> { return new Thread(runnable, "SocketServerThread"); });
+//        Future<?> future = executor.submit(socketServer);
+//        executor.submit(() -> {
+//            // submit a second task, that awaits the socketServer to get terminated and if
+//            // that has happened,
+//            // we destroy this thread-pool itself!
+//            // This all should be executed if the Master-Gui gets closed...
+//            try
+//            {
+//                future.get();
+//            } catch (Exception e)
+//            {
+//                /* app was closed, silence please! */
+//            } finally
+//            {
+//                executor.shutdownNow();
+//            }
+//        });
+//    }
 
 }

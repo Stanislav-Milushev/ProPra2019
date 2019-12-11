@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import propra.grpproj.quiz.dataholders.Pub;
-import propra.grpproj.quiz.repositories.sqlite.*;
+import propra.grpproj.quiz.repositories.sqlite.utilities.SqliteCoreUtilities;
 import propra.grpproj.quiz.SocketDataObjects.*;
 
 

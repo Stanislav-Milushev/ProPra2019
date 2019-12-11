@@ -10,7 +10,6 @@ import propra.grpproj.quiz.SocketDataObjects.Question;
 import propra.grpproj.quiz.Socket.SocketServer;
 import propra.grpproj.quiz.SocketDataObjects.AddQuestionSet;
 import propra.grpproj.quiz.SocketDataObjects.GetQuestionSet;
-import propra.grpproj.quiz.repositories.sqlite.SqliteCoreUtilities;
 
 ////////////////////////////////////////////////////////////////////////////
 // Class to load and manage a questions
