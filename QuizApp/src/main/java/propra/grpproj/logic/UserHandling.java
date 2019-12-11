@@ -41,7 +41,7 @@ public class UserHandling
 		
 		if ( success_reg == true ) {
 			
-			user_login(email,passwd);
+			user_login(new Login(username, passwd));
 			
 		} else if(success_reg == false) {
 			RegisterUser registerfail = new RegisterUser(username,email,passwd,usertype);
