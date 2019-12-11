@@ -204,6 +204,7 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof PubList) {
         		PubList publ = (PubList)o;
+        		PubHandling ph = new PubHandling();
         		
         	}
         	if(o instanceof Question) {
@@ -214,8 +215,7 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof RegisterPub) {
         		RegisterPub regPub = (RegisterPub)o;
-        		PubHandling pb = new PubHandling();
-        		pb.registerPub(regPub, username);
+        		PubHandling.registerPub(regPub, username);
         	}
         	if(o instanceof RegisterUser) {
         		RegisterUser regUser = (RegisterUser)o;
@@ -229,6 +229,7 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof RepeatPubevening) {
         		RepeatPubevening rpEvening = (RepeatPubevening)o;
+        		QuizHandling.getInstance().createQuiz(rpEvening);
         	}
         	if(o instanceof Scoreboard) {
         		Scoreboard scbd = (Scoreboard)o;
