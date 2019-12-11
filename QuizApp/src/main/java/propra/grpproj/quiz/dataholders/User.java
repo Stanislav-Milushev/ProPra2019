@@ -1,74 +1,41 @@
 package propra.grpproj.quiz.dataholders;
 
-import java.util.Objects;
-
-import org.apache.logging.log4j.util.Strings;
 /**
- * 
- * @author Daniel
+ * <p>
+ * This class holds the information of one user.
+ * <p>
+ * A user can be referenced by {@link PlayerOfRound}.
  *
  */
 public class User
 {
+
+    private final Long id;
+
+    private final String username;
+    private final String password;
+    private final String email;
+
     /**
-     * Primary key
+     * One of: ["admin", "barkeeper", "player"]
      */
-    private Long userId;
+    private final String role;
 
-    private String username;
-    private String password;
-    private String email;
-    
-    //private ScoreboardService scoreboardservice;
-    
-    
-
-    public User(Long userId, String username, String password, String email)
+    public User(Long id, String username, String password, String email, String role)
     {
         super();
-
-        Objects.requireNonNull(userId, "Id must not be null");
-        Strings.isNotBlank(username);
-        Strings.isNotBlank(password);
-        Strings.isNotBlank(email);
-
-        this.userId = userId;
+        this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.role = role;
     }
-    
-//    public User(ScoreboardService scoreboardservice) {
-//    	super();
-//    	this.scoreboardservice = scoreboardservice;
-//    }
-    
-//  public long findFreeId()
-//  {
-//      // @formatter:off
-//      // (1) find all users from database
-//      
-//      // (2) sort result list by id ascending
-//      // (3) take greatest id / last entry in sorted list
-//      //     => find greatest
-//
-//      // (4) + 1 to that id
-//
-//      return  1 +
-//              scoreboardservice
-//                  .getScoreBoard()
-//                  .stream()
-//                  .mapToLong( scoreboardEntity ->{ return scoreboardEntity.getId(); })
-//                  .max()
-//                  .orElseThrow(NoSuchElementException::new);
-//      // @formatter:on
-//  }
 
     @Override
     public String toString()
     {
-        return "User [userId=" + userId + ", username=" + username + ", "
-        		+ "password=" + password + ", email=" + email + "]";
+        return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", role="
+                + role + "]";
     }
 
     @Override
@@ -76,7 +43,7 @@ public class User
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
@@ -90,38 +57,18 @@ public class User
         if (getClass() != obj.getClass())
             return false;
         User other = (User) obj;
-        if (userId == null)
+        if (id == null)
         {
-            if (other.userId != null)
+            if (other.id != null)
                 return false;
-        } else if (!userId.equals(other.userId))
+        } else if (!id.equals(other.id))
             return false;
         return true;
     }
 
-    public String getPassword()
-	{
-		return password;
-	}
-
-	public void setPassword(String password)
-	{
-		this.password = password;
-	}
-
-	public String getEmail()
-	{
-		return email;
-	}
-
-	public void setEmail(String email)
-	{
-		this.email = email;
-	}
-
-	public Long getUserId()
+    public Long getId()
     {
-        return userId;
+        return id;
     }
 
     public String getUsername()
@@ -129,9 +76,19 @@ public class User
         return username;
     }
 
-    public void setUsername(String username)
+    public String getPassword()
     {
-        this.username = username;
+        return password;
+    }
+
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public String getRole()
+    {
+        return role;
     }
 
 }

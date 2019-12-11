@@ -16,7 +16,7 @@ import java.util.Optional;
  * @param <T> Type of the entity to be managed by this repository
  * @param <ID> Type of the id (primary key) of the managed entity
  */
-public abstract class CrudRepositoryAdapter<T, ID> implements CrudRepository<T, ID>
+public abstract class CrudRepositoryAdapter<T, ID> implements CrudRepository<T, ID>, SqliteRepository
 {
     // @formatter:off
 

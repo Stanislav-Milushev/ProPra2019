@@ -8,20 +8,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-import propra.grpproj.quiz.dataholders.User;
-import propra.grpproj.quiz.repositories.CrudRepository;
+import propra.grpproj.quiz.dataholders.QuestionOfRound;
 import propra.grpproj.quiz.repositories.CrudRepositoryAdapter;
 
-public class UserRepository extends CrudRepositoryAdapter<User, Long>
+public class QuestionOfRoundRepository extends CrudRepositoryAdapter<QuestionOfRound, Long>
 {
 
     /**
      * The table name managed by this repository
      */
-    private static final String TABLE_NAME = "users";
+    private static final String TABLE_NAME = "questionsOfRounds";
 
     /**
      * The SQL query to create this table
@@ -30,30 +28,9 @@ public class UserRepository extends CrudRepositoryAdapter<User, Long>
     private static final String SQL_TO_CREATE_TABLE = 
               "CREATE TABLE " + TABLE_NAME
                 + " (id INTEGER PRIMARY KEY,"
-                + " username STRING,"
-                + " password STRING,"
-                + " email STRING, "
-                + " role STRING)";
+                + " roundOfEveningRefId INTEGER,"
+                + " questionRefId INTEGER)";
     // @formatter:on
-
-    public Optional<User> findByUsernameAndPassword(String username, String password)
-    {
-        List<User> allUsers = CrudRepository.convertToList(findAll());
-
-        return allUsers.stream()
-                .filter(user -> {
-                    return user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password);
-                }).findFirst();
-    }
-    
-    public Optional<User> findByEmail( String email ) {
-        List<User> allUsers = CrudRepository.convertToList(findAll());
-        
-        return allUsers.stream()
-                .filter(user -> {
-                    return user.getEmail().equalsIgnoreCase(email);
-                }).findFirst();
-    }
 
     @Override
     public void createTable()
@@ -62,18 +39,18 @@ public class UserRepository extends CrudRepositoryAdapter<User, Long>
     }
 
     @Override
-    public Iterable<User> findAll()
+    public Iterable<QuestionOfRound> findAll()
     {
         String sql = "SELECT * FROM " + TABLE_NAME;
 
-        ArrayList<User> resultList = new ArrayList<>();
+        ArrayList<QuestionOfRound> resultList = new ArrayList<>();
         try (Connection conn = connect(); Statement statement = conn.createStatement();)
         {
             try (ResultSet rs = statement.executeQuery(sql);)
             {
                 while (rs.next())
                 {
-                    User entity = buildUserFromResultSet(rs);
+                    QuestionOfRound entity = buildQuestionOfRoundFromResultSet(rs);
                     resultList.add(entity);
                 }
             }
@@ -86,19 +63,19 @@ public class UserRepository extends CrudRepositoryAdapter<User, Long>
     }
 
     @Override
-    public Optional<User> findById(Long id)
+    public Optional<QuestionOfRound> findById(Long id)
     {
         // @formatter:off
         String sql = "SELECT * FROM " + TABLE_NAME
                    + "  WHERE id=?";
         
-        User returnValue = null;
+        QuestionOfRound returnValue = null;
         try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql);)
         {
             pstmt.setLong(1, id);
             try (ResultSet rs = pstmt.executeQuery();) {
                 if (rs.next()) {
-                    returnValue = buildUserFromResultSet(rs);
+                    returnValue = buildQuestionOfRoundFromResultSet(rs);
                 }
             }
         } catch (SQLException e) {
@@ -112,9 +89,9 @@ public class UserRepository extends CrudRepositoryAdapter<User, Long>
     // ========================================================================
     // below methods have identical implementation for all type of repositories
     // ========================================================================
-
+    
     @Override
-    public <S extends User> S save(S entity)
+    public <S extends QuestionOfRound> S save(S entity)
     {
         if (existsById(entity.getId()))
         {
@@ -126,7 +103,7 @@ public class UserRepository extends CrudRepositoryAdapter<User, Long>
     }
 
     @Override
-    public void delete(User entity)
+    public void delete(QuestionOfRound entity)
     {
         deleteById(entity.getId());
     }
@@ -174,29 +151,25 @@ public class UserRepository extends CrudRepositoryAdapter<User, Long>
     // helper methods
     // ========================================================================
 
-    private User buildUserFromResultSet(ResultSet rs) throws SQLException
+    private QuestionOfRound buildQuestionOfRoundFromResultSet(ResultSet rs) throws SQLException
     {
         Long id = rs.getLong("id");
-        String username = rs.getString("username");
-        String password = rs.getString("password");
-        String email = rs.getString("email");
-        String role = rs.getString("role");
-        return new User(id, username, password, email, role);
+        Long roundOfEveningRefId = rs.getLong("roundOfEveningRefId");
+        Long questionRefId = rs.getLong("questionRefId");
+        return new QuestionOfRound(id, roundOfEveningRefId, questionRefId);
     }
 
-    private <S extends User> S insert(S entity)
+    private <S extends QuestionOfRound> S insert(S entity)
     {
         // @formatter:off
         String sql = "INSERT INTO " + TABLE_NAME
-                + "(id,username,password,email,role)"
-                + "  VALUES(?, ?, ?, ?, ?)";
+                + "(id,roundOfEveningRefId,questionRefId)"
+                + "  VALUES(?, ?, ?)";
 
         try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
             pstmt.setLong(1, entity.getId());
-            pstmt.setString(2, entity.getUsername());
-            pstmt.setString(3, entity.getPassword());
-            pstmt.setString(4, entity.getEmail());
-            pstmt.setString(5, entity.getRole());
+            pstmt.setLong(2, entity.getRoundOfEveningRefId());
+            pstmt.setLong(3, entity.getQuestionRefId());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -209,11 +182,11 @@ public class UserRepository extends CrudRepositoryAdapter<User, Long>
         return s;
     }
 
-    private <S extends User> S update(S entity)
+    private <S extends QuestionOfRound> S update(S entity)
     {
         // @formatter:off
         String sql = "UPDATE " + TABLE_NAME
-                + " SET username=?, password=?, email=?, role=?"
+                + " SET roundOfEveningRefId=?, questionRefId=?"
                 + " WHERE id=?";
 
         try (
@@ -221,11 +194,9 @@ public class UserRepository extends CrudRepositoryAdapter<User, Long>
                 PreparedStatement pstmt = conn.prepareStatement(sql);
             ) 
         {
-            pstmt.setString(1, entity.getUsername());
-            pstmt.setString(2, entity.getPassword());
-            pstmt.setString(3, entity.getEmail());
-            pstmt.setString(4, entity.getRole());
-            pstmt.setLong(5, entity.getId());
+            pstmt.setLong(1, entity.getRoundOfEveningRefId());
+            pstmt.setLong(2, entity.getQuestionRefId());
+            pstmt.setLong(3, entity.getId());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -239,3 +210,4 @@ public class UserRepository extends CrudRepositoryAdapter<User, Long>
     }
 
 }
+

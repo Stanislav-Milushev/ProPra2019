@@ -1,4 +1,4 @@
-package propra.grpproj.quiz.repositories.sqlite;
+package propra.grpproj.quiz.repositories.sqlite.utilities;
 
 import java.io.IOException;
 import java.nio.file.Files;
