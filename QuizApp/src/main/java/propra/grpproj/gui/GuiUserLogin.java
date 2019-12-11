@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import propra.grpproj.quiz.Socket.SocketClient;
 import propra.grpproj.quiz.SocketDataObjects.Login;
 import propra.grpproj.quiz.SocketDataObjects.UserType;
 
@@ -38,6 +39,8 @@ public class GuiUserLogin {
 	private JFrame frmUserLogin;
 	private JTextField tfUserName;
 	private JTextField tfPW;
+	
+	private static SocketClient socket_client;
 
 	/**
 	 * Launch the application.
@@ -274,7 +277,9 @@ public class GuiUserLogin {
 	
 	public void handleLogin(String userName, String pw) {
 		
+		Login login = new Login(userName, pw);
 		
+		socket_client.sendObject(login);
 		
 	}
 	
