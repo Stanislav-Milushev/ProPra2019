@@ -80,10 +80,6 @@ public class GuiAdmin {
 			}
 		});
 		
-		
-		
-		
-		
 	}
 
 	/**

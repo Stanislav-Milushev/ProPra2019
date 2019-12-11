@@ -18,6 +18,7 @@ public class KneipenAbend {
 	private int runde = 0;
 	private int pauseInSeconds = 60;
 	private long startTime;
+	private int poolID;
 	
 	public KneipenAbend(List<Question> questions, int ID) {
 		this.questions = questions;

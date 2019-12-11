@@ -32,7 +32,9 @@ public class AdminHandling {
 		db.closeconnection();
 		
 		
+		
 		AcceptPub accept = new AcceptPub(name, owner);
+		
 		SocketServer.getInstance().sendObject(accept, name);
 		
 		

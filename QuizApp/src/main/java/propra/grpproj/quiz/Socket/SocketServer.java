@@ -170,7 +170,7 @@ public class SocketServer implements Runnable{
         /**
          * 
          * @param o Object to be sent to the client
-         * @author Yannick & Marius
+         * @author Yannick & Marius & Stan
          * @throws SQLException 
          */
         private void recieveObject(Object o) throws SQLException {

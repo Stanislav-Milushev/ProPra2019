@@ -8,7 +8,7 @@ import propra.grpproj.quiz.SocketDataObjects.RegisterPub;
 ////////////////////////////////////////////////////////////////////////////
 // Class to register pubs
 // 
-// @author: Marius Discher
+// @author: Marius Discher & Stanislav Milushev
 //
 //
 //
@@ -31,7 +31,11 @@ public class PubHandling {
 		success_reg = db.registerPub(name,address,approved,ownerid);
 		
 		db.closeconnection();
+		
 		RegisterPub regProg = new RegisterPub(name,address,ownerid);
+		
+		regProg.setRegisterProg(true);
+		
 		SocketServer.getInstance().sendObject(regProg, name);
 		
 	}

@@ -426,13 +426,13 @@ public class DatabaseManager {
 			return pubID;
 		}
 		
-		public UserType getUserType (String email) throws SQLException {
+		public UserType getUserType (String name) throws SQLException {
 			
 			String user = "DEFAULT";
 			
 			UserType usertype;
 			
-			String query = "Select usertype from user Where email =" + email;
+			String query = "Select usertype from user Where email =" + name;
 			
 			Statement stmt = connection.createStatement();
 			
@@ -448,4 +448,6 @@ public class DatabaseManager {
 			return usertype;
 			
 		}
+		
+		//setUserType nachträglich type ändern
 }
