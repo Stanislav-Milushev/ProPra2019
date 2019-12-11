@@ -6,6 +6,7 @@ public class Question implements Serializable{
 	private int ID;
 	private String question;
 	private String[] answers;
+	private String explanation;
 	
 	public int getID() {
 		return ID;
@@ -18,9 +19,15 @@ public class Question implements Serializable{
 	public String[] getAnswers() {
 		return answers;
 	}
-	public Question(int iD, String question, String[] answers) {
+	
+	public String getExplanation() {
+		return explanation;
+	}
+	
+	public Question(int iD, String question, String[] answers, String explanation) {
 		this.ID = iD;
 		this.question = question;
 		this.answers = answers;
+		this.explanation = explanation;
 	}
 }
