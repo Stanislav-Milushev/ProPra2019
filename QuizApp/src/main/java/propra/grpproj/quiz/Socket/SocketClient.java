@@ -16,7 +16,7 @@ import propra.grpproj.quiz.SocketDataObjects.Login;
 import propra.grpproj.quiz.SocketDataObjects.Pub;
 import propra.grpproj.quiz.SocketDataObjects.PubList;
 import propra.grpproj.quiz.SocketDataObjects.Question;
-import propra.grpproj.quiz.SocketDataObjects.QuestionList;
+import propra.grpproj.quiz.SocketDataObjects.GetQuestionSet;
 import propra.grpproj.quiz.SocketDataObjects.RegisterPub;
 import propra.grpproj.quiz.SocketDataObjects.RegisterUser;
 import propra.grpproj.quiz.SocketDataObjects.RepeatPubevening;
@@ -121,6 +121,9 @@ public class SocketClient implements Runnable{
     	if(o instanceof Pub) {
     		Pub pub = (Pub)o;
     	}
+    	if(o instanceof GetQuestionSet) {
+    		GetQuestionSet qs = (GetQuestionSet)o;
+    	}
     	if(o instanceof PubList) {
     		PubList publ = (PubList)o;
     		GuiAdmin.getInstance().getPubListFromServer(publ);
@@ -128,8 +131,8 @@ public class SocketClient implements Runnable{
     	if(o instanceof Question) {
     		Question q = (Question)o;
     	}
-    	if(o instanceof QuestionList) {
-    		QuestionList ql = (QuestionList)o;
+    	if(o instanceof GetQuestionSet) {
+    		GetQuestionSet ql = (GetQuestionSet)o;
     		GuiAdmin.getInstance().getQuestionListFromServer(ql);
     	}
     	if(o instanceof RegisterPub) {

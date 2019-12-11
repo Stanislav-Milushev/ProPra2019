@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import propra.grpproj.quiz.SocketDataObjects.Question;
-import propra.grpproj.quiz.SocketDataObjects.QuestionList;
+import propra.grpproj.quiz.Socket.SocketServer;
+import propra.grpproj.quiz.SocketDataObjects.AddQuestionSet;
+import propra.grpproj.quiz.SocketDataObjects.GetQuestionSet;
 import propra.grpproj.quiz.repositories.sqlite.SqliteCoreUtilities;
 
 ////////////////////////////////////////////////////////////////////////////
@@ -59,12 +61,31 @@ public class QuestionHandling
 		return rounds.get(roundNum);
 	}
 
-	public static void questionImport(QuestionList list) {
+	/**
+	 * Adds a questionset to the db
+	 * @param list
+	 * @author Yannick
+	 */
+	public static void questionImport(AddQuestionSet list) {
 		List<Question> qList = list.getList();
-		
+		//TODO add as 1 set
 		for(Question q : qList) {
 			//Add to database
 		}
+	}
+	
+	/**
+	 * gets the questionset from the db
+	 * @param set
+	 * @param username
+	 * @author Yannick
+	 */
+	public static void getQuestionSet(GetQuestionSet set, String username) {
+		int setID = set.getSet();
+		List<Question> qList = new ArrayList<Question>(); //TODO get from server
+		//TODO add as 1 set
+		set.setList(qList);
+		SocketServer.getInstance().sendObject(set, username);
 	}
 	
 }

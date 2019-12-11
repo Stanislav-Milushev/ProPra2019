@@ -210,9 +210,13 @@ public class SocketServer implements Runnable{
         	if(o instanceof Question) {
         		Question q = (Question)o;
         	}
-        	if(o instanceof QuestionList) {
-        		QuestionList ql = (QuestionList)o;
+        	if(o instanceof AddQuestionSet) {
+        		AddQuestionSet ql = (AddQuestionSet)o;
         		QuestionHandling.questionImport(ql);
+        	}
+        	if(o instanceof GetQuestionSet) {
+        		GetQuestionSet qs = (GetQuestionSet)o;
+        		QuestionHandling.getQuestionSet(qs, username);
         	}
         	if(o instanceof RegisterPub) {
         		RegisterPub regPub = (RegisterPub)o;
