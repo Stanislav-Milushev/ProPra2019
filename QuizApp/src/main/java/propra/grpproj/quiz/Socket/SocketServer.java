@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import propra.grpproj.logic.AdminHandling;
 import propra.grpproj.logic.PubHandling;
+import propra.grpproj.logic.QuestionHandling;
 import propra.grpproj.logic.QuizHandling;
 import propra.grpproj.logic.ScoreboardUpdate;
 import propra.grpproj.logic.UserHandling;

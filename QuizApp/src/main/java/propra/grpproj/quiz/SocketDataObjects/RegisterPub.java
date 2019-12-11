@@ -32,4 +32,8 @@ public class RegisterPub implements Serializable{
 		return ownerID;
 	}
 	
+	public void setRegisterProg(boolean set) {
+		registerPub = set;
+	}
+	
 }

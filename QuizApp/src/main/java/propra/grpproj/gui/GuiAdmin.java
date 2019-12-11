@@ -4,14 +4,12 @@ package propra.grpproj.gui;
 
 import propra.grpproj.quiz.Socket.SocketClient;
 import propra.grpproj.quiz.Socket.SocketServer;
-import propra.grpproj.quiz.SocketDataObjects.AddQuestion;
 import propra.grpproj.quiz.SocketDataObjects.ChangePub;
 import propra.grpproj.quiz.SocketDataObjects.ChangeQuestion;
 import propra.grpproj.quiz.SocketDataObjects.DeleteQuestion;
 import propra.grpproj.quiz.SocketDataObjects.Pub;
 import propra.grpproj.quiz.SocketDataObjects.PubList;
 import propra.grpproj.quiz.SocketDataObjects.Question;
-import propra.grpproj.quiz.SocketDataObjects.QuestionList;
 
 
 import java.awt.EventQueue;
@@ -104,7 +102,7 @@ public class GuiAdmin {
 		ArrayList<Pub> pList = new ArrayList<Pub>();
 		ArrayList<Question> qList = new ArrayList<Question>();
 		getPubListRequest();
-		getQuestionListRequest();
+	//TODO ERROR	getQuestionListRequest();
 
 	/**
 	 * Initialize the contents of the frame.
@@ -1040,15 +1038,16 @@ public class GuiAdmin {
 	public void getPubListFromServer(PubList list) {
 		pList = list.getList();
 	}
-
+/*
 	public static void getQuestionListRequest() {
 		c.sendObject(new QuestionList());
 	}
 	
+	 ERROS
 	public void getQuestionListFromServer(QuestionList list) {
 		qList = list.getList();
 	}
-
+*/
 
 	public Pub getPub(int pID) {
 		Pub p = null;										//Geht das so?
@@ -1107,7 +1106,7 @@ public class GuiAdmin {
 	}
 	
 	public void loadQuestionList() {
-		getQuestionListRequest();
+	//	getQuestionListRequest(); TODO ERROR
 		DefaultTableModel qModel = new DefaultTableModel();
 		String qHeaders[] = {
 				"Fragen-ID", "Frage", "richtige Antwort", 
@@ -1190,7 +1189,7 @@ public class GuiAdmin {
 	
 	 
 	public void addQuestion(String qT, String[] answers, String ex) {
-		 c.sendObject(new AddQuestion(qT, answers, ex));					//Wie mit ID?
+	//TODO ERROR	 c.sendObject(new AddQuestion(qT, answers, ex));					//Wie mit ID?
 	}
 	
 	public void deleteQuestion(int questionID) {
