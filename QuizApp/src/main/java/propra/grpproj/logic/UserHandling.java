@@ -62,8 +62,10 @@ public class UserHandling
 	 *  Calls the function inside the DatabaseManager
 	 *  
 	 */
-	public void user_login(String email, String passwd) throws SQLException 
+	public void user_login(Login login) throws SQLException 
 	{
+		String username = login.getUserName();
+		String passwd = login.getPassword();
 		
 		DatabaseManager db = new DatabaseManager();
 		
@@ -73,53 +75,21 @@ public class UserHandling
 		
 		db.connection();
 		
-		success_login = db.login(email,passwd);
+		success_login = db.login(username,passwd); //funktioniert das immernoch mit username statt email?
 		
-		UserType usertype = db.getUserType(email);
+		UserType usertype = db.getUserType(username);
 		
 		db.closeconnection();
 		
-		aus.userLogin(email);
+		aus.userLogin(username);
 		
-		
-		// Switch case for usertype
-		
-		if (success_login == true) 
-		{
-			switch (usertype) 
-			{
-			
-				case DEFAULT: 
-				{
-					// Int 2 = Menu user
-					break;
-				}
-				case ADMIN:
-				{
-					// Int 3 = Admin menu
-					break;
-				}
-				case PUBOWNER: 
-				{
-					// Int 4 = Pubowner menu
-					break;
-				}
-				case ADMINPUBOWNER: 
-				{
-					// Int 3 or 4 You can switch between both
-					break;
-				
-				}
-				default: 
-				{
-					// Int 5 = Error message: type is not clear 
-				
-				}
-			}
-		} else {
-			
-			// Int 6 = Error login
+		if (!success_login == true) {
+			usertype = UserType.ERROR;
 		}
+		
+		login.setType(usertype);
+		
+		SocketServer.getInstance().sendObject(login, username);
 	
 		// Send object to GUI 
 		// Case 1: login successfully
