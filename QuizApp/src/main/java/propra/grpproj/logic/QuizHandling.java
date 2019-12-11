@@ -1,8 +1,12 @@
 package propra.grpproj.logic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import propra.grpproj.quiz.SocketDataObjects.CreatePubevening;
 import propra.grpproj.quiz.SocketDataObjects.IntegerMap;
 import propra.grpproj.quiz.SocketDataObjects.Question;
 
@@ -30,26 +34,26 @@ public class QuizHandling {
 	}
 	
 	/**
-	 * creates a quiz with the given parameters
-	 * @param QuizID
-	 * @param questions
+	 * Creates and starts the evening
+	 * @param e CreatePubevening object from SocketServer
 	 * @author Yannick
 	 */
-	public void createQuiz (int QuizID, List<Question> questions) {
-		KneipenAbend abend = new KneipenAbend(questions, QuizID);
-		quizMap.put(QuizID, abend);
-	}
-	
-	/**
-	 * creates a quiz with the given parameters
-	 * @param QuizID
-	 * @param questions
-	 * @param secondsPerQuestion
-	 * @author Yannick 
-	 */
-	public void createQuiz (int QuizID, List<Question> questions, int secondsPerQuestion) {
-		KneipenAbend abend = new KneipenAbend(questions, secondsPerQuestion, QuizID);
-		quizMap.put(QuizID, abend);
+	public void createQuiz(CreatePubevening e) {
+		List<Question> questions = new ArrayList<Question>(); //Runde 1 befüllen
+		int ID = 0; //ID holen
+		
+		KneipenAbend abend = new KneipenAbend(questions, e.getSecPerQuestion(), ID);
+		quizMap.put(ID, abend);
+		
+		Timer t = new Timer(true);
+		t.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				startQuiz(ID);				
+			}
+			
+		}, e.getStart());
 	}
 	
 	/**
@@ -67,7 +71,7 @@ public class QuizHandling {
 	 * @param ID
 	 * @author Yannick
 	 */
-	public void startQuiz(int ID) {
+	private void startQuiz(int ID) {
 		quizMap.get(ID).start();
 	}
 	

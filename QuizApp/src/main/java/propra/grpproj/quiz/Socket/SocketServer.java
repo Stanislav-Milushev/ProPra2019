@@ -183,6 +183,7 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof CreatePubevening) {
         		CreatePubevening cpe = (CreatePubevening)o;
+        		QuizHandling.getInstance().createQuiz(cpe);
         	}
         	if(o instanceof DeleteUser) {
         		DeleteUser du = (DeleteUser) o;
