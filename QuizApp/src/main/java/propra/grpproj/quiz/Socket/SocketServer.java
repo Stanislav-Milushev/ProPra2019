@@ -205,8 +205,7 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof PubList) {
         		PubList publ = (PubList)o;
-        		PubHandling ph = new PubHandling();
-        		
+        		PubHandling.getPubs(publ, username);
         	}
         	if(o instanceof Question) {
         		Question q = (Question)o;
