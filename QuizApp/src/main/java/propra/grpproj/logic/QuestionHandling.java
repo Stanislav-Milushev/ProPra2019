@@ -9,21 +9,31 @@ import propra.grpproj.quiz.SocketDataObjects.Question;
 import propra.grpproj.quiz.repositories.sqlite.SqliteCoreUtilities;
 
 public class QuestionHandling {  // Fragen aus der db in runden Paken , dann zu QuizHandling und Kneipenabend
-	//List<Question> questions = new ArrayList<Question>();
-	List<String> questions = new ArrayList<String>();
-	List<List<String>> rounds = new ArrayList<List<String>>();
+	List<Question> questions = new ArrayList<Question>();
+	List<String> questionsRaw = new ArrayList<String>();
+	//List<List<String>> rounds = new ArrayList<List<String>>();
+	List<List<Question>> rounds = new ArrayList<List<Question>>();
 	
 	public void loadQuestions(String Pool) throws SQLException {
 		AdminHandling ad = new AdminHandling();
-		questions = ad.getQuestionPool(Pool);
-	
+		questionsRaw = ad.getQuestionPool(Pool);
+		for(String qRaw: questionsRaw) {
+			String[] qSplit = qRaw.split(";");
+			int qid= Integer.valueOf(qSplit[0]);
+			String qquestion= qSplit[1];
+			// Antwort array Format?
+			String[] qanswer=null;
+			
+			Question Q = new Question(qid,qquestion,qanswer);
+			questions.add(Q); 
+		}
 	}
 	
 	public void splitRounds(int Roundscount) {
 		int av = questions.size() / Roundscount;
 		int i;		
 		for (int x=0; x < Roundscount; x++) {  
-		    List<String> round = new ArrayList<>();
+		    List<Question> round = new ArrayList<>();
 		    i = av*x;	
 		    for( ;av>i ;i++) {
 				round.add(questions.get(i));
@@ -32,7 +42,7 @@ public class QuestionHandling {  // Fragen aus der db in runden Paken , dann zu 
 		 }  
 	}
 
-	public List<String> getRounds(int roundNum) {
+	public List<Question> getRounds(int roundNum) {
 		return rounds.get(roundNum);
 	}
 
