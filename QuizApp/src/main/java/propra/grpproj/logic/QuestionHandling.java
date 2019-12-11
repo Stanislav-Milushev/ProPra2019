@@ -1,21 +1,25 @@
 package propra.grpproj.logic;
 
 import java.sql.Array;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import propra.grpproj.quiz.SocketDataObjects.Question;
 import propra.grpproj.quiz.repositories.sqlite.SqliteCoreUtilities;
+
 ////////////////////////////////////////////////////////////////////////////
-//Class to load and manage a questions
+// Class to load and manage a questions
 //
-//@author: Stanislav Milushev
+// @author: Stanislav Milushev
 //
 //
 //
 
-public class QuestionHandling {  // Fragen aus der db in runden Paken , dann zu QuizHandling und Kneipenabend
+
+public class QuestionHandling 
+{  // Fragen aus der db in runden Paken , dann zu QuizHandling und Kneipenabend
 	List<Question> questions = new ArrayList<Question>();
 	List<String> questionsRaw = new ArrayList<String>();
 	//List<List<String>> rounds = new ArrayList<List<String>>();

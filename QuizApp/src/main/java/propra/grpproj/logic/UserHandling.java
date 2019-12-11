@@ -178,7 +178,7 @@ public class UserHandling
 	// delete the user after successfully authenticated
 	// checks if user exist then deletes from Database
 	// sends DeleteUser back to Gui
-	public boolean deleteUser (String id, String passwd) throws SQLException 
+	public boolean deleteUser (String username, String passwd) throws SQLException 
 	{
 		
 		boolean del_check = true;
@@ -187,7 +187,7 @@ public class UserHandling
 		
 		db.connection();
 		
-		String query = "Select password From user Where id =" + id;
+		String query = "Select password From user Where id =" + username;
 		
 		Statement stmt = db.connection.createStatement();
 		
@@ -206,7 +206,7 @@ public class UserHandling
 		stmt.close();
 		
 		if (del_check) {
-			String queryD = "Delete From user Where id =" + id;
+			String queryD = "Delete From user Where id =" + username;
 			Statement stmtD = db.connection.createStatement();
 			ResultSet rsD = stmt.executeQuery(query);
 			rsD.close();
@@ -215,9 +215,6 @@ public class UserHandling
 		db.closeconnection();
 		
 		return del_check;
-		DeleteUser deldone ;
-		deldone.setDeleteProgress(del_check);
-		SocketServer.getInstance().sendObject(deldone, username); // how do i get the username?
 		
 		
 		
