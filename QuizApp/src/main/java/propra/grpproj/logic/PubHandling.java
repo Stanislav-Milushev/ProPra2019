@@ -2,6 +2,9 @@ package propra.grpproj.logic;
 
 import java.sql.SQLException;
 
+import propra.grpproj.quiz.Socket.SocketServer;
+import propra.grpproj.quiz.SocketDataObjects.RegisterPub;
+
 ////////////////////////////////////////////////////////////////////////////
 // Class to register pubs
 // 
@@ -13,9 +16,8 @@ import java.sql.SQLException;
 
 
 public class PubHandling { 
-
 	
-	public void registerPub (String name, String address, int ownerid) throws SQLException {
+	public void registerPub (RegisterPub pub, String username) throws SQLException {
 		
 		DatabaseManager db = new DatabaseManager();
 		
@@ -25,11 +27,13 @@ public class PubHandling {
 		
 		db.connection();
 		
-		success_reg = db.registerPub(name,address,approved,ownerid);
+		success_reg = db.registerPub(pub.getName(),pub.getAddress(),approved,pub.getOwnerID());
 		
 		db.closeconnection();
 		
-		// Send success to GUI back
+		pub.setSuccess(success_reg);
+		
+		SocketServer.getInstance().sendObject(pub, username);
 		
 	}
 		

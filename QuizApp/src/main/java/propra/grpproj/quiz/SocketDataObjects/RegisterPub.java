@@ -5,7 +5,8 @@ import java.io.Serializable;
 public class RegisterPub implements Serializable{
 	private String name;
 	private String address;
-	
+	private boolean success;
+
 	private int ownerID;
 	
 	/**
@@ -32,4 +33,11 @@ public class RegisterPub implements Serializable{
 		return ownerID;
 	}
 	
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
 }
