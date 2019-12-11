@@ -49,10 +49,6 @@ public class UserHandling
 			SocketServer.getInstance().sendObject(registerfail, username);
 		}
 		
-		RegisterUser registerfail = new RegisterUser(username,email,passwd,usertype);
-		registerfail.setRegisterProg(success_reg);
-		SocketServer.getInstance().sendObject(registerfail, username);
-		
 	}
 	
 	
