@@ -16,6 +16,8 @@ public class KneipenAbend {
 	private int timePerQuestion = 20;
 	private int counter = 0;
 	private int runde = 0;
+	private int pauseInSeconds = 60;
+	private long startTime;
 	
 	public KneipenAbend(List<Question> questions, int ID) {
 		this.questions = questions;
@@ -39,6 +41,7 @@ public class KneipenAbend {
 		for(String user : users) {
 			SocketServer.getInstance().sendObject(questions.get(counter), user);
 		}
+		startTime = System.nanoTime();
 	}
 	
 	private void sendAnswer() {
@@ -53,15 +56,20 @@ public class KneipenAbend {
 	}
 	
 	/**
-	 * 
+	 * Calculates the points for a question
 	 * @return points for selected answer
 	 * @author Yannick
 	 */
 	public double getAnswerPoints() {
 		double points = 0;
-		//TODO bonus points for time
 		
 		points += 100;
+		
+		long currentTime = System.nanoTime();
+		long elapsed = startTime - currentTime;
+		
+		long elapsedMilli = elapsed / 1000;
+		points += (20000 - elapsedMilli) / 200.0;
 		
 		return points;
 	}
@@ -83,31 +91,12 @@ public class KneipenAbend {
 
 		@Override
 		public void run() {
-			counter++;
 			
-			if(counter == questions.size()) {
-				counter = 0;
-				runde++;
-				//Lade neue Fragen wenn es sie gibt
-				if(true) { //Es gibt neue fragen
-					//Fragen laden
-					sendQuestion();
-					Timer timer = new Timer(true);
-					WaitExplanation task = new WaitExplanation();
-					timer.schedule(task, 10 * 1000);
-				} else {
-					//Keine neuen fragen
-					
-						//Sende an alle leute das ergebnis
-					
-					QuizHandling.getInstance().removeKneipenAbend(KneipenAbendID);
-				}
-			} else {
-				sendQuestion();
-				Timer timer = new Timer(true);
-				WaitExplanation task = new WaitExplanation();
-				timer.schedule(task, 10 * 1000);
-			}
+			sendQuestion();
+			Timer timer = new Timer(true);
+			WaitExplanation task = new WaitExplanation();
+			timer.schedule(task, timePerQuestion * 1000);
+			
 		}
 		
 	}
@@ -117,9 +106,26 @@ public class KneipenAbend {
 		@Override
 		public void run() {
 			sendAnswer();
-			Timer timer = new Timer(true);
-			WaitQuestion task = new WaitQuestion();
-			timer.schedule(task, timePerQuestion * 1000);
+			
+			counter++;
+			
+			if(counter == questions.size()) {
+				counter = 0;
+				runde++;
+				//TODO Lade neue Fragen wenn es sie gibt
+				if(true) { //Es gibt weiteren fragen
+
+					Timer timer = new Timer(true);
+					WaitQuestion task = new WaitQuestion();
+					timer.schedule(task, pauseInSeconds * 1000);
+				} else {
+					//Keine neuen fragen
+					
+					//TODO Sende an alle leute das ergebnis
+					
+					QuizHandling.getInstance().removeKneipenAbend(KneipenAbendID);
+				}
+			}
 		}
 		
 	}
