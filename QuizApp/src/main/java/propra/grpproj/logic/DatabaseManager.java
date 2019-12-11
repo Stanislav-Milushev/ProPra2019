@@ -52,7 +52,6 @@ public class DatabaseManager {
 	
 	
 	// Function to register a user
-	//usertype added
 	public boolean registerUser(String username, String email, String passwd, UserType usertype) throws SQLException {
 		
 		// false = cannot register the user
@@ -449,5 +448,18 @@ public class DatabaseManager {
 			
 		}
 		
+<<<<<<< HEAD
 		//setUserType nachträglich type ändern
+=======
+		public void setUsertype (UserType usertype) throws SQLException {
+			
+			String user = usertype.toString();
+			
+			String query = "Update user value usertype = ?";
+			
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setString(1, user);
+			
+		}
+>>>>>>> 60c80a411a38272f5cf435c63a5306642fd50f13
 }
