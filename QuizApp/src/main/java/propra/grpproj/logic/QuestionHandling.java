@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import propra.grpproj.quiz.SocketDataObjects.Question;
-import propra.grpproj.quiz.SocketDataObjects.QuestionList;
 import propra.grpproj.quiz.repositories.sqlite.SqliteCoreUtilities;
 
 ////////////////////////////////////////////////////////////////////////////
@@ -59,12 +58,11 @@ public class QuestionHandling
 		return rounds.get(roundNum);
 	}
 
-	public static void questionImport(QuestionList list) {
-		List<Question> qList = list.getList();
+	public void questionImport() {
 		
-		for(Question q : qList) {
-			//Add to database
-		}
 	}
+
+	
+	
 	
 }

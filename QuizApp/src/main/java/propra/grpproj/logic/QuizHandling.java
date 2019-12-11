@@ -9,7 +9,6 @@ import java.util.TimerTask;
 import propra.grpproj.quiz.SocketDataObjects.CreatePubevening;
 import propra.grpproj.quiz.SocketDataObjects.IntegerMap;
 import propra.grpproj.quiz.SocketDataObjects.Question;
-import propra.grpproj.quiz.SocketDataObjects.RepeatPubevening;
 
 ////////////////////////////////////////////////////////////////////////////
 // Class to create and manage a quiz
@@ -55,14 +54,6 @@ public class QuizHandling {
 			}
 			
 		}, e.getStart());
-	}
-	
-	public void createQuiz(RepeatPubevening e) {
-		//TODO get from database
-		int sec = 20;
-		int set = 1;
-		CreatePubevening create = new CreatePubevening(sec, e.getStart(), set, e.getName());
-		createQuiz(create);
 	}
 	
 	/**

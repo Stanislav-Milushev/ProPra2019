@@ -63,7 +63,7 @@ public class GuiAdmin {
 	
 	private static SocketClient c;
 	private static SocketServer s;
- 
+
 	/**
 	 * Launch the application.
 	 */

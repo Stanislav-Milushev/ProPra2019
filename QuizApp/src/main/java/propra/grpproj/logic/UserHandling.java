@@ -47,12 +47,8 @@ public class UserHandling
 			RegisterUser registerfail = new RegisterUser(username,email,passwd,usertype);
 			registerfail.setRegisterProg(success_reg);
 			SocketServer.getInstance().sendObject(registerfail, username);
-<<<<<<< HEAD
 		}
 		
-=======
-		}		
->>>>>>> 60c80a411a38272f5cf435c63a5306642fd50f13
 	}
 	
 	
