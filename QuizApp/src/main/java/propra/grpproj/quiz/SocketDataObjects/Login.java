@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Login implements Serializable{
 	private String userName;
 	private String password;
-	private UserType type = null;
+	private UserType type = UserType.DEFAULT;
 	
 	/**
 	 * 
@@ -37,4 +37,6 @@ public class Login implements Serializable{
 	public String getPassword() {
 		return password;
 	}
+
+	
 }

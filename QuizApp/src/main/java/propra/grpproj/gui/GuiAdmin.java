@@ -63,7 +63,7 @@ public class GuiAdmin {
 	
 	private static SocketClient c;
 	private static SocketServer s;
- 
+
 	/**
 	 * Launch the application.
 	 */
@@ -79,10 +79,6 @@ public class GuiAdmin {
 				}
 			}
 		});
-		
-		
-		
-		
 		
 	}
 
@@ -1038,7 +1034,7 @@ public class GuiAdmin {
  
 	
 	public static void getPubListRequest() {
-		c.sendObject(new PubList());
+		//c.sendObject(new PubList());
 	}
 	
 	public void getPubListFromServer(PubList list) {
