@@ -8,9 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import propra.grpproj.quiz.dataholders.PlayerOfRound;
+import propra.grpproj.quiz.repositories.CrudRepository;
 import propra.grpproj.quiz.repositories.CrudRepositoryAdapter;
 
 
@@ -218,6 +220,16 @@ public class PlayerOfRoundRepository extends CrudRepositoryAdapter<PlayerOfRound
         S s = (S) findById(entity.getId()).get();
         return s;
     }
+
+	public Optional<PlayerOfRound> findByUserRefIdAndRoundsOfEveId(Long userRefId, Long roundOfEveningRefId)
+	{
+        List<PlayerOfRound> allUserRefIds = CrudRepository.convertToList(findAll());
+
+        return allUserRefIds.stream()
+                .filter(playerOfRound -> {
+                    return playerOfRound.getUserRefId().equals(userRefId) && playerOfRound.getRoundOfEveningRefId().equals(roundOfEveningRefId);
+                }).findFirst();
+	}
 
 }
 
