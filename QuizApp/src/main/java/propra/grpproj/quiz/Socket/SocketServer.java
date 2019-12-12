@@ -188,6 +188,7 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof ChangePub) {
         		ChangePub cp = (ChangePub)o;
+        		PubHandling.editPub(cp);
         	}
         	if(o instanceof ChangeQuestion) {
         		ChangeQuestion cq = (ChangeQuestion)o;
@@ -206,7 +207,7 @@ public class SocketServer implements Runnable{
         		UserHandling delete = new UserHandling();
         		delete.deleteUser(name, passwd);        		
         	}
-        	if(o instanceof Exception) {
+        	if(o instanceof Explanation) {
         		Explanation exp = (Explanation)o;
         	}
         	if(o instanceof GetQuestionSet) {
@@ -226,12 +227,12 @@ public class SocketServer implements Runnable{
         		UserHandling user = new UserHandling();
         		user.user_login(lin);
         	}
-        	if(o instanceof Pub) {
+        	if(o instanceof Pub) { //Unused
         		Pub pub = (Pub)o;
         	}
         	if(o instanceof PubList) {
         		PubList publ = (PubList)o;
-        		
+        		PubHandling.sendPubListToUser(publ, username);
         	}
         	if(o instanceof Question) {
         		Question q = (Question)o;

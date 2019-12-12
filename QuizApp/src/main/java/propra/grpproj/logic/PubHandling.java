@@ -1,8 +1,12 @@
 package propra.grpproj.logic;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import propra.grpproj.quiz.Socket.SocketServer;
+import propra.grpproj.quiz.SocketDataObjects.ChangePub;
+import propra.grpproj.quiz.SocketDataObjects.Pub;
+import propra.grpproj.quiz.SocketDataObjects.PubList;
 import propra.grpproj.quiz.SocketDataObjects.RegisterPub;
 
 ////////////////////////////////////////////////////////////////////////////
@@ -38,6 +42,28 @@ public class PubHandling {
 		
 		SocketServer.getInstance().sendObject(regProg, name);
 		
+	}
+	
+	/**
+	 * Edits a pub in the database
+	 * @param cp
+	 * @author Yannick
+	 */
+	public static void editPub(ChangePub cp) {
+		
+	}
+	
+	/**
+	 * Sends the user a copy of all pubs
+	 * @param list
+	 * @param username
+	 * @author Yannick
+	 */
+	public static void sendPubListToUser(PubList list, String username) {
+		List<Pub> pList = null; //Fill from db
+		
+		list.setList(pList);
+		SocketServer.getInstance().sendObject(list, username);
 	}
 		
 }
