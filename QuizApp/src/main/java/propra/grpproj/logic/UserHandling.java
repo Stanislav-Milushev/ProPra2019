@@ -40,7 +40,7 @@ public class UserHandling
 		
 		if ( db.registerUser(username, email, passwd, usertype) == true ) {
 			
-			user_login(new Login(username, passwd));
+			user_login(username, passwd);
 			registeruser.setRegisterProg(true);
 			SocketServer.getInstance().sendObject(registeruser, username);
 			
@@ -58,33 +58,35 @@ public class UserHandling
 	
 	
 
+
+
+
 	/**   
 	 *  Method to log a user in the quiz system
 	 *  Calls the function inside the DatabaseManager
 	 *  
 	 */
-	public void user_login(Login login) throws SQLException 
+	public void user_login(String username, String passwd) throws SQLException 
 	{
-		String username = login.getUserName();
-		String passwd = login.getPassword();
+		
 		
 		DatabaseManager db = new DatabaseManager();
-		
 		boolean success_login; 
-
+		
 		success_login = db.login(username,passwd); 
 		
 		UserType usertype = db.getUserType(username);
 		
 		if (!success_login == true) {
 			usertype = UserType.ERROR;
-			login.setLogged(false);
-		}
+		} else {
 		
-		login.setType(usertype);
+		Login login = new Login(username,passwd);
+		
 		login.setLogged(true);
+		
 		SocketServer.getInstance().sendObject(login, username);
-	
+		}
 		// Send object to GUI 
 		// Case 1: login successfully
 		// Case 2: password incorrect 
