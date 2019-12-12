@@ -192,6 +192,7 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof ChangeQuestion) {
         		ChangeQuestion cq = (ChangeQuestion)o;
+        		QuestionHandling.editQuestion(cq);
         	}
         	if(o instanceof CreatePubevening) {
         		CreatePubevening cpe = (CreatePubevening)o;
@@ -199,6 +200,7 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof DeleteQuestion) {
         		DeleteQuestion dq = (DeleteQuestion)o;
+        		QuestionHandling.deleteQuestion(dq);
         	}
         	if(o instanceof DeleteUser) {
         		DeleteUser du = (DeleteUser) o;
@@ -234,7 +236,7 @@ public class SocketServer implements Runnable{
         		PubList publ = (PubList)o;
         		PubHandling.sendPubListToUser(publ, username);
         	}
-        	if(o instanceof Question) {
+        	if(o instanceof Question) {//Unused
         		Question q = (Question)o;
         	}
         	if(o instanceof RegisterPub) {
