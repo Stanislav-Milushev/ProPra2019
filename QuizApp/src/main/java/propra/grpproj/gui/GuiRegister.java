@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -28,6 +29,7 @@ public class GuiRegister {
 	private JTextField tfUserName;
 	private JTextField tfEmail;
 	private JTextField tfPassword;
+	private JTextField tfPasswordRepeat;
 
 	/**
 	 * Launch the application.
@@ -176,13 +178,36 @@ public class GuiRegister {
 		pRegister.add(tfEmail, gbc_tfEmail);
 		tfEmail.setColumns(10);
 		
+		JLabel lblpasswdrepeat = new JLabel("Passwort wiederholen");
+		GridBagConstraints gbc_pwrepeat = new GridBagConstraints();
+		gbc_pwrepeat.insets = new Insets(5, 5, 5, 5);
+		gbc_pwrepeat.anchor = GridBagConstraints.EAST;
+		gbc_pwrepeat.gridx = 0;
+		gbc_pwrepeat.gridy = 4;
+		pRegister.add(lblpasswdrepeat, gbc_pwrepeat);
+		
+		tfPasswordRepeat = new JTextField();
+		GridBagConstraints gbc_tfPasswordrepeat = new GridBagConstraints();
+		gbc_tfPasswordrepeat.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPasswordrepeat.anchor = GridBagConstraints.WEST;
+		gbc_tfPasswordrepeat.gridx = 1;
+		gbc_tfPasswordrepeat.gridy = 4;
+		pRegister.add(tfPasswordRepeat, gbc_tfPasswordrepeat);
+		tfPasswordRepeat.setColumns(10);
+		
+		
 		
 		JButton bRegister = new JButton("Abschicken");
 		bRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String username = tfUserName.getText();
 				String password = tfPassword.getText();
+				String password2 = tfPasswordRepeat.getText();
 				String email = tfEmail.getText();
+				
+				if (password == password2) {
+					
+				}
 				
 			}
 		});
@@ -191,7 +216,7 @@ public class GuiRegister {
 		gbc_Register.gridwidth = 2;
 		gbc_Register.insets = new Insets(5, 5, 5, 5);
 		gbc_Register.gridx = 0;
-		gbc_Register.gridy = 4;
+		gbc_Register.gridy = 5;
 		pRegister.add(bRegister, gbc_Register);
 		
 		JButton bBack = new JButton("Abbrechen");
@@ -207,7 +232,7 @@ public class GuiRegister {
 		gbc_Back.gridwidth = 2;
 		gbc_Back.insets = new Insets(5, 5, 5, 5);
 		gbc_Back.gridx = 1;
-		gbc_Back.gridy = 4;
+		gbc_Back.gridy = 5;
 		pRegister.add(bBack, gbc_Back);
 		
 		frameRegister.getContentPane().add(pHeader, BorderLayout.NORTH);
@@ -240,4 +265,8 @@ public class GuiRegister {
 		return frameRegister;
 	}
 
+	public void register_return() {
+		
+		JOptionPane.showInputDialog("registrierung erfolgreich, automatischer login");
+	}
 }
