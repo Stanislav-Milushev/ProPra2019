@@ -297,7 +297,7 @@ public class GuiUserLogin {
 	public void handleLogin(String userName, String pw) {
 		
 		Login login = new Login(userName, pw);
-		socket_client.sendObject(login);
+		//socket_client.sendObject(login);
 	}
 	
 	
