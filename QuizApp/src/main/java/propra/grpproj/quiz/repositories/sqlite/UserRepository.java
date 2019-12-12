@@ -52,12 +52,12 @@ public class UserRepository extends CrudRepositoryAdapter<User, Long>
                 }).findFirst();
     }
     
-    public Optional<User> findByEmail( String email ) {
+    public Optional<User> findByName( String name ) {
         List<User> allUsers = CrudRepository.convertToList(findAll());
         
         return allUsers.stream()
                 .filter(user -> {
-                    return user.getEmail().equalsIgnoreCase(email);
+                    return user.getUsername().equalsIgnoreCase(name);
                 }).findFirst();
     }
 

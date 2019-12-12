@@ -7,6 +7,7 @@ public class Login implements Serializable{
 	private String userName;
 	private String password;
 	private UserType type = UserType.DEFAULT;
+	private boolean logged = false;
 	
 	/**
 	 * 
@@ -37,6 +38,14 @@ public class Login implements Serializable{
 
 	public String getPassword() {
 		return password;
+	}
+
+	public boolean isLogged() {
+		return logged;
+	}
+
+	public void setLogged(boolean logged) {
+		this.logged = logged;
 	}
 
 	

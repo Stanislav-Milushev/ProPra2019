@@ -74,7 +74,7 @@ public class UserHandling
 		}
 		
 		login.setType(usertype);
-		
+		login.
 		SocketServer.getInstance().sendObject(login, username);
 	
 		// Send object to GUI 
@@ -97,7 +97,7 @@ public class UserHandling
 	// log the user out
 	public void logout (String username) {
 		
-		boolean success_logout = false;
+		boolean success_logout = true;
 		
 		
 	}

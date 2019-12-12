@@ -24,7 +24,7 @@ public class UserService
     
     public void createNewUser(String username,String email,String password, propra.grpproj.quiz.SocketDataObjects.UserType usertype)
     {
-        if(userRepository.findByEmail(email).isPresent())
+        if(userRepository.findByName(username).isPresent())
             throw new RuntimeException("A user with email=["+email+"] already exists");
         
         userRepository.save( new User(nextFreeId(), username, password, email, usertype.toString()) );
@@ -53,9 +53,9 @@ public class UserService
      * @return true if the email and password combination matches, false otherwise
      * @throws RuntimeException if there is no such user by email
      */
-    public boolean authenticate(String email, String plainPassword)
+    public boolean authenticate(String name, String plainPassword)
     {
-        Optional<User> user = userRepository.findByEmail(email);
+        Optional<User> user = userRepository.findByName(name);
         if (user.isPresent())
         {
             return user.get().getPassword().equals(plainPassword);

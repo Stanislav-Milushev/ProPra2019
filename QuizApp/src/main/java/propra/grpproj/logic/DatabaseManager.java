@@ -54,11 +54,12 @@ public class DatabaseManager {
 	
 	
 	// Function to authenticate login of a user
-	public boolean login(String email, String password) throws SQLException {
-		return false;
+	public boolean login(String name, String password) throws SQLException {
+		UserRepository userRepository = null;
+		UserService ub = new UserService(userRepository);
+		ub.authenticate(name, password);
+		return ub.authenticate(name, password); 
 		
-		
-	
 	}
 	
 	// Function to handle the approve of a pub
