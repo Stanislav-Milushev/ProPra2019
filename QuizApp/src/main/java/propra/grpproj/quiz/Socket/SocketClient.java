@@ -10,13 +10,20 @@ import org.slf4j.LoggerFactory;
 
 import propra.grpproj.gui.GuiAdmin;
 import propra.grpproj.quiz.SocketDataObjects.AcceptPub;
+import propra.grpproj.quiz.SocketDataObjects.AddQuestionSet;
+import propra.grpproj.quiz.SocketDataObjects.ChangePub;
+import propra.grpproj.quiz.SocketDataObjects.ChangeQuestion;
 import propra.grpproj.quiz.SocketDataObjects.CreatePubevening;
+import propra.grpproj.quiz.SocketDataObjects.DeleteQuestion;
 import propra.grpproj.quiz.SocketDataObjects.DeleteUser;
+import propra.grpproj.quiz.SocketDataObjects.Explanation;
 import propra.grpproj.quiz.SocketDataObjects.Login;
 import propra.grpproj.quiz.SocketDataObjects.Pub;
 import propra.grpproj.quiz.SocketDataObjects.PubList;
 import propra.grpproj.quiz.SocketDataObjects.Question;
 import propra.grpproj.quiz.SocketDataObjects.GetQuestionSet;
+import propra.grpproj.quiz.SocketDataObjects.IntegerMap;
+import propra.grpproj.quiz.SocketDataObjects.JoinQuiz;
 import propra.grpproj.quiz.SocketDataObjects.RegisterPub;
 import propra.grpproj.quiz.SocketDataObjects.RegisterUser;
 import propra.grpproj.quiz.SocketDataObjects.RepeatPubevening;
@@ -109,20 +116,43 @@ public class SocketClient implements Runnable{
 		if(o instanceof AcceptPub) {
     		AcceptPub pub = (AcceptPub)o;
     	}
+		if(o instanceof AddQuestionSet) {
+			//Sollte nicht passieren
+		}
+		if(o instanceof ChangePub) {
+			//Sollte nicht passieren
+		}
+		if(o instanceof ChangeQuestion) {
+			//Sollte nicht passieren
+		}
     	if(o instanceof CreatePubevening) {
-    		CreatePubevening cpe = (CreatePubevening)o;
+    		//Sollte nicht passieren
+    	}
+    	if(o instanceof DeleteQuestion) {
+    		//Sollte nicht passieren
     	}
     	if(o instanceof DeleteUser) {
-    		DeleteUser delUser = (DeleteUser)o;
+    		//Sollte nicht passieren
+    	}
+    	if(o instanceof Explanation) {
+    		Explanation exp = (Explanation)o;
+    		//Explanation anzeigen
+    	}
+    	if(o instanceof GetQuestionSet) {
+    		GetQuestionSet ql = (GetQuestionSet)o;
+    		//TODO fehler beheben GuiAdmin.getInstance().getQuestionListFromServer(ql);
+    	}
+    	if(o instanceof IntegerMap) {
+    		//Noch unbenutzt
+    	}
+    	if(o instanceof JoinQuiz) {
+    		//Vielleicht eine Rückantwort anzeigen
     	}
     	if(o instanceof Login) {
-    		Login lin = (Login)o;
+    		Login lin = (Login)o; //Rückschluss über erfolg des login
     	}
     	if(o instanceof Pub) {
     		Pub pub = (Pub)o;
-    	}
-    	if(o instanceof GetQuestionSet) {
-    		GetQuestionSet qs = (GetQuestionSet)o;
     	}
     	if(o instanceof PubList) {
     		PubList publ = (PubList)o;
@@ -130,10 +160,6 @@ public class SocketClient implements Runnable{
     	}
     	if(o instanceof Question) {
     		Question q = (Question)o;
-    	}
-    	if(o instanceof GetQuestionSet) {
-    		GetQuestionSet ql = (GetQuestionSet)o;
-    		GuiAdmin.getInstance().getQuestionListFromServer(ql);
     	}
     	if(o instanceof RegisterPub) {
     		RegisterPub regPub = (RegisterPub)o;

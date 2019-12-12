@@ -182,17 +182,44 @@ public class SocketServer implements Runnable{
         		AdminHandling admin = new AdminHandling();
         		admin.approvePub(name,owner);
         	}
+        	if(o instanceof AddQuestionSet) {
+        		AddQuestionSet ql = (AddQuestionSet)o;
+        		QuestionHandling.questionImport(ql);
+        	}
+        	if(o instanceof ChangePub) {
+        		ChangePub cp = (ChangePub)o;
+        	}
+        	if(o instanceof ChangeQuestion) {
+        		ChangeQuestion cq = (ChangeQuestion)o;
+        	}
         	if(o instanceof CreatePubevening) {
         		CreatePubevening cpe = (CreatePubevening)o;
         		QuizHandling.getInstance().createQuiz(cpe);
+        	}
+        	if(o instanceof DeleteQuestion) {
+        		DeleteQuestion dq = (DeleteQuestion)o;
         	}
         	if(o instanceof DeleteUser) {
         		DeleteUser du = (DeleteUser) o;
         		String name = du.getUsername();
         		String passwd = "";
         		UserHandling delete = new UserHandling();
-        		delete.deleteUser(name, passwd);
-        		
+        		delete.deleteUser(name, passwd);        		
+        	}
+        	if(o instanceof Exception) {
+        		Explanation exp = (Explanation)o;
+        	}
+        	if(o instanceof GetQuestionSet) {
+        		GetQuestionSet qs = (GetQuestionSet)o;
+        		QuestionHandling.getQuestionSet(qs, username);
+        	}
+        	if(o instanceof IntegerMap) {
+        		IntegerMap intMap = (IntegerMap)o;
+        		QuizHandling.getInstance().answer(username, intMap);
+        	}
+        	if(o instanceof JoinQuiz) {
+        		JoinQuiz jq = (JoinQuiz)o;
+        		QuizHandling.getInstance().joinQuiz(jq.getUsername(), jq.getQuizID());
         	}
         	if(o instanceof Login) {
         		Login lin = (Login)o;
@@ -208,14 +235,6 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof Question) {
         		Question q = (Question)o;
-        	}
-        	if(o instanceof AddQuestionSet) {
-        		AddQuestionSet ql = (AddQuestionSet)o;
-        		QuestionHandling.questionImport(ql);
-        	}
-        	if(o instanceof GetQuestionSet) {
-        		GetQuestionSet qs = (GetQuestionSet)o;
-        		QuestionHandling.getQuestionSet(qs, username);
         	}
         	if(o instanceof RegisterPub) {
         		RegisterPub regPub = (RegisterPub)o;
@@ -244,10 +263,6 @@ public class SocketServer implements Runnable{
         		float score = scbd.getScore();
         		ScoreboardUpdate sco = new ScoreboardUpdate();
         		sco.writeToDB(name, score);
-        	}
-        	if(o instanceof IntegerMap) {
-        		IntegerMap intMap = (IntegerMap)o;
-        		QuizHandling.getInstance().answer(username, intMap);
         	}
         }
     }
