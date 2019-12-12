@@ -23,6 +23,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import propra.grpproj.quiz.SocketDataObjects.RegisterUser;
+import propra.grpproj.quiz.SocketDataObjects.UserType;
+
 public class GuiRegister {
 
 	private JFrame frameRegister;
@@ -200,15 +203,17 @@ public class GuiRegister {
 		JButton bRegister = new JButton("Abschicken");
 		bRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				String username = tfUserName.getText();
 				String password = tfPassword.getText();
 				String password2 = tfPasswordRepeat.getText();
 				String email = tfEmail.getText();
+				
 				boolean check = password.equals(password2);
 				
 				if (check == true) {
 					
-					System.out.println("ok");
+					handleRegister(username, email, password);
 					
 				} else {
 					
@@ -271,6 +276,13 @@ public class GuiRegister {
 	
 	public JFrame getFrame() {
 		return frameRegister;
+	}
+	
+	public void handleRegister(String username, String email, String password) {
+		
+		UserType usertype = UserType.DEFAULT;
+		
+		RegisterUser user = new RegisterUser(username, password, email, usertype);
 	}
 
 	public void register_return() {
