@@ -158,7 +158,7 @@ public class SocketClient implements Runnable{
     	}
     	if(o instanceof Login) {
     		Login lin = (Login)o;
-    		User usertype = lin.getType();
+    		UserType usertype = lin.getType();
     		GuiUserLogin.getInstance().login_Return(usertype);
     	}
     	if(o instanceof Pub) {

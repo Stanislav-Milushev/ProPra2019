@@ -63,15 +63,11 @@ public class UserHandling
 		
 		DatabaseManager db = new DatabaseManager();
 		
-		ActiveUserStore aus = new ActiveUserStore();
-		
 		boolean success_login; 
 
 		success_login = db.login(username,passwd); 
 		
 		UserType usertype = db.getUserType(username);
-		
-		aus.userLogin(username);
 		
 		if (!success_login == true) {
 			usertype = UserType.ERROR;
