@@ -110,6 +110,8 @@ public class GuiAdmin {
 			e.printStackTrace();
 		}
 		initialize();
+	//	getPubListRequest();								ERROR SocketClient
+	//	getQuestionListRequest(set);
 	}
 	
 	private void initialize() {
@@ -118,7 +120,6 @@ public class GuiAdmin {
 		DefaultTableModel pModel = new DefaultTableModel();
 
 
-	//TODO ERROR	getQuestionListRequest();
 
 	/**
 	 * Initialize the contents of the frame.
@@ -175,6 +176,7 @@ public class GuiAdmin {
 		/**
 		 * Initialize content
 		 */
+		
 		JPanel pContent = new JPanel();
 		pContent.setBackground(new Color(255, 255, 255));
 		frmAdmin.getContentPane().add(pContent, BorderLayout.CENTER);
@@ -1028,6 +1030,7 @@ public class GuiAdmin {
 		frmAdmin.pack();
 		frmAdmin.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
+		
 	}
 	
 	
@@ -1092,11 +1095,8 @@ public class GuiAdmin {
 	
 	
 	public void getQuestionListFromServer(GetQuestionSet list) {
-		ArrayList<Question> pQuestionTmp = (ArrayList<Question>) list.getList();
 		qList.clear();
-		for (int i = 0; i<pQuestionTmp.size(); i++) {
-			qList.add(pQuestionTmp.get(i));
-		}
+		qList = (ArrayList<Question>) list.getList();
 	}
 
 
