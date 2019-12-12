@@ -60,7 +60,7 @@ public class UserRepository extends CrudRepositoryAdapter<User, Long>
                     return user.getUsername().equalsIgnoreCase(name);
                 }).findFirst();
     }
-
+  
     @Override
     public void createTable()
     {

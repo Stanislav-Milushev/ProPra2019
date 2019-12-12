@@ -71,10 +71,12 @@ public class UserHandling
 		
 		if (!success_login == true) {
 			usertype = UserType.ERROR;
+			login.setLogged(false);
 		}
 		
 		login.setType(usertype);
-		login.
+		login.setLogged(true);
+		
 		SocketServer.getInstance().sendObject(login, username);
 	
 		// Send object to GUI 
@@ -96,9 +98,9 @@ public class UserHandling
 	
 	// log the user out
 	public void logout (String username) {
-		
-		boolean success_logout = true;
-		
+		Login login = null;
+		login.setLogged(false);
+		SocketServer.getInstance().sendObject(login, username);
 		
 	}
 	

@@ -34,10 +34,10 @@ public class ScoreboardUpdate {
 	
 	
 	// Write the points from a completed quiz to the user db
-	public void writeToDB (String id, float score) throws SQLException {
+	public void writeToDB (String id,int KneipenabendID, double score) throws SQLException {
 		
 		DatabaseManager db = new DatabaseManager();
-		db.writePoints(id,score);
+		db.writePoints(id, KneipenabendID,score);
 	}
 	
 	

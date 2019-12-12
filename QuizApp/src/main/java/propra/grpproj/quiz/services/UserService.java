@@ -2,6 +2,7 @@ package propra.grpproj.quiz.services;
 
 import java.util.Optional;
 
+import propra.grpproj.quiz.SocketDataObjects.UserType;
 import propra.grpproj.quiz.dataholders.User;
 import propra.grpproj.quiz.repositories.sqlite.UserRepository;
 
@@ -39,7 +40,7 @@ public class UserService
             userRepository.delete(existingUser);
         }
     }
-
+    
     /**
      * <p>
      * This method authenticates a user by its email address and the given password.
@@ -64,7 +65,33 @@ public class UserService
             throw new RuntimeException("No user found by email");
         }
     }
-    
+    public boolean authenticate(String name)
+    {
+        Optional<User> user = userRepository.findByName(name);
+        if (user.isPresent())
+        {
+            return user.get().getUsername().equals(name);
+        } else
+        {
+            throw new RuntimeException("No user found");
+        }
+    }
+    public UserType getUserType()
+    {
+		return null;
+       
+    }
+    public void setUserType(String name)
+    {
+        Optional<User> user = userRepository.findByName(name);
+        if (user.isPresent())
+        {
+         
+        } else
+        {
+            throw new RuntimeException("No user found");
+        }
+    }
     // ========================================================================
     // helper methods
     // ========================================================================

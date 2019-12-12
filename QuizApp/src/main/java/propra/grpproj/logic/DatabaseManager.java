@@ -8,10 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import propra.grpproj.quiz.dataholders.Pub;
-
+import propra.grpproj.quiz.repositories.sqlite.PlayerOfRoundRepository;
 import propra.grpproj.quiz.repositories.sqlite.PubRepository;
 import propra.grpproj.quiz.repositories.sqlite.UserRepository;
 import propra.grpproj.quiz.repositories.sqlite.utilities.SqliteCoreUtilities;
+import propra.grpproj.quiz.services.PlayerOfRoundService;
 import propra.grpproj.quiz.services.PubService;
 import propra.grpproj.quiz.services.UserService;
 import propra.grpproj.quiz.SocketDataObjects.*;
@@ -73,14 +74,11 @@ public class DatabaseManager {
 		
 	}
 	// Write the score after a completed quiz to the user db
-	public void writePoints (String name, double score) throws SQLException {
-		
-		String query = "Update user value score = ? Where username = ?";
-		
-		PreparedStatement ps = connection.prepareStatement(query);
-		
-		ps.setDouble(1, score);
-		ps.setString(2, name);
+	public void writePoints (String name,int KneipenabendID, double score) throws SQLException {
+		PlayerOfRoundRepository playerOfRoundRepository = null;
+
+		PlayerOfRoundService pors = new PlayerOfRoundService( playerOfRoundRepository);
+		pors.writeToDBScore(Long.valueOf(name), Long.valueOf(KneipenabendID),(int)score);
 		
 		
 	}
