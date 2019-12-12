@@ -1030,7 +1030,11 @@ public class GuiAdmin {
 	}
 	
 	public void getPubListFromServer(PubList list) {
-		pList = list.getList();
+		/*
+		 * pList.clear();
+			pList.addAll(list.getList());
+			*/
+		pList = (ArrayList<Pub>) list.getList();
 		/*
 		 * maybe this function by error
 		 * pList = (ArrayList<Pub>) list.getList().clone();
