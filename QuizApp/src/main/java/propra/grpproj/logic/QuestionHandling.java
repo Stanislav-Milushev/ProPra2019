@@ -95,7 +95,11 @@ public class QuestionHandling
 	 * @author Yannick
 	 */
 	public static void editQuestion(ChangeQuestion cq) {
-		
+		int qid = cq.getQuestionID();
+		String questionTextToEdit = cq.getQuestionText();
+		String[] answersToEdit = cq.getAnswers();
+		String exToEdit = cq.getExplanation();
+		//TODO edit in db
 	}
 	
 	/**
@@ -103,7 +107,8 @@ public class QuestionHandling
 	 * @param dq
 	 */
 	public static void deleteQuestion(DeleteQuestion dq) {
-		
+		int idToDelete = dq.getQuestionID();
+		//TODO delte in db
 	}
 	
 	/**
