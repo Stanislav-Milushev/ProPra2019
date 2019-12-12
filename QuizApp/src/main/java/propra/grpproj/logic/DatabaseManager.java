@@ -182,26 +182,16 @@ public class DatabaseManager {
 		
 		return check;
 		}
-		public UserType getUserType (String name) throws SQLException {
-			
-			String user = "DEFAULT";
-			
-			UserType usertype;
-			
-			String query = "Select usertype from user Where email =" + name;
-			
-			Statement stmt = connection.createStatement();
-			
-			ResultSet rs = stmt.executeQuery(query);
-			
-			for (;rs.next();) {
-				
-				user = rs.getString(0);
-			}
-			
-			usertype = UserType.valueOf(user);
+		public UserType getUserType (String Name) throws SQLException {
+			UserType usertype = null;
 			
 			return usertype;
+			
+		}
+		public void setUserType (String name) throws SQLException {
+			UserType usertype = null;
+			
+			
 			
 		}
 		public boolean deleteUser (String username, String passwd) throws SQLException 

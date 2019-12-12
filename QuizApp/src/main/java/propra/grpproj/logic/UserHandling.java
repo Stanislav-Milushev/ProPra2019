@@ -76,7 +76,6 @@ public class UserHandling
 		
 		login.setType(usertype);
 		login.setLogged(true);
-		
 		SocketServer.getInstance().sendObject(login, username);
 	
 		// Send object to GUI 

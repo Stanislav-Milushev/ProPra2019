@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Scoreboard implements Serializable{
 	private String user;
+	private String KneipenabendID;
 	private float score;
 	
 	public Scoreboard(String user) {
@@ -20,5 +21,13 @@ public class Scoreboard implements Serializable{
 	
 	public void setScore(float score) {
 		this.score = score;
+	}
+
+	public String getKneipenabendID() {
+		return KneipenabendID;
+	}
+
+	public void setKneipenabendID(String kneipenabendID) {
+		KneipenabendID = kneipenabendID;
 	}	
 }

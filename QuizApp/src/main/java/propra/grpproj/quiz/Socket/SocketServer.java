@@ -267,8 +267,9 @@ public class SocketServer implements Runnable{
         		Scoreboard scbd = (Scoreboard)o;
         		String name = scbd.getUser();
         		float score = scbd.getScore();
+        		int KenipenabendID = scbd.get
         		ScoreboardUpdate sco = new ScoreboardUpdate();
-        		sco.writeToDB(name, score);
+        		sco.writeToDB(name,KneipenabendID ,score);
         	}
         }
     }
