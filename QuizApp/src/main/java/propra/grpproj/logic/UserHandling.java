@@ -83,7 +83,7 @@ public class UserHandling
 		
 		Login login = new Login(username,passwd);
 		
-		login.setLogged(true);
+		login.setLogged(success_login);
 		
 		SocketServer.getInstance().sendObject(login, username);
 		}
