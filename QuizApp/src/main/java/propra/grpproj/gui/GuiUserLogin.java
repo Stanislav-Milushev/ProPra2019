@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -30,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import com.opencsv.exceptions.CsvException;
 
 import propra.grpproj.quiz.Socket.SocketClient;
+import propra.grpproj.quiz.Socket.SocketServer;
 import propra.grpproj.quiz.SocketDataObjects.Login;
 import propra.grpproj.quiz.SocketDataObjects.UserType;
 import propra.grpproj.quiz.dataholders.Question;
@@ -230,6 +232,13 @@ public class GuiUserLogin {
 		gbc_bRegister.gridy = 3;
 		pUserLoginInput.add(bRegister,gbc_bRegister);
 		
+		JButton bGuest = new JButton("Als Gast anmelden");
+		bGuest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				handleregister_guest();
+			}
+		});
+		
 
 		getFrmUserLogin().getContentPane().add(pHeader, BorderLayout.NORTH);
 		getFrmUserLogin().getContentPane().add(pUserLoginInput, BorderLayout.CENTER);
@@ -285,7 +294,7 @@ public class GuiUserLogin {
 			getFrmUserLogin().dispose();
 			break;
 			
-		case PUBOWNER:
+		case PUB_OWNER:
 			
 			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as pubowner.");
 			
@@ -294,7 +303,7 @@ public class GuiUserLogin {
 			getFrmUserLogin().dispose();
 			break;
 			
-		case ADMINPUBOWNER:
+		case ADMIN_PUBOWNER:
 			
 			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as admin & pubowner.");
 			
@@ -319,26 +328,33 @@ public class GuiUserLogin {
 	 */
 	public void handleLogin(String userName, String pw) {
 		
-		Login login = new Login(userName, pw);
-		socket_client.sendObject(login);
-	}
-	
-	
-	public JFrame getFrame () {
+		SocketServer.start(4000);
 		
-		return getFrmUserLogin();
-	}
-	
-	public static GuiUserLogin getInstance(){
 		
-		return instance;
-	}
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		SocketClient.connect("127.0.0.1", 4000, userName);
+		
 
-	public JFrame getFrmUserLogin()
-	{
-		return frmUserLogin;
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		UserType usertype = UserType.DEFAULT;
+		
+		Login login = new Login(userName, pw);
+		SocketClient.getInstance().sendObject(login);
 	}
-	
 	
 	/**
 	 * The setup of the database.
@@ -404,5 +420,25 @@ public class GuiUserLogin {
         e.printStackTrace();
     }
 }
+	
+	public void handleregister_guest() {
+		
+	}
+	
+	
+	public JFrame getFrame () {
+		
+		return getFrmUserLogin();
+	}
+	
+	public static GuiUserLogin getInstance(){
+		
+		return instance;
+	}
+
+	public JFrame getFrmUserLogin()
+	{
+		return frmUserLogin;
+	}
 	
 }
