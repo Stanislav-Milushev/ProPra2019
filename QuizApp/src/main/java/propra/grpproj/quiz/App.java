@@ -5,9 +5,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import javax.swing.SwingUtilities;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import propra.grpproj.gui.GuiUserLogin;
+import propra.grpproj.quiz.Socket.SocketServer;
 import propra.grpproj.quiz.dataholders.Question;
 import propra.grpproj.quiz.repositories.sqlite.EveningRepository;
 import propra.grpproj.quiz.repositories.sqlite.PlayerOfRoundRepository;
@@ -17,21 +21,19 @@ import propra.grpproj.quiz.repositories.sqlite.QuestionRepository;
 import propra.grpproj.quiz.repositories.sqlite.RoundsOfEveningRepository;
 import propra.grpproj.quiz.repositories.sqlite.UserRepository;
 import propra.grpproj.quiz.repositories.sqlite.utilities.SqliteCoreUtilities;
-//import propra.grpproj.quiz.services.EveningService;
-//import propra.grpproj.quiz.services.PubService;
-//import propra.grpproj.quiz.services.QuestionService;
-//import propra.grpproj.quiz.services.UserService;
-//import propra.grpproj.quiz.socket.SocketServer;
 
 /**
- * The main entry point of the Quiz App
+ * The main entry point of the Quiz App.
+ * 
+ * @author Daniel
+ *
  */
 public class App
 {
 
     private static final Logger LOG = LoggerFactory.getLogger(App.class);
-
-    private final static int SERVER_PORT = 8080;
+    
+    private final static int SERVER_PORT = 9111;
 
     public static void main(String[] args)
     {
@@ -83,63 +85,15 @@ public class App
 
             // ---- setup service instances
 
-            LOG.info("Create services...");
-
-//            PubService pubService = new PubService(pubRepository, userRepository);
-//            EveningService eveningService = new EveningService(eveningRepository, pubRepository);
-//            UserService userService = new UserService(userRepository);
-//            QuestionService questionService = new QuestionService(questionRepository);
-
-            // @formatter:off
-
-            /*
-             * 
-             * TODO create and setup all your instances here using proper dependency
-             * injection... /*
-             * 
-             */
-
-            // LOGIC setup goes here. Please use the XxxService classes to read, write and
-            // edit any domain-objects such as creating new user, new pubs, new game-laps in
-            // a pub at a certain evening and add new players to that game
+            LOG.info("Launching Server...");
+            startTheServer();  
             
-            //                                              dependency injection of XxxServices
-            //                                                            |
-            //                                                            |
-            //                                                            v
-            // LoginController loginController = new LoginController( userService )
-            // AdminGuiController adminGuiController = new AdminGuiController();
-            // ...
+            // ---- setup and show GUI 
             
-            
-//            startTheServer(pubService, eveningService, userService, questionService);
+            LOG.info("Launching GUI...");
+            launchGui();
 
-            
-            /*
-             * 
-             * TODO setup up and show GUI...
-             * 
-             */
-
-            // GUI setup goes here. Please use the XXXController classes serving the entire
-            // app-logic and domain-object to the GUI, such as displaying a list of all pubs
-            // or creating new users and/or admins (pretty much the same as in the comment
-            // above for the logic!).
-
-            //                               dependency injection of XXXServices
-            //                                             |
-            //                                             |
-            //                                             v
-            // GuiWindow guiWindow = new GuiWindow( loginController, adminGuiController, ... , XxxController );
-            // SwingUtilities.invokeLater( ()->{ /* guiWindow.open() */ } );
-            // this launches 1 demo GUI and you may want to launch a second one to demonstrate multi-client stuff!
-            
-            // SwingUtilities.invokeLater( ()->{ /* guiWindow.open() */ } );
-            // SwingUtilities.invokeLater( ()->{ /* guiWindow.open() */ } );
-            // SwingUtilities.invokeLater( ()->{ /* guiWindow.open() */ } );
-            // SwingUtilities.invokeLater( ()->{ /* guiWindow.open() */ } );
-
-            // @formatter:on
+           
 
         } catch (Exception e)
         {
@@ -148,41 +102,63 @@ public class App
         }
     }
 
-    /**
-     * This method launches the server in it's own thread pool. Hopefully the server
-     * awaits and accepts clients now!
-     * 
-     * @param pubService
-     * @param eveningService
-     * @param userService
-     * @param questionService
-     */
-//    private static void startTheServer(
-//            PubService pubService, EveningService eveningService, UserService userService,
-//            QuestionService questionService
-//    )
-//    {
-//        SocketServer socketServer = new SocketServer(SERVER_PORT, pubService, eveningService, userService,
-//                questionService);
-//        ExecutorService executor = Executors.newFixedThreadPool(2,
-//                runnable -> { return new Thread(runnable, "SocketServerThread"); });
-//        Future<?> future = executor.submit(socketServer);
-//        executor.submit(() -> {
-//            // submit a second task, that awaits the socketServer to get terminated and if
-//            // that has happened,
-//            // we destroy this thread-pool itself!
-//            // This all should be executed if the Master-Gui gets closed...
-//            try
-//            {
-//                future.get();
-//            } catch (Exception e)
-//            {
-//                /* app was closed, silence please! */
-//            } finally
-//            {
-//                executor.shutdownNow();
-//            }
-//        });
-//    }
+	private static void launchGui()
+	{
+        SwingUtilities.invokeLater( ()->{
+			GuiUserLogin window = new GuiUserLogin();
+			window.getFrmUserLogin().setVisible(true);
+        });	
+        
+//      SwingUtilities.invokeLater( ()->{
+//			GuiMenu window = new GuiMenu();
+//			window.getFrame().setVisible(true);
+//		});
+//      
+//      SwingUtilities.invokeLater( ()->{
+//      	GuiAdmin window = new GuiAdmin();
+//      	window.getFrmAdmin().setVisible(true);
+//      	GuiAdmin.getInstance();
+//      });
+//      
+//      SwingUtilities.invokeLater( ()->{
+//			GuiOptions window = new GuiOptions();
+//			window.getFrame().setVisible(true);
+//      });
+//      
+//      SwingUtilities.invokeLater( ()->{
+//			GuiPubOwner window = new GuiPubOwner();
+//			window.getFramePub().setVisible(true);
+//      });
+//      
+//      SwingUtilities.invokeLater( ()->{
+//			GuiRegister window = new GuiRegister();
+//			window.getFrameRegister().setVisible(true);
+//      });
+
+	}
+
+	private static void startTheServer()
+	{
+		 SocketServer socketServer = new SocketServer(SERVER_PORT);
+         ExecutorService executor = Executors.newFixedThreadPool(2,
+                 runnable -> { return new Thread(runnable, "SocketServerThread"); });
+         Future<?> future = executor.submit(socketServer);
+         executor.submit(() -> {
+             // submit a second task, that awaits the socketServer to get terminated and if
+             // that has happened,
+             // we destroy this thread-pool itself!
+             // This all should be executed if the Master-Gui gets closed...
+             try
+             {
+                 future.get();
+             } catch (Exception e)
+             {
+                 /* app was closed, silence please! */
+             } finally
+             {
+                 executor.shutdownNow();
+             }
+         });		
+	}
 
 }
