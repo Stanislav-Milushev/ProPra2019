@@ -14,18 +14,16 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class GuiPubOwner {
+public class GuiRegister {
 
-	private JFrame framePub;
+	private JFrame frameRegister;
 
 	/**
 	 * Launch the application.
@@ -34,8 +32,8 @@ public class GuiPubOwner {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GuiPubOwner window = new GuiPubOwner();
-					window.framePub.setVisible(true);
+					GuiRegister window = new GuiRegister();
+					window.frameRegister.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -46,7 +44,7 @@ public class GuiPubOwner {
 	/**
 	 * Create the application.
 	 */
-	public GuiPubOwner() {
+	public GuiRegister() {
 		initialize();
 	}
 
@@ -54,11 +52,11 @@ public class GuiPubOwner {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		framePub = new JFrame();
-		framePub.getContentPane().setBackground(new Color(255, 255, 255));
-		framePub.getContentPane().setLayout(new BorderLayout(0, 0));
-		framePub.setBounds(100, 100, 450, 300);
-		framePub.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frameRegister = new JFrame();
+		frameRegister.getContentPane().setBackground(new Color(255, 255, 255));
+		frameRegister.getContentPane().setLayout(new BorderLayout(0, 0));
+		frameRegister.setBounds(100, 100, 450, 300);
+		frameRegister.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
 		/**
@@ -132,16 +130,16 @@ public class GuiPubOwner {
 		gbc_lblText2.gridy = 1;
 		pPubOwner.add(lblText2, gbc_lblText2);
 		
-		framePub.getContentPane().add(pHeader, BorderLayout.NORTH);
-		framePub.getContentPane().add(pPubOwner, BorderLayout.CENTER);
+		frameRegister.getContentPane().add(pHeader, BorderLayout.NORTH);
+		frameRegister.getContentPane().add(pPubOwner, BorderLayout.CENTER);
 		
-		JButton bLogout = new JButton("Logout");
+		JButton bLogout = new JButton("Logout Digga");
 		bLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				GuiUserLogin gui_user = new GuiUserLogin();
 				gui_user.getFrame().setVisible(true);
-				framePub.dispose();
+				frameRegister.dispose();
 			}
 		});
 		
@@ -152,8 +150,8 @@ public class GuiPubOwner {
 		gbc_pub.gridy = 3;
 		pPubOwner.add(bLogout, gbc_pub);
 		
-		framePub.pack();
-		framePub.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frameRegister.pack();
+		frameRegister.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 	
 	/**
@@ -176,7 +174,7 @@ public class GuiPubOwner {
 	
 	
 	public JFrame getFrame() {
-		return framePub;
+		return frameRegister;
 	}
 
 }
