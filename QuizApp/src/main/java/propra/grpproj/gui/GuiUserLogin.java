@@ -35,13 +35,15 @@ import java.awt.event.ActionEvent;
  */
 
 public class GuiUserLogin {
+	
+	private static GuiUserLogin instance;
+	
+	private static SocketClient socket_client;
 
 	private JFrame frmUserLogin;
 	private JTextField tfUserName;
 	private JTextField tfPW;
-	private static GuiUserLogin instance;
 	
-	private static SocketClient socket_client;
 
 	/**
 	 * Launch the application.
@@ -77,7 +79,7 @@ public class GuiUserLogin {
 		frmUserLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
 		/**
-		 * Inititalize header
+		 * Initialize header
 		 */	
 		JPanel pHeader = new JPanel();
 		pHeader.setBackground(new Color(255, 255, 255));
@@ -116,7 +118,7 @@ public class GuiUserLogin {
 		
 
 		/**
-		 * Initialize loginpanel
+		 * Initialize login panel
 		 */
 		JPanel pUserLoginInput = new JPanel();
 		pUserLoginInput.setBackground(new Color(255, 255, 255));
@@ -184,6 +186,7 @@ public class GuiUserLogin {
 				handleLogin(username, pw);
 			}
 		});
+		
 		GridBagConstraints gbc_bLogin = new GridBagConstraints();
 		gbc_bLogin.gridwidth = 2;
 		gbc_bLogin.insets = new Insets(5, 5, 5, 5);
@@ -214,16 +217,15 @@ public class GuiUserLogin {
 	}
 	
 	/**
-	 * feedback Login via PopUp
+	 * Handle the user type of a successful login
+	 * @param usertype
+	 * @author Marius
 	 */
-	
 	public void login_Return(UserType usertype) {
 		
 		JFrame parent = new JFrame();
 		
 		switch (usertype) {
-		
-		
 		
 		case DEFAULT:
 			
@@ -232,7 +234,6 @@ public class GuiUserLogin {
 			GuiMenu menu = new GuiMenu();
 			menu.getFrame().setVisible(true);
 			frmUserLogin.dispose();
-			
 			break;
 			
 		case ADMIN:
@@ -242,7 +243,6 @@ public class GuiUserLogin {
 			GuiAdmin admin = new GuiAdmin();
 			admin.getFrmAdmin().setVisible(true);
 			frmUserLogin.dispose();
-			
 			break;
 			
 		case PUBOWNER:
@@ -252,7 +252,6 @@ public class GuiUserLogin {
 			GuiPubOwner pubowner = new GuiPubOwner();
 			pubowner.getFrame().setVisible(true);
 			frmUserLogin.dispose();
-			
 			break;
 			
 		case ADMINPUBOWNER:
@@ -261,41 +260,37 @@ public class GuiUserLogin {
 			
 			GuiOptions option = new GuiOptions();
 			option.getFrame().setVisible(true);
-			
+			frmUserLogin.dispose();
 			break;
 			
 		case ERROR:
 			
 			JOptionPane.showMessageDialog(parent, "Cannot login. Please check your login data and try again.");
-			
 			break;
 		}
-		JOptionPane.showMessageDialog(parent, "Login successfull");
-		
-		// Open new Gui Menu
-		
-		JOptionPane.showMessageDialog(parent, "Cannot login with the given credentials");
-		// New Credentials for login
-	
-	
-	
 	}
 	
+	/**
+	 * 
+	 * Give the login credentials to the socket 
+	 * @param userName
+	 * @param pw
+	 * @author Marius
+	 */
 	public void handleLogin(String userName, String pw) {
 		
 		Login login = new Login(userName, pw);
-		
 		socket_client.sendObject(login);
-		
 	}
 	
-public JFrame getFrame () {
+	
+	public JFrame getFrame () {
 		
 		return frmUserLogin;
 	}
 	
 	public static GuiUserLogin getInstance(){
+		
 		return instance;
 	}
-	
 }
