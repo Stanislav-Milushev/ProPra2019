@@ -1,34 +1,46 @@
 package propra.grpproj.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.opencsv.exceptions.CsvException;
+
 import propra.grpproj.quiz.Socket.SocketClient;
-import propra.grpproj.quiz.Socket.SocketServer;
 import propra.grpproj.quiz.SocketDataObjects.Login;
 import propra.grpproj.quiz.SocketDataObjects.UserType;
-
-import java.awt.Color;
-import java.awt.BorderLayout;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import propra.grpproj.quiz.dataholders.Question;
+import propra.grpproj.quiz.repositories.sqlite.EveningRepository;
+import propra.grpproj.quiz.repositories.sqlite.PlayerOfRoundRepository;
+import propra.grpproj.quiz.repositories.sqlite.PubRepository;
+import propra.grpproj.quiz.repositories.sqlite.QuestionOfRoundRepository;
+import propra.grpproj.quiz.repositories.sqlite.QuestionRepository;
+import propra.grpproj.quiz.repositories.sqlite.RoundsOfEveningRepository;
+import propra.grpproj.quiz.repositories.sqlite.UserRepository;
+import propra.grpproj.quiz.repositories.sqlite.utilities.SqliteCoreUtilities;
 
 /**
  * 
@@ -38,7 +50,11 @@ import java.awt.event.ActionEvent;
 
 public class GuiUserLogin {
 	
+	private static final Logger LOG = LoggerFactory.getLogger(GuiUserLogin.class);
+	
 	private static GuiUserLogin instance;
+	
+	private static SocketClient socket_client;
 
 	private JFrame frmUserLogin;
 	private JTextField tfUserName;
@@ -47,13 +63,19 @@ public class GuiUserLogin {
 
 	/**
 	 * Launch the application.
+	 * @throws CsvException 
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
 	public static void main(String[] args) {
+		
+		setupDataBase();
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					GuiUserLogin window = new GuiUserLogin();
-					window.frmUserLogin.setVisible(true);
+					window.getFrmUserLogin().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -66,6 +88,7 @@ public class GuiUserLogin {
 	 */
 	public GuiUserLogin() {
 		initialize();
+		
 	}
 
 	/**
@@ -73,10 +96,10 @@ public class GuiUserLogin {
 	 */
 	private void initialize() {
 		frmUserLogin = new JFrame();
-		frmUserLogin.getContentPane().setBackground(new Color(255, 255, 255));
-		frmUserLogin.getContentPane().setLayout(new BorderLayout(0, 0));
-		frmUserLogin.setBounds(100, 100, 450, 300);
-		frmUserLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrmUserLogin().getContentPane().setBackground(new Color(255, 255, 255));
+		getFrmUserLogin().getContentPane().setLayout(new BorderLayout(0, 0));
+		getFrmUserLogin().setBounds(100, 100, 450, 300);
+		getFrmUserLogin().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
 		/**
 		 * Initialize header
@@ -125,15 +148,15 @@ public class GuiUserLogin {
 		
 		GridBagLayout gbl_pUserLoginInput = new GridBagLayout();
 		gbl_pUserLoginInput.columnWidths = new int[] {0};
-		gbl_pUserLoginInput.rowHeights = new int[] {0};
-		gbl_pUserLoginInput.columnWeights = new double[]{0.0, 0.0};
+		gbl_pUserLoginInput.rowHeights = new int[] {0, 0, 0, 0};
+		gbl_pUserLoginInput.columnWeights = new double[]{1.0, 1.0};
 		gbl_pUserLoginInput.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
 		pUserLoginInput.setLayout(gbl_pUserLoginInput);
 		
 		
 		JLabel lblText = new JLabel("Bitte geben Sie Ihre Logindaten ein.");
 		GridBagConstraints gbc_lblText = new GridBagConstraints();
-		gbc_lblText.insets = new Insets(5, 5, 5, 5);
+		gbc_lblText.insets = new Insets(5, 5, 5, 0);
 		gbc_lblText.gridwidth = 2;
 		gbc_lblText.fill = GridBagConstraints.CENTER;
 		gbc_lblText.gridx = 0;
@@ -155,7 +178,7 @@ public class GuiUserLogin {
 		gbc_tfUserName.gridx = 1;
 		gbc_tfUserName.gridy = 1;
 		pUserLoginInput.add(tfUserName, gbc_tfUserName);
-		tfUserName.setColumns(15);
+		tfUserName.setColumns(10);
 		
 		JLabel lblPW = new JLabel("Passwort");
 		GridBagConstraints gbc_lblPW = new GridBagConstraints();
@@ -172,7 +195,7 @@ public class GuiUserLogin {
 		gbc_tfPW.gridx = 1;
 		gbc_tfPW.gridy = 2;
 		pUserLoginInput.add(tfPW, gbc_tfPW);
-		tfPW.setColumns(15);
+		tfPW.setColumns(10);
 		
 		
 		JButton bLogin = new JButton("Login");
@@ -185,7 +208,7 @@ public class GuiUserLogin {
 		});
 		
 		GridBagConstraints gbc_bLogin = new GridBagConstraints();
-		gbc_bLogin.gridwidth = 1;
+		gbc_bLogin.gridwidth = 2;
 		gbc_bLogin.insets = new Insets(5, 5, 5, 5);
 		gbc_bLogin.gridx = 0;
 		gbc_bLogin.gridy = 3;
@@ -196,23 +219,23 @@ public class GuiUserLogin {
 			public void actionPerformed(ActionEvent e) {
 				GuiRegister register = new GuiRegister();
 				register.getFrame().setVisible(true);
-				frmUserLogin.dispose();
+				getFrmUserLogin().dispose();
 			}
 		});
 		
 		GridBagConstraints gbc_bRegister = new GridBagConstraints();
-		gbc_bRegister.gridwidth = 1;
+		gbc_bRegister.gridwidth = 2;
 		gbc_bRegister.insets = new Insets(5, 5, 5, 5);
 		gbc_bRegister.gridx = 1;
 		gbc_bRegister.gridy = 3;
 		pUserLoginInput.add(bRegister,gbc_bRegister);
 		
 
-		frmUserLogin.getContentPane().add(pHeader, BorderLayout.NORTH);
-		frmUserLogin.getContentPane().add(pUserLoginInput, BorderLayout.CENTER);
+		getFrmUserLogin().getContentPane().add(pHeader, BorderLayout.NORTH);
+		getFrmUserLogin().getContentPane().add(pUserLoginInput, BorderLayout.CENTER);
 		
-		frmUserLogin.pack();
-		frmUserLogin.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		getFrmUserLogin().pack();
+		getFrmUserLogin().setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 	
 	/**
@@ -250,7 +273,7 @@ public class GuiUserLogin {
 			
 			GuiMenu menu = new GuiMenu();
 			menu.getFrame().setVisible(true);
-			frmUserLogin.dispose();
+			getFrmUserLogin().dispose();
 			break;
 			
 		case ADMIN:
@@ -259,25 +282,25 @@ public class GuiUserLogin {
 			
 			GuiAdmin admin = new GuiAdmin();
 			admin.getFrmAdmin().setVisible(true);
-			frmUserLogin.dispose();
+			getFrmUserLogin().dispose();
 			break;
 			
-		case PUB_OWNER:
+		case PUBOWNER:
 			
 			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as pubowner.");
 			
 			GuiPubOwner pubowner = new GuiPubOwner();
 			pubowner.getFrame().setVisible(true);
-			frmUserLogin.dispose();
+			getFrmUserLogin().dispose();
 			break;
 			
-		case ADMIN_PUBOWNER:
+		case ADMINPUBOWNER:
 			
 			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as admin & pubowner.");
 			
 			GuiOptions option = new GuiOptions();
 			option.getFrame().setVisible(true);
-			frmUserLogin.dispose();
+			getFrmUserLogin().dispose();
 			break;
 			
 		case ERROR:
@@ -292,39 +315,18 @@ public class GuiUserLogin {
 	 * Give the login credentials to the socket 
 	 * @param userName
 	 * @param pw
-	 * @author Marius, Yannick
+	 * @author Marius
 	 */
 	public void handleLogin(String userName, String pw) {
-		SocketServer.start(4000);
-		
-		
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		SocketClient.connect("127.0.0.1", 4000, userName);
-		
-
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		
 		Login login = new Login(userName, pw);
-		SocketClient.getInstance().sendObject(login);
+		socket_client.sendObject(login);
 	}
 	
 	
 	public JFrame getFrame () {
 		
-		return frmUserLogin;
+		return getFrmUserLogin();
 	}
 	
 	public static GuiUserLogin getInstance(){
@@ -332,7 +334,75 @@ public class GuiUserLogin {
 		return instance;
 	}
 
-	public JFrame getFrmUserLogin() {
+	public JFrame getFrmUserLogin()
+	{
 		return frmUserLogin;
 	}
+	
+	
+	/**
+	 * The setup of the database.
+	 * 
+	 * @author Daniel
+	 *
+	 */
+	private static void setupDataBase()
+	{
+		
+		try
+		{
+			
+        LOG.info("Launching the Quiz App...");
+
+        /*
+         * Setup database
+         */
+        LOG.info("Initialize database driver and drop database...");
+        SqliteCoreUtilities.initializeDrive();
+        SqliteCoreUtilities.initializeDatabase();
+
+        // ---- setup repository instances
+
+        LOG.info("  Create questions-table and populate with data from CSV file...");
+        List<Question> questions = Question.readAllQuestionsFrom("docs/ProPra-Fragen-final.csv");
+        QuestionRepository questionRepository = new QuestionRepository();
+        questionRepository.createTable();
+        for (Question question : questions)
+        {
+            questionRepository.save(question);
+        }
+
+        LOG.info("  Create users-table...");
+        UserRepository userRepository = new UserRepository();
+        userRepository.createTable();
+
+        LOG.info("  Create pubs-table...");
+        PubRepository pubRepository = new PubRepository();
+        pubRepository.createTable();
+
+        LOG.info("  Create evenings-table...");
+        EveningRepository eveningRepository = new EveningRepository();
+        eveningRepository.createTable();
+
+        LOG.info("  Create roundsOfEvenings-table...");
+        RoundsOfEveningRepository roundsOfEveningRepository = new RoundsOfEveningRepository();
+        roundsOfEveningRepository.createTable();
+
+        LOG.info("  Create questionsOfRounds-table...");
+        QuestionOfRoundRepository questionOfRoundRepository = new QuestionOfRoundRepository();
+        questionOfRoundRepository.createTable();
+
+        LOG.info("  Create playersOfRounds-table...");
+        PlayerOfRoundRepository playerOfRoundRepository = new PlayerOfRoundRepository();
+        playerOfRoundRepository.createTable();
+        
+        LOG.info("Launching Server...");
+        
+    } catch (Exception e)
+    {
+        // App crash while start-up.
+        e.printStackTrace();
+    }
+}
+	
 }
