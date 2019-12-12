@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import propra.grpproj.gui.GuiAdmin;
 import propra.grpproj.gui.GuiUserLogin;
+import propra.grpproj.logic.QuestionHandling;
 import propra.grpproj.quiz.SocketDataObjects.AcceptPub;
+import propra.grpproj.quiz.SocketDataObjects.AddQuestion;
 import propra.grpproj.quiz.SocketDataObjects.AddQuestionSet;
 import propra.grpproj.quiz.SocketDataObjects.ChangePub;
 import propra.grpproj.quiz.SocketDataObjects.ChangeQuestion;
@@ -117,6 +119,9 @@ public class SocketClient implements Runnable{
 	private void recieveObject(Object o) {
 		if(o instanceof AcceptPub) {
     		//Unbenutzt
+    	}
+		if(o instanceof AddQuestion) {
+			//Sollte nicht passieren
     	}
 		if(o instanceof AddQuestionSet) {
 			//Sollte nicht passieren

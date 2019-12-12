@@ -8,6 +8,7 @@ import java.util.List;
 
 import propra.grpproj.quiz.SocketDataObjects.Question;
 import propra.grpproj.quiz.Socket.SocketServer;
+import propra.grpproj.quiz.SocketDataObjects.AddQuestion;
 import propra.grpproj.quiz.SocketDataObjects.AddQuestionSet;
 import propra.grpproj.quiz.SocketDataObjects.ChangeQuestion;
 import propra.grpproj.quiz.SocketDataObjects.DeleteQuestion;
@@ -75,6 +76,16 @@ public class QuestionHandling
 		}
 	}
 
+	/**
+	 * Adds a questionset to the db
+	 * @param list
+	 * @author Yannick
+	 */
+	public static void questionImport(AddQuestion question) {
+		Question toAdd = question.getQ();
+		int set = question.getSet();
+		//TODO add to db
+	}
 	
 	/**
 	 * Edits a single question in the db

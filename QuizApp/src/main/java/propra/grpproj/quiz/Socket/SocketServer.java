@@ -182,6 +182,10 @@ public class SocketServer implements Runnable{
         		AdminHandling admin = new AdminHandling();
         		admin.approvePub(name,owner);
         	}
+        	if(o instanceof AddQuestion) {
+        		AddQuestion aq = (AddQuestion)o;
+        		QuestionHandling.questionImport(aq);
+        	}
         	if(o instanceof AddQuestionSet) {
         		AddQuestionSet ql = (AddQuestionSet)o;
         		QuestionHandling.questionImport(ql);
