@@ -7,6 +7,7 @@ import propra.grpproj.quiz.Socket.SocketServer;
 import propra.grpproj.quiz.SocketDataObjects.ChangePub;
 import propra.grpproj.quiz.SocketDataObjects.ChangeQuestion;
 import propra.grpproj.quiz.SocketDataObjects.DeleteQuestion;
+import propra.grpproj.quiz.SocketDataObjects.GetQuestionSet;
 import propra.grpproj.quiz.SocketDataObjects.Pub;
 import propra.grpproj.quiz.SocketDataObjects.PubList;
 import propra.grpproj.quiz.SocketDataObjects.Question;
@@ -1030,26 +1031,28 @@ public class GuiAdmin {
 	}
 	
 	public void getPubListFromServer(PubList list) {
+		pList = (ArrayList) list.getList();
+	}
 		/*
 		 * pList.clear();
 			pList.addAll(list.getList());
-			*/
+			
 		pList = (ArrayList<Pub>) list.getList();
-		/*
+		
 		 * maybe this function by error
 		 * pList = (ArrayList<Pub>) list.getList().clone();
 		 */
-	}
-/*
-	public static void getQuestionListRequest() {
-		c.sendObject(new QuestionList());
+
+
+	public void getQuestionListRequest(int set) {
+		c.sendObject(new GetQuestionSet(set));
 	}
 	
-	 ERROS
-	public void getQuestionListFromServer(QuestionList list) {
-		qList = list.getList();
+	
+	public void getQuestionListFromServer(GetQuestionSet list) {
+		qList = (ArrayList<Question>) list.getList();
 	}
-*/
+
 
 	public Pub getPub(int pID) {
 		Pub p = null;										//Geht das so?

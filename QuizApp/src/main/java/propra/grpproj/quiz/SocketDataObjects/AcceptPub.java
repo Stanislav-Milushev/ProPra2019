@@ -6,7 +6,7 @@ public class AcceptPub implements Serializable{
 	private String name;
 	private String owner;
 
-	public AcceptPub(String name, String Owner) {
+	public AcceptPub(String name, String owner) {
 		this.name = name;
 		this.owner = owner;
 	}

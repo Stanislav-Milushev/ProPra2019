@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PubList implements Serializable{
-	public List<Pub> list = new ArrayList<Pub>();
+	private List<Pub> list = new ArrayList<Pub>();
 	
 	PubList(List<Pub> list){
 		this.list= list;
 	}
+	
 	public List<Pub> getList () {
 		return list;
 	}
