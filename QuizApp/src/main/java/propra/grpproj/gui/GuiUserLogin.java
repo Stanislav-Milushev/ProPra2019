@@ -241,6 +241,13 @@ public class GuiUserLogin {
 			}
 		});
 		
+		GridBagConstraints gbc_bGuest = new GridBagConstraints();
+		gbc_bGuest.gridwidth = 1;
+		gbc_bGuest.insets = new Insets(5, 5, 5, 5);
+		gbc_bGuest.gridx = 2;
+		gbc_bGuest.gridy = 3;
+		pUserLoginInput.add(bGuest,gbc_bGuest);
+		
 
 		getFrmUserLogin().getContentPane().add(pHeader, BorderLayout.NORTH);
 		getFrmUserLogin().getContentPane().add(pUserLoginInput, BorderLayout.CENTER);
