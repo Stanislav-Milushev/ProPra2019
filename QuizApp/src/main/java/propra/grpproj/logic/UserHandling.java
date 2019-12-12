@@ -32,6 +32,7 @@ public class UserHandling
 	{
 		
 		DatabaseManager db = new DatabaseManager();
+		RegisterUser registerfail = new RegisterUser(username,email,passwd,usertype);
 		
 		boolean success_reg = false;
 		
@@ -40,12 +41,15 @@ public class UserHandling
 		if ( success_reg == true ) {
 			
 			user_login(new Login(username, passwd));
+			SocketServer.getInstance().sendObject(registerfail, username);
 			
 		} else if(success_reg == false) {
-			RegisterUser registerfail = new RegisterUser(username,email,passwd,usertype);
+			
 			registerfail.setRegisterProg(success_reg);
 			SocketServer.getInstance().sendObject(registerfail, username);
 		}
+		
+		
 		
 	}
 	

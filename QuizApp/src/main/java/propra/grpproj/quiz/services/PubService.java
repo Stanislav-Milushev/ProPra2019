@@ -107,7 +107,13 @@ public class PubService
 
         return false;
     }
-
+    public List<Pub> getAllPubs()
+    {
+        List<Pub> allPubs = CrudRepository.convertToList(pubRepository.findAll());
+        allPubs =(List<Pub>) pubRepository.findAll();
+        return allPubs;
+      
+    }
     /**
      * Returns the next incremental free ID.
      * 

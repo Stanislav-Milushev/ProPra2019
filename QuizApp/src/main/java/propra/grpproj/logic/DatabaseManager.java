@@ -2,6 +2,7 @@ package propra.grpproj.logic;
 
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +21,7 @@ import propra.grpproj.quiz.SocketDataObjects.*;
 
 ////////////////////////////////////////////////////////////////////////////
 // Manager class to execute all SQL query
-// @author: Marius Discher
+// @author: Marius Discher & Stanislav Milushev
 //
 //
 //
@@ -108,9 +109,6 @@ public class DatabaseManager {
 		return score;
 	}
 	
-	
-	
-	
 	public void resetPoints() throws SQLException {
 		
 		double score = 0.0;
@@ -122,8 +120,6 @@ public class DatabaseManager {
 		ps.setDouble(1, score);
 		
 	}
-	
-
 	public void getPool(String name) throws SQLException {
 		
 		String query = "";
@@ -137,6 +133,13 @@ public class DatabaseManager {
 		stmt.close();
 	}
 	
+	public List<Pub> getAllPubs() {
+		 PubRepository pubRepository=null;
+		 UserRepository userRepository=null;
+		 PubService ps = new PubService( pubRepository,  userRepository);
+		 return ps.getAllPubs();
+	}
+
 	public void registerPub(String name, String address, int ownerid) throws SQLException {
 		
 		PubRepository pubRepository = null;
@@ -154,34 +157,8 @@ public class DatabaseManager {
 		ub.authenticate(name);
 		return ub.authenticate(name); 
 		
-		}
+	}
 	
-	
-		public boolean searchPub(String name) throws SQLException {
-		
-		boolean check = true;
-		
-		String query = "Select name From pub Where name =" + name;
-		
-		Statement stmt = connection.createStatement();
-		
-		ResultSet rs = stmt.executeQuery(query);
-		
-		int columns = rs.getMetaData().getColumnCount();
-		
-		while (rs.next()) {
-			
-			for(int i = 1; i<=columns; i++) {
-				check = isEmpty(rs.getString(i));
-			}
-		}
-		
-		rs.close();
-		stmt.close();
-		
-		
-		return check;
-		}
 		public UserType getUserType (String Name) throws SQLException {
 			UserType usertype = null;
 			
@@ -194,6 +171,7 @@ public class DatabaseManager {
 			
 			
 		}
+		
 		public boolean deleteUser (String username, String passwd) throws SQLException 
 		{
 			UserRepository userRepository = null;
@@ -202,9 +180,4 @@ public class DatabaseManager {
 			return false ;//ub.authenticate(name, passwd);
 			
 		}
-
-
-		
-		
-		//setUserType nachträglich type ändern
 }
