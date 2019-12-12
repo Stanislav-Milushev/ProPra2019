@@ -60,7 +60,6 @@ public class GuiAdmin {
 	private ArrayList<Question> qList;
 	
 	private static SocketClient c;
-	private static SocketServer s;
 
 	/**
 	 * Launch the application.
@@ -90,11 +89,7 @@ public class GuiAdmin {
 		c = new SocketClient(ip, port);
 		Thread clientConnection = new Thread(c);
 		clientConnection.start();
-		/*
-		s = new SocketServer(port);						//So???
-		Thread serverConnection = new Thread(s);
-		serverConnection.start();
-		*/
+		
 		initialize();
 	}
 	
@@ -989,8 +984,7 @@ public class GuiAdmin {
 		JButton bCloseManagement = new JButton("Verwaltung schließen");
 		bCloseManagement.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 // Fenster schließen und alle Listen speichern
-				
+				frmAdmin.dispose();											
 			}
 		});
 		GridBagConstraints gbc_bCloseManagement = new GridBagConstraints();
@@ -1037,6 +1031,10 @@ public class GuiAdmin {
 	
 	public void getPubListFromServer(PubList list) {
 		pList = list.getList();
+		/*
+		 * maybe this function by error
+		 * pList = (ArrayList<Pub>) list.getList().clone();
+		 */
 	}
 /*
 	public static void getQuestionListRequest() {
