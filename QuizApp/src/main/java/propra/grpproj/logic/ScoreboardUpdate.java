@@ -19,12 +19,12 @@ public class ScoreboardUpdate {
 	
 	
 	// Get the global and monthly reseted score from a user
-	public double getScore(String id) throws SQLException {
+	public double getScore(String id,int KneipenabendID, double score) throws SQLException {
 		
-		double score;
+		
 		DatabaseManager db = new DatabaseManager();
 	
-	    score = db.getScore(id);
+	    score = db.getScore(id,KneipenabendID,score);
 	    
 		return score;
 		

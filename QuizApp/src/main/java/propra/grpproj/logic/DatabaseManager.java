@@ -87,24 +87,12 @@ public class DatabaseManager {
 	
 	
 	// Get the score from a user
-	public double getScore(String name) throws SQLException {
+	public double getScore(String name,int KneipenabendID, double score ) throws SQLException {
 		
-		double score = 0;
-		
-		String query = "Select score From user Where username =" + name;
-		
-		Statement stmt = connection.createStatement();
-		
-		ResultSet rs = stmt.executeQuery(query);
-		
-		for (;rs.next();) {
-			
-			score = rs.getInt(0);
-		}
-		
-		rs.close();
-		
-		stmt.close();
+		PlayerOfRoundRepository playerOfRoundRepository = null;
+
+		PlayerOfRoundService pors = new PlayerOfRoundService( playerOfRoundRepository);
+		score = pors.getScore(Long.valueOf(name), Long.valueOf(KneipenabendID), (int)score);
 		
 		return score;
 	}
