@@ -93,8 +93,8 @@ public class GuiAdmin {
 		
 		c = new SocketClient(ip, port);
 		Thread clientConnection = new Thread(c);
+		SocketServer.start(4000);
 		clientConnection.start();
-		
 		initialize();
 	}
 	
@@ -1194,7 +1194,6 @@ public class GuiAdmin {
 	
 	
 	public void addQuestion(String qT, String[] answers, String ex, int set) {
-		
 		c.sendObject(new AddQuestion(qT, answers, ex, set));					
 	}
 	
