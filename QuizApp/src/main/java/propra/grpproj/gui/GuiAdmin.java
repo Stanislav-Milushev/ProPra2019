@@ -25,6 +25,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.awt.Color;
 import java.awt.CardLayout;
 import java.awt.GridBagLayout;
@@ -90,11 +91,16 @@ public class GuiAdmin {
 	public GuiAdmin() {
 		String ip = "127.0.0.1";
 		int port = 4000;
-		
+		SocketServer.start(4000);
 		c = new SocketClient(ip, port);
 		Thread clientConnection = new Thread(c);
-		SocketServer.start(4000);
 		clientConnection.start();
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		initialize();
 	}
 	
@@ -1030,7 +1036,8 @@ public class GuiAdmin {
  
 	
 	public static void getPubListRequest() {
-		c.sendObject(new PubList());
+		PubList pub = new PubList();
+		c.sendObject(pub);
 	}
 	
 	public void getPubListFromServer(PubList list) {
@@ -1194,6 +1201,7 @@ public class GuiAdmin {
 	
 	
 	public void addQuestion(String qT, String[] answers, String ex, int set) {
+		
 		c.sendObject(new AddQuestion(qT, answers, ex, set));					
 	}
 	
