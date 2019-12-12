@@ -2,21 +2,19 @@ package propra.grpproj.quiz.SocketDataObjects;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PubList implements Serializable{
-	public ArrayList<Pub> list = new ArrayList<Pub>();
+	public List<Pub> list = new ArrayList<Pub>();
 	
-	PubList(ArrayList<Pub> list){
+	PubList(List<Pub> list){
 		this.list= list;
 	}
-	public ArrayList<Pub> getList () {
-		
-		ArrayList<Pub> plist = this.list;
-		
-		return plist;
+	public List<Pub> getList () {
+		return list;
 	}
 
-	public void setList(ArrayList<Pub> list) {
-		this.list = list;
+	public void setList(List<Pub> pList) {
+		this.list = pList;
 	}
 }
