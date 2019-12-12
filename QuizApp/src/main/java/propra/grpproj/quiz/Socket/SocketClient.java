@@ -42,6 +42,8 @@ public class SocketClient implements Runnable{
 	
 	private String username;
 	
+	private static SocketClient instance = null;
+	
 	private boolean terminateConnection = false;
 	private static final Logger LOG = LoggerFactory.getLogger(SocketClient.class);
 	 
@@ -51,7 +53,7 @@ public class SocketClient implements Runnable{
 	  * @param port Port the server is listening
 	  * @author Yannick
 	  */
-	 public SocketClient(String ip, int port, String username) {
+	 private SocketClient(String ip, int port, String username) {
 		 this.username = username;
 		 try {
 			socket = new Socket(ip, port);
@@ -60,6 +62,19 @@ public class SocketClient implements Runnable{
 			e.printStackTrace();
 			LOG.error("Failed to connect to " + ip + " with port " + port);
 		}
+	 }
+	 
+	 public static void connect(String ip, int port, String username) {
+		 if(instance == null) {
+			 SocketClient client = new SocketClient(ip, port, username);
+			 instance = client;
+			 Thread clientConnection = new Thread(client);
+			 clientConnection.start();
+		 }
+	 }
+	 
+	 public static SocketClient getInstance() {
+		 return instance;
 	 }
 	
 	@Override

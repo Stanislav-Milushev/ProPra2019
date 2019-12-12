@@ -64,8 +64,6 @@ public class GuiAdmin {
 	private Question q;
 	private Pub p;
 	private int set = 0; 		//anpassen sobald klar
-	
-	private static SocketClient c;
 
 	/**
 	 * Launch the application.
@@ -92,9 +90,9 @@ public class GuiAdmin {
 		String ip = "127.0.0.1";
 		int port = 4000;
 		SocketServer.start(4000);
-		c = new SocketClient(ip, port);
-		Thread clientConnection = new Thread(c);
-		clientConnection.start();
+
+		SocketClient.connect(ip, port, "admin");
+		
 		try {
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
@@ -1037,7 +1035,7 @@ public class GuiAdmin {
 	
 	public static void getPubListRequest() {
 		PubList pub = new PubList();
-		c.sendObject(pub);
+		SocketClient.getInstance().sendObject(pub);
 	}
 	
 	public void getPubListFromServer(PubList list) {
@@ -1050,7 +1048,7 @@ public class GuiAdmin {
 	
 
 	public void getQuestionListRequest(int set) {
-		c.sendObject(new GetQuestionSet(set));
+		SocketClient.getInstance().sendObject(new GetQuestionSet(set));
 	}
 	
 	
@@ -1202,20 +1200,20 @@ public class GuiAdmin {
 	
 	public void addQuestion(String qT, String[] answers, String ex, int set) {
 		
-		c.sendObject(new AddQuestion(qT, answers, ex, set));					
+		SocketClient.getInstance().sendObject(new AddQuestion(qT, answers, ex, set));					
 	}
 	
 	
 	public void deleteQuestion(int questionID) {
-		c.sendObject(new DeleteQuestion(questionID));
+		SocketClient.getInstance().sendObject(new DeleteQuestion(questionID));
 	}
 	
 	public void changeQuestion(int qID, String qT, String[] answers, String ex) {
-		c.sendObject(new ChangeQuestion(qID,qT,answers,ex));
+		SocketClient.getInstance().sendObject(new ChangeQuestion(qID,qT,answers,ex));
 	}
 	
 	public void changePub(int pID, String pName, boolean unblocking, int userID, String userName, String address) {
-		c.sendObject(new ChangePub(pID, pName, unblocking, userID, userName, address));
+		SocketClient.getInstance().sendObject(new ChangePub(pID, pName, unblocking, userID, userName, address));
 	}
 	
 	public static GuiAdmin getInstance(){
