@@ -39,8 +39,6 @@ import java.awt.event.ActionEvent;
 public class GuiUserLogin {
 	
 	private static GuiUserLogin instance;
-	
-	private static SocketClient socket_client;
 
 	private JFrame frmUserLogin;
 	private JTextField tfUserName;
@@ -320,7 +318,7 @@ public class GuiUserLogin {
 		
 		
 		Login login = new Login(userName, pw);
-		//socket_client.sendObject(login);
+		SocketClient.getInstance().sendObject(login);
 	}
 	
 	
