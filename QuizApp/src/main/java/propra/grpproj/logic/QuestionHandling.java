@@ -69,9 +69,9 @@ public class QuestionHandling
 	 * @author Yannick
 	 */
 	public static void questionImport(AddQuestionSet list) {
-		List<Question> qList = list.getList();
+		List<AddQuestion> qList = list.getList();
 		//TODO add as 1 set
-		for(Question q : qList) {
+		for(AddQuestion q : qList) {
 			//Add to database
 		}
 	}

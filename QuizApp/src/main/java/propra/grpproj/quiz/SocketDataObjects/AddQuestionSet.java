@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddQuestionSet {
-	private List<Question> list = new ArrayList<Question>();
+	private List<AddQuestion> list;
 	
-	public AddQuestionSet( ArrayList<Question> list) {
+	public AddQuestionSet(List<AddQuestion> list) {
 		this.list = list;
 	}
 	
-	public List<Question> getList () {
+	public List<AddQuestion> getList () {
 		return list;
 	}
 
