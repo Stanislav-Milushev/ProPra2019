@@ -33,6 +33,7 @@ import propra.grpproj.quiz.SocketDataObjects.RepeatPubevening;
 import propra.grpproj.quiz.SocketDataObjects.Scoreboard;
 import propra.grpproj.quiz.SocketDataObjects.TerminateConnection;
 import propra.grpproj.quiz.SocketDataObjects.UserType;
+import propra.grpproj.quiz.dataholders.User;
 
 public class SocketClient implements Runnable{
 	private Socket socket;
@@ -157,7 +158,7 @@ public class SocketClient implements Runnable{
     	}
     	if(o instanceof Login) {
     		Login lin = (Login)o;
-    		UserType usertype = lin.getType();
+    		User usertype = lin.getType();
     		GuiUserLogin.getInstance().login_Return(usertype);
     	}
     	if(o instanceof Pub) {

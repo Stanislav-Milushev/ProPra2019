@@ -2,18 +2,19 @@ package propra.grpproj.quiz.SocketDataObjects;
 
 import java.io.Serializable;
 
+
 public class RegisterUser implements Serializable{
 	private String username;
 	private String password;
 	private String mail;
-	UserType usertype;
+	private UserType usertype;
 	private boolean registerProg;
 	
-	public RegisterUser(String username, String password, String mail,UserType usertype) {
+	public RegisterUser(String username, String password, String mail,UserType usertype2) {
 		this.username = username;
 		this.password = password;
 		this.mail = mail;
-		this.usertype= usertype;
+		this.usertype= usertype2;
 	}
 
 	public String getUsername() {

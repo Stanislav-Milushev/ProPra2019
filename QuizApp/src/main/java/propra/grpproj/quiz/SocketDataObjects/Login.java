@@ -2,6 +2,7 @@ package propra.grpproj.quiz.SocketDataObjects;
 
 import java.io.Serializable;
 
+
 public class Login implements Serializable{
 	private String userName;
 	private String password;

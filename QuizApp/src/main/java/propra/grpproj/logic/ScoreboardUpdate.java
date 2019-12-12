@@ -23,9 +23,9 @@ public class ScoreboardUpdate {
 		
 		double score;
 		DatabaseManager db = new DatabaseManager();
-		db.connection();
-		score = db.getScore(id);
-		db.closeconnection();
+	
+	    score = db.getScore(id);
+	    
 		return score;
 		
 		
@@ -37,10 +37,7 @@ public class ScoreboardUpdate {
 	public void writeToDB (String id, float score) throws SQLException {
 		
 		DatabaseManager db = new DatabaseManager();
-		db.connection();
 		db.writePoints(id,score);
-		db.closeconnection();
-		
 	}
 	
 	
@@ -48,11 +45,7 @@ public class ScoreboardUpdate {
 	private void resetScore() throws SQLException{
 		
 		DatabaseManager db = new DatabaseManager();
-		
-		db.connection();
 		db.resetPoints();
-		db.closeconnection();
-		
 		
 		// ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 		// scheduler.scheduleAtFixedRate(Scoreboard.resetScore(), 0, 1, TimeUnit.DAYS);

@@ -25,13 +25,7 @@ public class AdminHandling {
 		
 		DatabaseManager db = new DatabaseManager();
 		
-		db.connection();
-		
 		db.approvePub(name,owner);
-		
-		db.closeconnection();
-		
-		
 		
 		AcceptPub accept = new AcceptPub(name, owner);
 		
@@ -40,57 +34,13 @@ public class AdminHandling {
 		
 	}
 	
-	
-	
-	// Function to give a list off all registered pubs to the administrative GUI
-	public ArrayList<Pub> getAllPubs() throws SQLException{
-		
-		ArrayList<Pub> pubs = new ArrayList<Pub>();
-		
-		DatabaseManager db = new DatabaseManager();
-		db.connection();
-		
-		pubs = db.getPubs();
-		
-		db.closeconnection();
-		return pubs;
-		
-		//PubList publist = new PubList(pubs);
-		//SocketServer.getInstance().sendObject(publist,name );
-		
-		
-	}
-	
-	
-	// Get all the questions from the db
-	public ArrayList<String> getAllQuestions() throws SQLException {
-		
-		ArrayList <String> questions = new ArrayList<String>();
-		
-		DatabaseManager db = new DatabaseManager();
-		
-		db.connection();
-		
-		db.getAllQuestions();
-		
-		db.closeconnection();
-		
-		return questions;
-		
-		
-	}
-	
-	public ArrayList<String> getQuestionPool(String name) throws SQLException {
+	public ArrayList<String> getQuestionPool(String name) throws SQLException {  /// zu schreiben
 		
 		ArrayList <String> questions_pool = new ArrayList<String>();
 		
 		DatabaseManager db = new DatabaseManager();
 		
-		db.connection();
-		
 		db.getPool(name);
-		
-		db.closeconnection();
 		
 		return questions_pool;
 		

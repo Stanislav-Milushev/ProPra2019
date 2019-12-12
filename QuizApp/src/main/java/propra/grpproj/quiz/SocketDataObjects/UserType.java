@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public enum UserType implements Serializable{
 	DEFAULT,
-	PUBOWNER,
+	PUB_OWNER,
 	ADMIN,
-	ADMINPUBOWNER,
+	ADMIN_PUBOWNER,
 	ERROR;
 }
