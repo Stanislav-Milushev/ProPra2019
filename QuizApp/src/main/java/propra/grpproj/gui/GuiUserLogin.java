@@ -152,15 +152,15 @@ public class GuiUserLogin {
 		
 		GridBagLayout gbl_pUserLoginInput = new GridBagLayout();
 		gbl_pUserLoginInput.columnWidths = new int[] {0};
-		gbl_pUserLoginInput.rowHeights = new int[] {0, 0, 0, 0};
-		gbl_pUserLoginInput.columnWeights = new double[]{1.0, 1.0};
+		gbl_pUserLoginInput.rowHeights = new int[] {0};
+		gbl_pUserLoginInput.columnWeights = new double[]{0.0, 0.0};
 		gbl_pUserLoginInput.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
 		pUserLoginInput.setLayout(gbl_pUserLoginInput);
 		
 		
 		JLabel lblText = new JLabel("Bitte geben Sie Ihre Logindaten ein.");
 		GridBagConstraints gbc_lblText = new GridBagConstraints();
-		gbc_lblText.insets = new Insets(5, 5, 5, 0);
+		gbc_lblText.insets = new Insets(5, 5, 5, 5);
 		gbc_lblText.gridwidth = 2;
 		gbc_lblText.fill = GridBagConstraints.CENTER;
 		gbc_lblText.gridx = 0;
@@ -228,10 +228,10 @@ public class GuiUserLogin {
 		});
 		
 		GridBagConstraints gbc_bRegister = new GridBagConstraints();
-		gbc_bRegister.gridwidth = 1;
+		gbc_bRegister.gridwidth = 2;
 		gbc_bRegister.insets = new Insets(5, 5, 5, 5);
-		gbc_bRegister.gridx = 1;
-		gbc_bRegister.gridy = 3;
+		gbc_bRegister.gridx = 0;
+		gbc_bRegister.gridy = 4;
 		pUserLoginInput.add(bRegister,gbc_bRegister); 
 		
 		JButton bGuest = new JButton("Als Gast anmelden");
@@ -244,7 +244,7 @@ public class GuiUserLogin {
 		GridBagConstraints gbc_bGuest = new GridBagConstraints();
 		gbc_bGuest.gridwidth = 1;
 		gbc_bGuest.insets = new Insets(5, 5, 5, 5);
-		gbc_bGuest.gridx = 2;
+		gbc_bGuest.gridx = 1;
 		gbc_bGuest.gridy = 3;
 		pUserLoginInput.add(bGuest,gbc_bGuest);
 		
