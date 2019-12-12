@@ -1057,10 +1057,8 @@ public class GuiAdmin {
 	}
 	
 	public void getPubListFromServer(PubList list) {
-		pList.clear();
+		//pList.clear();															//ERROR NullPointer
 		pList = (ArrayList<Pub>) list.getList();
-		
-		
 		for (int r = 0; r < pList.size(); r++) {
 			String unblocking = "";
 			if (pList.get(r).isAllowed() == false) {
@@ -1084,6 +1082,7 @@ public class GuiAdmin {
 			cbPEPubID.addItem(pList.get(ip).getID());
 		}
 
+		
 	}
 	
 
