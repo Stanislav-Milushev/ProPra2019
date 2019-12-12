@@ -232,7 +232,7 @@ public class GuiUserLogin {
 		gbc_bRegister.insets = new Insets(5, 5, 5, 5);
 		gbc_bRegister.gridx = 1;
 		gbc_bRegister.gridy = 3;
-		pUserLoginInput.add(bRegister,gbc_bRegister);
+		pUserLoginInput.add(bRegister,gbc_bRegister); 
 		
 		JButton bGuest = new JButton("Als Gast anmelden");
 		bGuest.addActionListener(new ActionListener() {
