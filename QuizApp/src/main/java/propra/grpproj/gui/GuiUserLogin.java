@@ -262,7 +262,7 @@ public class GuiUserLogin {
 			frmUserLogin.dispose();
 			break;
 			
-		case PUBOWNER:
+		case PUB_OWNER:
 			
 			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as pubowner.");
 			
@@ -271,7 +271,7 @@ public class GuiUserLogin {
 			frmUserLogin.dispose();
 			break;
 			
-		case ADMINPUBOWNER:
+		case ADMIN_PUBOWNER:
 			
 			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as admin & pubowner.");
 			

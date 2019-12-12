@@ -38,11 +38,11 @@ public class PubService
 
         this.pubRepository = pubRepository;
     }
-
+    
     /**
      * <p>
      * Creates a new Pub, that is not yet officially registered.
-     * 
+     * v
      * <p>
      * NOTICE: this method is not yet fully implemented: it would override an
      * already bay same name existing Pub.

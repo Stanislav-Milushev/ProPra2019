@@ -34,6 +34,7 @@ import propra.grpproj.quiz.SocketDataObjects.RepeatPubevening;
 import propra.grpproj.quiz.SocketDataObjects.Scoreboard;
 import propra.grpproj.quiz.SocketDataObjects.TerminateConnection;
 import propra.grpproj.quiz.SocketDataObjects.UserType;
+import propra.grpproj.quiz.dataholders.User;
 
 public class SocketClient implements Runnable{
 	private Socket socket;

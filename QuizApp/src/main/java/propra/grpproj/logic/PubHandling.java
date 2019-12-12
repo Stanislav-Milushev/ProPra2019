@@ -27,29 +27,11 @@ public class PubHandling {
 		DatabaseManager db = new DatabaseManager();
 		
 		boolean success_reg = false;
-		
-		boolean approved = false;
-		
-		db.connection();
-		
-		success_reg = db.registerPub(name,address,approved,ownerid);
-		
-		db.closeconnection();
-		
-		RegisterPub regProg = new RegisterPub(name,address,ownerid);
-		
-		regProg.setRegisterProg(true);
-		
-		SocketServer.getInstance().sendObject(regProg, name);
-		
-	}
 	
-	/**
-	 * Edits a pub in the database
-	 * @param cp
-	 * @author Yannick
-	 */
-	public static void editPub(ChangePub cp) {
+		db.registerPub(name,address,ownerid);
+		RegisterPub regProg = new RegisterPub(name,address,ownerid);
+		regProg.setRegisterProg(true);
+		SocketServer.getInstance().sendObject(regProg, name);
 		
 	}
 	
@@ -64,6 +46,11 @@ public class PubHandling {
 		
 		list.setList(pList);
 		SocketServer.getInstance().sendObject(list, username);
+	}
+
+	public static void editPub(ChangePub cp) {
+		// TODO Auto-generated method stub
+		
 	}
 		
 }

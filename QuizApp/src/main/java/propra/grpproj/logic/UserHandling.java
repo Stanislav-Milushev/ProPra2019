@@ -7,6 +7,7 @@ import java.sql.Statement;
 import propra.grpproj.quiz.Socket.SocketServer;
 import propra.grpproj.quiz.SocketDataObjects.*;
 
+
 ////////////////////////////////////////////////////////////////////////////
 // Handle all the user related actions (login, logout, delete, register)
 // 
@@ -24,6 +25,7 @@ public class UserHandling
 	/**
 	 * Method to register a user in the database
 	 * Calls the function user_register in the DatabaseManager
+	 * @throws SQLException 
 	 * 
 	 */ 
 	public void user_register(String username, String email, String passwd, UserType usertype) throws SQLException 
@@ -33,11 +35,7 @@ public class UserHandling
 		
 		boolean success_reg = false;
 		
-		db.connection();
-		
 		success_reg = db.registerUser(username, email, passwd, usertype);
-		
-		db.closeconnection();
 		
 		if ( success_reg == true ) {
 			
@@ -66,15 +64,10 @@ public class UserHandling
 		DatabaseManager db = new DatabaseManager();
 		
 		boolean success_login; 
-		
-		db.connection();
-		
-		success_login = db.login(username,passwd); //funktioniert das immernoch mit username statt email?
+
+		success_login = db.login(username,passwd); 
 		
 		UserType usertype = db.getUserType(username);
-		
-		db.closeconnection();
-
 		
 		if (!success_login == true) {
 			usertype = UserType.ERROR;
@@ -96,35 +89,7 @@ public class UserHandling
 	// Method to create a temp user
 	public void createTempUser () throws SQLException 
 	{
-		boolean success = false;
-		
-		DatabaseManager db = new DatabaseManager();
-		
-		db.connection();
-		
-		int id = db.getLatestID();
-		
-		String email = "temp" + id + "@krombacher_quiz.de";
-		
-		String name = "temp" + id;
-		
-		String passwd = "temporaer";
-		
-		UserType usertype= UserType.DEFAULT; 
-		
-		success = db.registerUser(name, email, passwd,usertype);
-		
-		if ( success == true) {
-			
-			db.login(email, passwd);
-			
-		} else {
-			
-			// Int 7 = Cannot register the temp User
-		}
-		
-		db.closeconnection();
-		
+	
 		
 	}
 	
@@ -145,38 +110,9 @@ public class UserHandling
 	{
 		
 		boolean del_check = true;
-		
-		DatabaseManager db = new DatabaseManager();
-		
-		db.connection();
-		
-		String query = "Select password From user Where id =" + username;
-		
-		Statement stmt = db.connection.createStatement();
-		
-		ResultSet rs = stmt.executeQuery(query);
-	
-		int columns = rs.getMetaData().getColumnCount();
-		
-		while (rs.next()) {
-			
-			for(int i = 1; i<=columns; i++) {
-				del_check = db.isEmpty(rs.getString(i));
-			}
-		}
-		
-		rs.close();
-		stmt.close();
-		
-		if (del_check) {
-			String queryD = "Delete From user Where id =" + username;
-			Statement stmtD = db.connection.createStatement();
-			ResultSet rsD = stmt.executeQuery(query);
-			rsD.close();
-			stmtD.close();
-		}
-		db.closeconnection();
-		
+		DatabaseManager db= new DatabaseManager();
+		db.deleteUser(username, passwd);
+		//Authorize
 		return del_check;
 		
 		
