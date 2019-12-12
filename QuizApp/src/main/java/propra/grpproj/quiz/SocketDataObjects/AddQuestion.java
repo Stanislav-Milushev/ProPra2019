@@ -1,19 +1,32 @@
 package propra.grpproj.quiz.SocketDataObjects;
 
 public class AddQuestion {
-	Question q;
+	String questionText;
+	String[] answers;
+	String explanation;
 	int set;
-	
-	public AddQuestion(Question add, int set) {
-		q = add;
+
+	public AddQuestion(String qT, String[] answers, String ex, int set) {
+		this.questionText = qT;
+		this.answers = answers;
+		this.explanation = ex;
 		this.set = set;
 	}
+	
+	public String getQuestionText() {
+		return questionText;
+	}
 
-	public Question getQ() {
-		return q;
+	public String[] getAnswers() {
+		return answers;
+	}
+
+	public String getExplanation() {
+		return explanation;
 	}
 
 	public int getSet() {
 		return set;
 	}
+
 }

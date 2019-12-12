@@ -79,10 +79,12 @@ public class QuestionHandling
 	/**
 	 * Adds a questionset to the db
 	 * @param list
-	 * @author Yannick
+	 * @author Yannick & Lisa
 	 */
 	public static void questionImport(AddQuestion question) {
-		Question toAdd = question.getQ();
+		String questionTextToAdd = question.getQuestionText();
+		String[] answersToAdd = question.getAnswers();
+		String exToAdd = question.getExplanation();
 		int set = question.getSet();
 		//TODO add to db
 	}
