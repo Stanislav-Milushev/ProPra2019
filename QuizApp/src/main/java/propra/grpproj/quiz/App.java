@@ -137,28 +137,8 @@ public class App
 
 	}
 
-	private static void startTheServer()
-	{
-		 SocketServer socketServer = new SocketServer(SERVER_PORT);
-         ExecutorService executor = Executors.newFixedThreadPool(2,
-                 runnable -> { return new Thread(runnable, "SocketServerThread"); });
-         Future<?> future = executor.submit(socketServer);
-         executor.submit(() -> {
-             // submit a second task, that awaits the socketServer to get terminated and if
-             // that has happened,
-             // we destroy this thread-pool itself!
-             // This all should be executed if the Master-Gui gets closed...
-             try
-             {
-                 future.get();
-             } catch (Exception e)
-             {
-                 /* app was closed, silence please! */
-             } finally
-             {
-                 executor.shutdownNow();
-             }
-         });		
+	private static void startTheServer(){
+		SocketServer.start(SERVER_PORT);	
 	}
 
 }

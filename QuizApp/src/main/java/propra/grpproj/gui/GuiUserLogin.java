@@ -331,4 +331,8 @@ public class GuiUserLogin {
 		
 		return instance;
 	}
+
+	public JFrame getFrmUserLogin() {
+		return frmUserLogin;
+	}
 }
