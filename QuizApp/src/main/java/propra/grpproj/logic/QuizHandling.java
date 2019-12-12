@@ -77,6 +77,7 @@ public class QuizHandling {
 	 */
 	public void joinQuiz(String user, int abendID) {
 		userMap.put(user, abendID);
+		//TODO write to db
 	}
 	
 	/**
