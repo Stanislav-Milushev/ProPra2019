@@ -180,7 +180,10 @@ public class GuiRegister {
 		JButton bRegister = new JButton("Abschicken");
 		bRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Get all Data
+				String username = tfUserName.getText();
+				String password = tfPassword.getText();
+				String email = tfEmail.getText();
+				
 			}
 		});
 		
