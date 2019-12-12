@@ -64,6 +64,8 @@ public class GuiAdmin {
 	private Question q;
 	private Pub p;
 	private int set = 0; 		//anpassen sobald klar
+	private DefaultTableModel pModel;
+
 	
 	private static SocketClient c;
 
@@ -107,6 +109,8 @@ public class GuiAdmin {
 	private void initialize() {
 		ArrayList<Pub> pList = new ArrayList<Pub>();
 		ArrayList<Question> qList = new ArrayList<Question>();
+		DefaultTableModel pModel = new DefaultTableModel();
+
 		getPubListRequest();
 	//TODO ERROR	getQuestionListRequest();
 
@@ -275,7 +279,13 @@ public class GuiAdmin {
 		tableQuestions.setShowVerticalLines(false);
 		tableQuestions.setColumnSelectionAllowed(true);
 		tableQuestions.setAutoCreateRowSorter(true);
-				
+		
+		String pHeaders[] = {
+				"KneipenID", "Kneipenname", "freigegeben", 
+				"BenutzerID", "Benutzername", "Adresse"};
+		pModel.setColumnIdentifiers(pHeaders);
+		tablePubs.setModel(pModel);
+		
 		JScrollPane scrollPaneQuestions = new JScrollPane(tableQuestions);
 		GridBagConstraints gbc_scrollPaneQuestions = new GridBagConstraints();
 		gbc_scrollPaneQuestions.insets = new Insets(5, 5, 5, 5);
@@ -847,7 +857,7 @@ public class GuiAdmin {
 				tfPEUserID.setText("");
 				tfPEAddress.setText("");
 				
-				loadPubList();
+				getPubListRequest();
 			}
 		});
 		GridBagConstraints gbc_bPESave = new GridBagConstraints();
@@ -1041,11 +1051,33 @@ public class GuiAdmin {
 	}
 	
 	public void getPubListFromServer(PubList list) {
-		ArrayList<Pub> pListTemp = (ArrayList<Pub>) list.getList();
 		pList.clear();
-		for (int i=0; i<pListTemp.size(); i++) {
-			pList.add(pListTemp.get(i));
+		pList = (ArrayList<Pub>) list.getList();
+		
+		
+		for (int r = 0; r < pList.size(); r++) {
+			String unblocking = "";
+			if (pList.get(r).isAllowed() == false) {
+				unblocking = "nein";
+			} else {
+				unblocking = "ja";
+			}
+			pModel.addRow(new Object[] {
+					pList.get(r).getID(),
+					pList.get(r).getName(),
+					unblocking,
+					pList.get(r).getOwnerID(),
+					pList.get(r).getOwnerName(),
+					pList.get(r).getAdresse()
+			});
+			
 		}
+		
+		// fill CB with ids
+		for (int ip=0; ip<pList.size(); ip++) {
+			cbPEPubID.addItem(pList.get(ip).getID());
+		}
+
 	}
 	
 
@@ -1084,41 +1116,10 @@ public class GuiAdmin {
 	}
 	
 
-	public void loadPubList() {
-		getPubListRequest();
-		
-		DefaultTableModel pModel = new DefaultTableModel();
-		String pHeaders[] = {
-				"KneipenID", "Kneipenname", "freigegeben", 
-				"BenutzerID", "Benutzername", "Adresse"};
-		pModel.setColumnIdentifiers(pHeaders);
-		tablePubs.setModel(pModel);
-		for (int r = 0; r < pList.size(); r++) {
-			String unblocking = "";
-			if (pList.get(r).isAllowed() == false) {
-				unblocking = "nein";
-			} else {
-				unblocking = "ja";
-			}
-			pModel.addRow(new Object[] {
-					pList.get(r).getID(),
-					pList.get(r).getName(),
-					unblocking,
-					pList.get(r).getOwnerID(),
-					pList.get(r).getOwnerName(),
-					pList.get(r).getAdresse()
-			});
-			
-		}
-		
-		// fill CB with ids
-		for (int ip=0; ip<pList.size(); ip++) {
-			cbPEPubID.addItem(pList.get(ip).getID());
-		}
-	}
+	
 	
 	public void loadQuestionList() {
-		//getQuestionListRequest(); 						setInt mit übergeben
+		getQuestionListRequest(set); 						
 		DefaultTableModel qModel = new DefaultTableModel();
 		String qHeaders[] = {
 				"Fragen-ID", "Frage", "richtige Antwort", 
