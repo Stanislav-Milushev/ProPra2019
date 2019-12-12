@@ -117,7 +117,7 @@ public class GuiAdmin {
 		ArrayList<Question> qList = new ArrayList<Question>();
 		DefaultTableModel pModel = new DefaultTableModel();
 
-		getPubListRequest();
+
 	//TODO ERROR	getQuestionListRequest();
 
 	/**
