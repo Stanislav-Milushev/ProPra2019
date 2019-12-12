@@ -112,7 +112,7 @@ public class GuiRegister {
 		
 		GridBagLayout gbl_Register = new GridBagLayout();
 		gbl_Register.columnWidths = new int[] {0};
-		gbl_Register.rowHeights = new int[] {0, 0, 0, 0};
+		gbl_Register.rowHeights = new int[] {0};
 		gbl_Register.columnWeights = new double[]{1.0, 1.0};
 		gbl_Register.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
 		pRegister.setLayout(gbl_Register);
@@ -120,7 +120,7 @@ public class GuiRegister {
 		
 		JLabel lblText = new JLabel("Bitte Daten fuer die Registrierung eingeben");
 		GridBagConstraints gbc_lblText = new GridBagConstraints();
-		gbc_lblText.insets = new Insets(5, 5, 5, 0);
+		gbc_lblText.insets = new Insets(5, 5, 5, 5);
 		gbc_lblText.gridwidth = 2;
 		gbc_lblText.fill = GridBagConstraints.CENTER;
 		gbc_lblText.gridx = 0;
@@ -221,7 +221,7 @@ public class GuiRegister {
 		});
 		
 		GridBagConstraints gbc_Register = new GridBagConstraints();
-		gbc_Register.gridwidth = 2;
+		gbc_Register.gridwidth = 1;
 		gbc_Register.insets = new Insets(5, 5, 5, 5);
 		gbc_Register.gridx = 0;
 		gbc_Register.gridy = 5;
@@ -237,7 +237,7 @@ public class GuiRegister {
 		});
 		
 		GridBagConstraints gbc_Back = new GridBagConstraints();
-		gbc_Back.gridwidth = 2;
+		gbc_Back.gridwidth = 1;
 		gbc_Back.insets = new Insets(5, 5, 5, 5);
 		gbc_Back.gridx = 1;
 		gbc_Back.gridy = 5;
