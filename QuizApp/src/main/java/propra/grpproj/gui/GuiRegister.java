@@ -113,7 +113,7 @@ public class GuiRegister {
 		GridBagLayout gbl_Register = new GridBagLayout();
 		gbl_Register.columnWidths = new int[] {0};
 		gbl_Register.rowHeights = new int[] {0};
-		gbl_Register.columnWeights = new double[]{1.0, 1.0};
+		gbl_Register.columnWeights = new double[]{0.0, 0.0};
 		gbl_Register.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
 		pRegister.setLayout(gbl_Register);
 		
