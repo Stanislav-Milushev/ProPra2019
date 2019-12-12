@@ -473,6 +473,8 @@ public class GuiUserLogin {
 		long time = date.getTime();
 		Timestamp ts = new Timestamp(time);
 		
+		System.out.println(""+ts);
+		
 		int username = ts.hashCode();
 		
 		String userName = String.valueOf(username);
