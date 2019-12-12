@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -28,6 +29,7 @@ public class GuiRegister {
 	private JTextField tfUserName;
 	private JTextField tfEmail;
 	private JTextField tfPassword;
+	private JTextField tfPasswordRepeat;
 
 	/**
 	 * Launch the application.
@@ -147,7 +149,7 @@ public class GuiRegister {
 		gbc_lblPW.insets = new Insets(5, 5, 5, 5);
 		gbc_lblPW.anchor = GridBagConstraints.EAST;
 		gbc_lblPW.gridx = 0;
-		gbc_lblPW.gridy = 2;
+		gbc_lblPW.gridy = 3;
 		pRegister.add(lblPW, gbc_lblPW);
 		
 		tfPassword = new JTextField();
@@ -155,34 +157,58 @@ public class GuiRegister {
 		gbc_tfPW.insets = new Insets(5, 5, 5, 5);
 		gbc_tfPW.anchor = GridBagConstraints.WEST;
 		gbc_tfPW.gridx = 1;
-		gbc_tfPW.gridy = 2;
+		gbc_tfPW.gridy = 3;
 		pRegister.add(tfPassword, gbc_tfPW);
 		tfPassword.setColumns(10);
 		
 		JLabel lblMail = new JLabel("Email");
 		GridBagConstraints gbc_Mail = new GridBagConstraints();
-		gbc_lblPW.insets = new Insets(5, 5, 5, 5);
-		gbc_lblPW.anchor = GridBagConstraints.EAST;
-		gbc_lblPW.gridx = 0;
-		gbc_lblPW.gridy = 2;
+		gbc_Mail.insets = new Insets(5, 5, 5, 5);
+		gbc_Mail.anchor = GridBagConstraints.EAST;
+		gbc_Mail.gridx = 0;
+		gbc_Mail.gridy = 2;
 		pRegister.add(lblMail, gbc_Mail);
 		
 		tfEmail = new JTextField();
 		GridBagConstraints gbc_tfEmail = new GridBagConstraints();
 		gbc_tfEmail.insets = new Insets(5, 5, 5, 5);
 		gbc_tfEmail.anchor = GridBagConstraints.WEST;
-		gbc_tfEmail.gridx = 0;
-		gbc_tfEmail.gridy = 1;
-		pRegister.add(tfEmail, gbc_tfPW);
-		tfPassword.setColumns(10);
+		gbc_tfEmail.gridx = 1;
+		gbc_tfEmail.gridy = 2;
+		pRegister.add(tfEmail, gbc_tfEmail);
+		tfEmail.setColumns(10);
 		
-		frameRegister.getContentPane().add(pHeader, BorderLayout.NORTH);
-		frameRegister.getContentPane().add(pRegister, BorderLayout.CENTER);
+		JLabel lblpasswdrepeat = new JLabel("Passwort wiederholen");
+		GridBagConstraints gbc_pwrepeat = new GridBagConstraints();
+		gbc_pwrepeat.insets = new Insets(5, 5, 5, 5);
+		gbc_pwrepeat.anchor = GridBagConstraints.EAST;
+		gbc_pwrepeat.gridx = 0;
+		gbc_pwrepeat.gridy = 4;
+		pRegister.add(lblpasswdrepeat, gbc_pwrepeat);
+		
+		tfPasswordRepeat = new JTextField();
+		GridBagConstraints gbc_tfPasswordrepeat = new GridBagConstraints();
+		gbc_tfPasswordrepeat.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPasswordrepeat.anchor = GridBagConstraints.WEST;
+		gbc_tfPasswordrepeat.gridx = 1;
+		gbc_tfPasswordrepeat.gridy = 4;
+		pRegister.add(tfPasswordRepeat, gbc_tfPasswordrepeat);
+		tfPasswordRepeat.setColumns(10);
+		
+		
 		
 		JButton bRegister = new JButton("Abschicken");
 		bRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Get all Data
+				String username = tfUserName.getText();
+				String password = tfPassword.getText();
+				String password2 = tfPasswordRepeat.getText();
+				String email = tfEmail.getText();
+				
+				if (password  password 2) {
+					
+				}
+				
 			}
 		});
 		
@@ -190,8 +216,27 @@ public class GuiRegister {
 		gbc_Register.gridwidth = 2;
 		gbc_Register.insets = new Insets(5, 5, 5, 5);
 		gbc_Register.gridx = 0;
-		gbc_Register.gridy = 3;
+		gbc_Register.gridy = 5;
 		pRegister.add(bRegister, gbc_Register);
+		
+		JButton bBack = new JButton("Abbrechen");
+		bBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GuiUserLogin back = new GuiUserLogin();
+				back.getFrame().setVisible(true);
+				frameRegister.dispose();
+			}
+		});
+		
+		GridBagConstraints gbc_Back = new GridBagConstraints();
+		gbc_Back.gridwidth = 2;
+		gbc_Back.insets = new Insets(5, 5, 5, 5);
+		gbc_Back.gridx = 1;
+		gbc_Back.gridy = 5;
+		pRegister.add(bBack, gbc_Back);
+		
+		frameRegister.getContentPane().add(pHeader, BorderLayout.NORTH);
+		frameRegister.getContentPane().add(pRegister, BorderLayout.CENTER);
 		
 		frameRegister.pack();
 		frameRegister.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -220,4 +265,8 @@ public class GuiRegister {
 		return frameRegister;
 	}
 
+	public void register_return() {
+		
+		JOptionPane.showInputDialog("registrierung erfolgreich, automatischer login");
+	}
 }
