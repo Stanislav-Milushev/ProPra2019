@@ -171,7 +171,7 @@ public class SocketServer implements Runnable{
         /**
          * 
          * @param o Object to be sent to the client
-         * @author Yannick & Marius & Stan
+         * @author Yannick & Marius & Stan & Lisa
          * @throws SQLException 
          */
         private void recieveObject(Object o) throws SQLException {
@@ -262,6 +262,7 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof RepeatPubevening) {
         		RepeatPubevening rpEvening = (RepeatPubevening)o;
+        		QuizHandling.getInstance().createQuiz(rpEvening);
         	}
         	if(o instanceof Scoreboard) {
         		Scoreboard scbd = (Scoreboard)o;

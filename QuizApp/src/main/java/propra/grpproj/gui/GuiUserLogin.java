@@ -30,9 +30,13 @@ import org.slf4j.LoggerFactory;
 
 import com.opencsv.exceptions.CsvException;
 
+import java.util. Date;
+import java.sql.Timestamp;
+
 import propra.grpproj.quiz.Socket.SocketClient;
 import propra.grpproj.quiz.Socket.SocketServer;
 import propra.grpproj.quiz.SocketDataObjects.Login;
+import propra.grpproj.quiz.SocketDataObjects.RegisterUser;
 import propra.grpproj.quiz.SocketDataObjects.UserType;
 import propra.grpproj.quiz.dataholders.Question;
 import propra.grpproj.quiz.repositories.sqlite.EveningRepository;
@@ -55,8 +59,6 @@ public class GuiUserLogin {
 	private static final Logger LOG = LoggerFactory.getLogger(GuiUserLogin.class);
 	
 	private static GuiUserLogin instance;
-	
-	private static SocketClient socket_client;
 
 	private JFrame frmUserLogin;
 	private JTextField tfUserName;
@@ -210,7 +212,7 @@ public class GuiUserLogin {
 		});
 		
 		GridBagConstraints gbc_bLogin = new GridBagConstraints();
-		gbc_bLogin.gridwidth = 2;
+		gbc_bLogin.gridwidth = 1;
 		gbc_bLogin.insets = new Insets(5, 5, 5, 5);
 		gbc_bLogin.gridx = 0;
 		gbc_bLogin.gridy = 3;
@@ -226,11 +228,11 @@ public class GuiUserLogin {
 		});
 		
 		GridBagConstraints gbc_bRegister = new GridBagConstraints();
-		gbc_bRegister.gridwidth = 2;
+		gbc_bRegister.gridwidth = 1;
 		gbc_bRegister.insets = new Insets(5, 5, 5, 5);
 		gbc_bRegister.gridx = 1;
 		gbc_bRegister.gridy = 3;
-		pUserLoginInput.add(bRegister,gbc_bRegister);
+		pUserLoginInput.add(bRegister,gbc_bRegister); 
 		
 		JButton bGuest = new JButton("Als Gast anmelden");
 		bGuest.addActionListener(new ActionListener() {
@@ -238,6 +240,13 @@ public class GuiUserLogin {
 				handleregister_guest();
 			}
 		});
+		
+		GridBagConstraints gbc_bGuest = new GridBagConstraints();
+		gbc_bGuest.gridwidth = 1;
+		gbc_bGuest.insets = new Insets(5, 5, 5, 5);
+		gbc_bGuest.gridx = 2;
+		gbc_bGuest.gridy = 3;
+		pUserLoginInput.add(bGuest,gbc_bGuest);
 		
 
 		getFrmUserLogin().getContentPane().add(pHeader, BorderLayout.NORTH);
@@ -423,14 +432,63 @@ public class GuiUserLogin {
 	
 	public void handleregister_guest() {
 		
+		String username = randomenough();
+		
+		String email = "Temp@Krombacher.de";
+		
+		String password = "Passwort123";
+		
+		UserType usertype = UserType.DEFAULT;
+		
+		
+		SocketServer.start(4000);
+		
+		
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		SocketClient.connect("127.0.0.1", 4000, username);
+		
+
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		RegisterUser register = new RegisterUser (username, email, password, usertype);
+		SocketClient.getInstance().sendObject(register);
 	}
 	
+	public String randomenough(){
+		
+		Date date= new Date();
+		long time = date.getTime();
+		Timestamp ts = new Timestamp(time);
+		
+		int username = ts.hashCode();
+		
+		String userName = String.valueOf(username);
+		
+		System.out.println("ZZ" + userName);
+		
+		return userName;
+		
+		
+	}
 	
 	public JFrame getFrame () {
 		
 		return getFrmUserLogin();
 	}
-	
+	 
 	public static GuiUserLogin getInstance(){
 		
 		return instance;
