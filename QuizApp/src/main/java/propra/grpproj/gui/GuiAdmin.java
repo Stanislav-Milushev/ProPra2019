@@ -65,7 +65,7 @@ public class GuiAdmin {
 	private Pub p;
 	private int set = 0; 		//anpassen sobald klar
 	
-	private DefaultTableModel pModel;
+	private DefaultTableModel pModel, qModel;
 
 	/**
 	 * Launch the application.
@@ -118,6 +118,7 @@ public class GuiAdmin {
 		ArrayList<Pub> pList = new ArrayList<Pub>();
 		ArrayList<Question> qList = new ArrayList<Question>();
 		DefaultTableModel pModel = new DefaultTableModel();
+		DefaultTableModel qModel = new DefaultTableModel();
 
 
 
@@ -245,6 +246,13 @@ public class GuiAdmin {
 		tablePubs.setColumnSelectionAllowed(true);
 		tablePubs.setAutoCreateRowSorter(true);
 		
+		String pHeaders[] = {
+				"KneipenID", "Kneipenname", "freigegeben", 
+				"BenutzerID", "Benutzername", "Adresse"};
+		pModel.setColumnIdentifiers(pHeaders);
+		tablePubs.setModel(pModel);
+		
+		
 		JScrollPane scrollPanePubs = new JScrollPane(tablePubs);
 		GridBagConstraints gbc_scrollPanePubs = new GridBagConstraints();
 		gbc_scrollPanePubs.anchor = GridBagConstraints.NORTH;
@@ -287,12 +295,13 @@ public class GuiAdmin {
 		tableQuestions.setShowVerticalLines(false);
 		tableQuestions.setColumnSelectionAllowed(true);
 		tableQuestions.setAutoCreateRowSorter(true);
-		
-		String pHeaders[] = {
-				"KneipenID", "Kneipenname", "freigegeben", 
-				"BenutzerID", "Benutzername", "Adresse"};
-		pModel.setColumnIdentifiers(pHeaders);
-		tablePubs.setModel(pModel);
+				
+		String qHeaders[] = {
+				"Fragen-ID", "Frage", "richtige Antwort", 
+				"1. falsche Antwort", "2. falsche Antwort", "3. falsche Antwort",
+				"Erläuterung"};
+		qModel.setColumnIdentifiers(qHeaders);
+		tableQuestions.setModel(qModel);
 		
 		JScrollPane scrollPaneQuestions = new JScrollPane(tableQuestions);
 		GridBagConstraints gbc_scrollPaneQuestions = new GridBagConstraints();
@@ -474,7 +483,7 @@ public class GuiAdmin {
 				tfQAWrongAnswer3.setText("");
 				tfQAExplanation.setText("");
 				
-				loadQuestionList();
+				getQuestionListRequest(set);
 			}
 		});
 		GridBagConstraints gbc_bQuestionAddNow = new GridBagConstraints();
@@ -664,7 +673,7 @@ public class GuiAdmin {
 				tfQAExplanation.setText("");
 				cbQACorrectAnswer.setSelectedIndex(0);
 				
-				loadQuestionList();
+				getQuestionListRequest(set);
 			}
 		});
 		GridBagConstraints gbc_bQEDelete = new GridBagConstraints();
@@ -696,7 +705,7 @@ public class GuiAdmin {
 				tfQAWrongAnswer3.setText("");
 				tfQAExplanation.setText("");
 				
-				loadQuestionList();
+				getQuestionListRequest(set);
 			}
 		});
 		GridBagConstraints gbc_bQuestionSave = new GridBagConstraints();
@@ -963,7 +972,7 @@ public class GuiAdmin {
 		JButton bQuestionAdd = new JButton("Frage hinzufügen");
 		bQuestionAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loadQuestionList();
+				getQuestionListRequest(set);
 				 cardLayout1.show(pCardLayoutList, "pQuestionsList");
 				 cardLayout2.show(pCardLayoutInput, "pQuestionAdd");
 				 
@@ -979,7 +988,7 @@ public class GuiAdmin {
 		JButton bQuestionEdit = new JButton("Frage bearbeiten / löschen");
 		bQuestionEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loadQuestionList();
+				getQuestionListRequest(set);
 				cardLayout1.show(pCardLayoutList, "pQuestionsList");
 				 cardLayout2.show(pCardLayoutInput, "pQuestionEdit");
 			}
@@ -1095,43 +1104,10 @@ public class GuiAdmin {
 	
 	
 	public void getQuestionListFromServer(GetQuestionSet list) {
-		qList.clear();
+		//qList.clear();
 		qList = (ArrayList<Question>) list.getList();
-	}
 
-
-	public Pub getPub(int pID) {
-		for (int i=0; i<pList.size(); i++) {
-			if (pList.get(i).getID() == pID) {
-				p = pList.get(i);
-			}
-		}
-		return p;
-	}
-	
-	
-	
-	public Question getQuestion(int qID) {
-		for (int i=0; i<qList.size(); i++) {
-			if (qList.get(i).getID() == qID) {
-				q = qList.get(i);
-			}
-		}
-		return q;
-	}
-	
-
-	
-	
-	public void loadQuestionList() {
-		getQuestionListRequest(set); 						
-		DefaultTableModel qModel = new DefaultTableModel();
-		String qHeaders[] = {
-				"Fragen-ID", "Frage", "richtige Antwort", 
-				"1. falsche Antwort", "2. falsche Antwort", "3. falsche Antwort",
-				"Erläuterung"};
-		qModel.setColumnIdentifiers(qHeaders);
-		tableQuestions.setModel(qModel);
+		
 		for (int r = 0; r < qList.size(); r++) {
 			String[] answers = qList.get(r).getAnswers();
 			String cA = answers[0];
@@ -1153,6 +1129,27 @@ public class GuiAdmin {
 		for (int iq=0; iq<qList.size(); iq++) {
 			cbQEQuestionID.addItem(qList.get(iq).getID());
 		}
+	}
+
+
+	public Pub getPub(int pID) {
+		for (int i=0; i<pList.size(); i++) {
+			if (pList.get(i).getID() == pID) {
+				p = pList.get(i);
+			}
+		}
+		return p;
+	}
+	
+	
+	
+	public Question getQuestion(int qID) {
+		for (int i=0; i<qList.size(); i++) {
+			if (qList.get(i).getID() == qID) {
+				q = qList.get(i);
+			}
+		}
+		return q;
 	}
 	
 
