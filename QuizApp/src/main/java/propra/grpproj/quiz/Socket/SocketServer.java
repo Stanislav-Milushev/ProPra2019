@@ -262,6 +262,7 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof RepeatPubevening) {
         		RepeatPubevening rpEvening = (RepeatPubevening)o;
+        		QuizHandling.getInstance().createQuiz(rpEvening);
         	}
         	if(o instanceof Scoreboard) {
         		Scoreboard scbd = (Scoreboard)o;
