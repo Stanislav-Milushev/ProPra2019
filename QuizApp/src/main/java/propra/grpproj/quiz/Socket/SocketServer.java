@@ -33,7 +33,7 @@ public class SocketServer implements Runnable{
     
     HashMap<String, User> nameToSocket = new HashMap<String, User>();
     
-    public SocketServer(int port){
+    private SocketServer(int port){
         this.port = port;
     }
     
