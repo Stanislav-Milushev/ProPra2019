@@ -204,8 +204,16 @@ public class GuiRegister {
 				String password = tfPassword.getText();
 				String password2 = tfPasswordRepeat.getText();
 				String email = tfEmail.getText();
+				boolean check = password.equals(password2);
 				
-				if (password == password2) {
+				if (check == true) {
+					
+					System.out.println("ok");
+					
+				} else {
+					
+					JFrame parent = new JFrame();
+					JOptionPane.showMessageDialog(parent, "Passwörter stimmen nicht überein");
 					
 				}
 				
