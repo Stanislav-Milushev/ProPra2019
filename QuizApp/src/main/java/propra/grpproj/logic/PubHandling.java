@@ -32,6 +32,8 @@ public class PubHandling {
 		
 		db.connection();
 		
+		
+		
 		success_reg = db.registerPub(name,address,approved,ownerid);
 		
 		db.closeconnection();

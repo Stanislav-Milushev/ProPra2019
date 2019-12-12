@@ -8,7 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import propra.grpproj.quiz.dataholders.Pub;
+import propra.grpproj.quiz.repositories.sqlite.PubRepository;
+import propra.grpproj.quiz.repositories.sqlite.UserRepository;
 import propra.grpproj.quiz.repositories.sqlite.utilities.SqliteCoreUtilities;
+import propra.grpproj.quiz.services.PubService;
 import propra.grpproj.quiz.SocketDataObjects.*;
 
 
@@ -334,25 +337,13 @@ public class DatabaseManager {
 		stmt.close();
 	}
 	
-	public boolean registerPub(String name, String address, boolean approved, int ownerid) throws SQLException {
+	public void registerPub(String name, String address, int ownerid) throws SQLException {
 		
-		boolean success = false;
+		PubRepository pubRepository = null;
+	    UserRepository userRepository = null;
+		PubService pb = new PubService(pubRepository,userRepository);
+		pb.createNewPub(name, address, Long.valueOf(ownerid));
 		
-		int pubID = getLatestPubID() +1;
-		
-		String query = "Insert into pub (pubID, name, address, approved, owner) Values (?,?,?,?,?)";
-		
-		PreparedStatement ps = connection.prepareStatement(query);
-		ps.setInt(1, pubID);
-		ps.setString(2, name);
-		ps.setString(3, address);
-		ps.setBoolean(4, false);
-		ps.setInt(5, ownerid);
-		
-		// success = PubRepository.existsById(pubID); Long instead of int
-		
-		
-		return success;
 	}
 	
 	
