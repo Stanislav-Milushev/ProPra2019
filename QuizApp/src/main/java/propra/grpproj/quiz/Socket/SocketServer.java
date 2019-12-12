@@ -230,8 +230,10 @@ public class SocketServer implements Runnable{
         	}
         	if(o instanceof Login) {
         		Login lin = (Login)o;
+        		String name = lin.getUserName();
+        		String passwd = lin.getPassword();
         		UserHandling user = new UserHandling();
-        		user.user_login(lin);
+        		user.user_login(name, passwd);
         	}
         	if(o instanceof Pub) { //Unused
         		Pub pub = (Pub)o;
