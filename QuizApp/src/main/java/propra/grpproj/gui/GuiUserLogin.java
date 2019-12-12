@@ -481,7 +481,7 @@ public class GuiUserLogin {
 		
 		return getFrmUserLogin();
 	}
-	
+	 
 	public static GuiUserLogin getInstance(){
 		
 		return instance;
