@@ -205,7 +205,7 @@ public class GuiRegister {
 				String password2 = tfPasswordRepeat.getText();
 				String email = tfEmail.getText();
 				
-				if (password  password 2) {
+				if (password == password2) {
 					
 				}
 				

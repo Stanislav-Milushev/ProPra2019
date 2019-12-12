@@ -65,8 +65,6 @@ public class UserHandling
 		
 		DatabaseManager db = new DatabaseManager();
 		
-		ActiveUserStore aus = new ActiveUserStore();
-		
 		boolean success_login; 
 		
 		db.connection();
@@ -76,8 +74,7 @@ public class UserHandling
 		UserType usertype = db.getUserType(username);
 		
 		db.closeconnection();
-		
-		aus.userLogin(username);
+
 		
 		if (!success_login == true) {
 			usertype = UserType.ERROR;
