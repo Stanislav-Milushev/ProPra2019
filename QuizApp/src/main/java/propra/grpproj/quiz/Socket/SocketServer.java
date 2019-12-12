@@ -256,8 +256,7 @@ public class SocketServer implements Runnable{
         		String passwd = regUser.getPassword();
         		String mail = regUser.getMail();
         		String name = regUser.getUsername();
-        		String type = "DEFAULT";
-        		UserType usertype = UserType.valueOf(type);
+        		UserType usertype = regUser.getUsertype();
         		UserHandling register = new UserHandling();
         		register.user_register(name, mail, passwd, usertype);
         	}

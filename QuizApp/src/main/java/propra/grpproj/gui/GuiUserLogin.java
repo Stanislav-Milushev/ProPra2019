@@ -155,7 +155,7 @@ public class GuiUserLogin {
 		gbc_tfUserName.gridx = 1;
 		gbc_tfUserName.gridy = 1;
 		pUserLoginInput.add(tfUserName, gbc_tfUserName);
-		tfUserName.setColumns(10);
+		tfUserName.setColumns(15);
 		
 		JLabel lblPW = new JLabel("Passwort");
 		GridBagConstraints gbc_lblPW = new GridBagConstraints();
@@ -172,7 +172,7 @@ public class GuiUserLogin {
 		gbc_tfPW.gridx = 1;
 		gbc_tfPW.gridy = 2;
 		pUserLoginInput.add(tfPW, gbc_tfPW);
-		tfPW.setColumns(10);
+		tfPW.setColumns(15);
 		
 		
 		JButton bLogin = new JButton("Login");

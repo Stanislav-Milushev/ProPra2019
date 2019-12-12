@@ -145,7 +145,7 @@ public class GuiRegister {
 		gbc_tfUserName.gridx = 1;
 		gbc_tfUserName.gridy = 1;
 		pRegister.add(tfUserName, gbc_tfUserName);
-		tfUserName.setColumns(10);
+		tfUserName.setColumns(15);
 		
 		JLabel lblPW = new JLabel("Passwort");
 		GridBagConstraints gbc_lblPW = new GridBagConstraints();
@@ -162,7 +162,7 @@ public class GuiRegister {
 		gbc_tfPW.gridx = 1;
 		gbc_tfPW.gridy = 3;
 		pRegister.add(tfPassword, gbc_tfPW);
-		tfPassword.setColumns(10);
+		tfPassword.setColumns(15);
 		
 		JLabel lblMail = new JLabel("Email");
 		GridBagConstraints gbc_Mail = new GridBagConstraints();
@@ -179,7 +179,7 @@ public class GuiRegister {
 		gbc_tfEmail.gridx = 1;
 		gbc_tfEmail.gridy = 2;
 		pRegister.add(tfEmail, gbc_tfEmail);
-		tfEmail.setColumns(10);
+		tfEmail.setColumns(15);
 		
 		JLabel lblpasswdrepeat = new JLabel("Passwort wiederholen");
 		GridBagConstraints gbc_pwrepeat = new GridBagConstraints();
@@ -196,7 +196,7 @@ public class GuiRegister {
 		gbc_tfPasswordrepeat.gridx = 1;
 		gbc_tfPasswordrepeat.gridy = 4;
 		pRegister.add(tfPasswordRepeat, gbc_tfPasswordrepeat);
-		tfPasswordRepeat.setColumns(10);
+		tfPasswordRepeat.setColumns(15);
 		
 		
 		
