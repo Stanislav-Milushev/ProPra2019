@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import propra.grpproj.quiz.Socket.SocketClient;
+import propra.grpproj.quiz.Socket.SocketServer;
 import propra.grpproj.quiz.SocketDataObjects.Login;
 import propra.grpproj.quiz.SocketDataObjects.UserType;
 
@@ -292,9 +294,30 @@ public class GuiUserLogin {
 	 * Give the login credentials to the socket 
 	 * @param userName
 	 * @param pw
-	 * @author Marius
+	 * @author Marius, Yannick
 	 */
 	public void handleLogin(String userName, String pw) {
+		SocketServer.start(4000);
+		
+		
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		SocketClient.connect("127.0.0.1", 4000, userName);
+		
+
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		Login login = new Login(userName, pw);
 		//socket_client.sendObject(login);
