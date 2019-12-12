@@ -174,9 +174,6 @@ public class GuiUserLogin {
 		pUserLoginInput.add(tfPW, gbc_tfPW);
 		tfPW.setColumns(10);
 		
-
-		frmUserLogin.getContentPane().add(pHeader, BorderLayout.NORTH);
-		frmUserLogin.getContentPane().add(pUserLoginInput, BorderLayout.CENTER);
 		
 		JButton bLogin = new JButton("Login");
 		bLogin.addActionListener(new ActionListener() {
@@ -187,22 +184,21 @@ public class GuiUserLogin {
 			}
 		});
 		
-		JButton bRegister = new JButton("Register");
-		bLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GuiRegister gui_reg = new GuiRegister();
-				gui_reg.getFrame().setVisible(true);
-				frmUserLogin.dispose();
-			}
-		});
-		
 		GridBagConstraints gbc_bLogin = new GridBagConstraints();
 		gbc_bLogin.gridwidth = 2;
 		gbc_bLogin.insets = new Insets(5, 5, 5, 5);
 		gbc_bLogin.gridx = 0;
 		gbc_bLogin.gridy = 3;
 		pUserLoginInput.add(bLogin,gbc_bLogin);
-		pUserLoginInput.add(bRegister,gbc_bLogin);
+		
+		JButton bRegister = new JButton("Register");
+		bRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GuiRegister register = new GuiRegister();
+				register.getFrame().setVisible(true);
+				frmUserLogin.dispose();
+			}
+		});
 		
 		GridBagConstraints gbc_bRegister = new GridBagConstraints();
 		gbc_bRegister.gridwidth = 2;
@@ -210,6 +206,10 @@ public class GuiUserLogin {
 		gbc_bRegister.gridx = 1;
 		gbc_bRegister.gridy = 3;
 		pUserLoginInput.add(bRegister,gbc_bRegister);
+		
+
+		frmUserLogin.getContentPane().add(pHeader, BorderLayout.NORTH);
+		frmUserLogin.getContentPane().add(pUserLoginInput, BorderLayout.CENTER);
 		
 		frmUserLogin.pack();
 		frmUserLogin.setExtendedState(JFrame.MAXIMIZED_BOTH);

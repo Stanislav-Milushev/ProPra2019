@@ -19,11 +19,15 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class GuiRegister {
 
 	private JFrame frameRegister;
+	private JTextField tfUserName;
+	private JTextField tfEmail;
+	private JTextField tfPassword;
 
 	/**
 	 * Launch the application.
@@ -99,56 +103,95 @@ public class GuiRegister {
 		
 		
 		/**
-		 * Initialize login panel
+		 * Initialize register panel
 		 */
-		JPanel pPubOwner = new JPanel();
-		pPubOwner.setBackground(new Color(255, 255, 255));
+		JPanel pRegister = new JPanel();
+		pRegister.setBackground(new Color(255, 255, 255));
 		
-		GridBagLayout gbl_pubOwner = new GridBagLayout();
-		gbl_pubOwner.columnWidths = new int[] {0};
-		gbl_pubOwner.rowHeights = new int[] {0, 0, 0, 0};
-		gbl_pubOwner.columnWeights = new double[]{1.0, 1.0};
-		gbl_pubOwner.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
-		pPubOwner.setLayout(gbl_pubOwner);
+		GridBagLayout gbl_Register = new GridBagLayout();
+		gbl_Register.columnWidths = new int[] {0};
+		gbl_Register.rowHeights = new int[] {0, 0, 0, 0};
+		gbl_Register.columnWeights = new double[]{1.0, 1.0};
+		gbl_Register.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
+		pRegister.setLayout(gbl_Register);
 		
 		
-		JLabel lblText = new JLabel("Eingeloggt als Kneipen Besitzer.");
+		JLabel lblText = new JLabel("Bitte Daten fuer die Registrierung eingeben");
 		GridBagConstraints gbc_lblText = new GridBagConstraints();
 		gbc_lblText.insets = new Insets(5, 5, 5, 0);
 		gbc_lblText.gridwidth = 2;
 		gbc_lblText.fill = GridBagConstraints.CENTER;
 		gbc_lblText.gridx = 0;
 		gbc_lblText.gridy = 0;
-		pPubOwner.add(lblText, gbc_lblText);
+		pRegister.add(lblText, gbc_lblText);
 		
-		JLabel lblText2 = new JLabel("Hier gibt es die Funktionen für Quiz starten und Fragenpools erstellen.");
-		GridBagConstraints gbc_lblText2 = new GridBagConstraints();
-		gbc_lblText2.insets = new Insets(5, 5, 5, 0);
-		gbc_lblText2.gridwidth = 2;
-		gbc_lblText2.fill = GridBagConstraints.CENTER;
-		gbc_lblText2.gridx = 0;
-		gbc_lblText2.gridy = 1;
-		pPubOwner.add(lblText2, gbc_lblText2);
+		JLabel lblUserName = new JLabel("Benutzername");
+		GridBagConstraints gbc_lblUserName = new GridBagConstraints();
+		gbc_lblUserName.anchor = GridBagConstraints.EAST;
+		gbc_lblUserName.insets = new Insets(5, 5, 5, 5);
+		gbc_lblUserName.gridx = 0;
+		gbc_lblUserName.gridy = 1;
+		pRegister.add(lblUserName, gbc_lblUserName);
+		
+		tfUserName = new JTextField();
+		GridBagConstraints gbc_tfUserName = new GridBagConstraints();
+		gbc_tfUserName.anchor = GridBagConstraints.WEST;
+		gbc_tfUserName.insets = new Insets(5, 5, 5, 5);
+		gbc_tfUserName.gridx = 1;
+		gbc_tfUserName.gridy = 1;
+		pRegister.add(tfUserName, gbc_tfUserName);
+		tfUserName.setColumns(10);
+		
+		JLabel lblPW = new JLabel("Passwort");
+		GridBagConstraints gbc_lblPW = new GridBagConstraints();
+		gbc_lblPW.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPW.anchor = GridBagConstraints.EAST;
+		gbc_lblPW.gridx = 0;
+		gbc_lblPW.gridy = 2;
+		pRegister.add(lblPW, gbc_lblPW);
+		
+		tfPassword = new JTextField();
+		GridBagConstraints gbc_tfPW = new GridBagConstraints();
+		gbc_tfPW.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPW.anchor = GridBagConstraints.WEST;
+		gbc_tfPW.gridx = 1;
+		gbc_tfPW.gridy = 2;
+		pRegister.add(tfPassword, gbc_tfPW);
+		tfPassword.setColumns(10);
+		
+		JLabel lblMail = new JLabel("Email");
+		GridBagConstraints gbc_Mail = new GridBagConstraints();
+		gbc_lblPW.insets = new Insets(5, 5, 5, 5);
+		gbc_lblPW.anchor = GridBagConstraints.EAST;
+		gbc_lblPW.gridx = 0;
+		gbc_lblPW.gridy = 2;
+		pRegister.add(lblMail, gbc_Mail);
+		
+		tfEmail = new JTextField();
+		GridBagConstraints gbc_tfEmail = new GridBagConstraints();
+		gbc_tfEmail.insets = new Insets(5, 5, 5, 5);
+		gbc_tfEmail.anchor = GridBagConstraints.WEST;
+		gbc_tfEmail.gridx = 0;
+		gbc_tfEmail.gridy = 1;
+		pRegister.add(tfEmail, gbc_tfPW);
+		tfPassword.setColumns(10);
 		
 		frameRegister.getContentPane().add(pHeader, BorderLayout.NORTH);
-		frameRegister.getContentPane().add(pPubOwner, BorderLayout.CENTER);
+		frameRegister.getContentPane().add(pRegister, BorderLayout.CENTER);
 		
-		JButton bLogout = new JButton("Logout Digga");
-		bLogout.addActionListener(new ActionListener() {
+		JButton bRegister = new JButton("Abschicken");
+		bRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				GuiUserLogin gui_user = new GuiUserLogin();
-				gui_user.getFrame().setVisible(true);
-				frameRegister.dispose();
+				// Get all Data
 			}
 		});
 		
-		GridBagConstraints gbc_pub = new GridBagConstraints();
-		gbc_pub.gridwidth = 2;
-		gbc_pub.insets = new Insets(5, 5, 5, 5);
-		gbc_pub.gridx = 0;
-		gbc_pub.gridy = 3;
-		pPubOwner.add(bLogout, gbc_pub);
+		GridBagConstraints gbc_Register = new GridBagConstraints();
+		gbc_Register.gridwidth = 2;
+		gbc_Register.insets = new Insets(5, 5, 5, 5);
+		gbc_Register.gridx = 0;
+		gbc_Register.gridy = 3;
+		pRegister.add(bRegister, gbc_Register);
 		
 		frameRegister.pack();
 		frameRegister.setExtendedState(JFrame.MAXIMIZED_BOTH);
