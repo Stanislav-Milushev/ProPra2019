@@ -16,6 +16,7 @@ import propra.grpproj.quiz.SocketDataObjects.AddQuestion;
 import propra.grpproj.quiz.SocketDataObjects.AddQuestionSet;
 import propra.grpproj.quiz.SocketDataObjects.ChangePub;
 import propra.grpproj.quiz.SocketDataObjects.ChangeQuestion;
+import propra.grpproj.quiz.SocketDataObjects.CreateConnection;
 import propra.grpproj.quiz.SocketDataObjects.CreatePubevening;
 import propra.grpproj.quiz.SocketDataObjects.DeleteQuestion;
 import propra.grpproj.quiz.SocketDataObjects.DeleteUser;
@@ -39,6 +40,8 @@ public class SocketClient implements Runnable{
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 	
+	private String username;
+	
 	private boolean terminateConnection = false;
 	private static final Logger LOG = LoggerFactory.getLogger(SocketClient.class);
 	 
@@ -48,7 +51,8 @@ public class SocketClient implements Runnable{
 	  * @param port Port the server is listening
 	  * @author Yannick
 	  */
-	 public SocketClient(String ip, int port) {
+	 public SocketClient(String ip, int port, String username) {
+		 this.username = username;
 		 try {
 			socket = new Socket(ip, port);
 			LOG.info("Connected to " + ip + " with port " + port);
@@ -67,6 +71,14 @@ public class SocketClient implements Runnable{
 			e.printStackTrace();
 			LOG.error("failed to open streams to server");
 		}		
+		
+		CreateConnection create = new CreateConnection(username);
+		try {
+			oos.writeObject(create);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
         Object recieve = null;
         //Read from the server until terminateconnection = true
