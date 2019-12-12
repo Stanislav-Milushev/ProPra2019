@@ -116,7 +116,7 @@ public class SocketClient implements Runnable{
 	 */
 	private void recieveObject(Object o) {
 		if(o instanceof AcceptPub) {
-    		AcceptPub pub = (AcceptPub)o;
+    		//Unbenutzt
     	}
 		if(o instanceof AddQuestionSet) {
 			//Sollte nicht passieren
@@ -142,10 +142,10 @@ public class SocketClient implements Runnable{
     	}
     	if(o instanceof GetQuestionSet) {
     		GetQuestionSet ql = (GetQuestionSet)o;
-    		//TODO fehler beheben GuiAdmin.getInstance().getQuestionListFromServer(ql);
+    		GuiAdmin.getInstance().getQuestionListFromServer(ql);
     	}
     	if(o instanceof IntegerMap) {
-    		//Noch unbenutzt
+    		//2
     	}
     	if(o instanceof JoinQuiz) {
     		//Vielleicht eine Rückantwort anzeigen
@@ -163,7 +163,7 @@ public class SocketClient implements Runnable{
     		GuiAdmin.getInstance().getPubListFromServer(publ);
     	}
     	if(o instanceof Question) {
-    		Question q = (Question)o;
+    		Question q = (Question)o; //Frage anzeigen
     	}
     	if(o instanceof RegisterPub) {
     		RegisterPub regPub = (RegisterPub)o;
@@ -175,7 +175,7 @@ public class SocketClient implements Runnable{
     		RepeatPubevening rpEvening = (RepeatPubevening)o;
     	}
     	if(o instanceof Scoreboard) {
-    		Scoreboard scbd = (Scoreboard)o;
+    		Scoreboard scbd = (Scoreboard)o; //Score anzeigen
     	}
 	}
 
