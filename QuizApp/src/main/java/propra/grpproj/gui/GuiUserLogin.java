@@ -17,6 +17,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import propra.grpproj.quiz.Socket.SocketClient;
+import propra.grpproj.quiz.SocketDataObjects.Login;
+import propra.grpproj.quiz.SocketDataObjects.UserType;
+
 import java.awt.Color;
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
@@ -35,6 +39,9 @@ public class GuiUserLogin {
 	private JFrame frmUserLogin;
 	private JTextField tfUserName;
 	private JTextField tfPW;
+	private static GuiUserLogin instance;
+	
+	private static SocketClient socket_client;
 
 	/**
 	 * Launch the application.
@@ -210,11 +217,59 @@ public class GuiUserLogin {
 	 * feedback Login via PopUp
 	 */
 	
-	public void feedbackLogin() {
-		
+	public void login_Return(UserType usertype) {
 		
 		JFrame parent = new JFrame();
 		
+		switch (usertype) {
+		
+		
+		
+		case DEFAULT:
+			
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as user.");
+			
+			GuiMenu menu = new GuiMenu();
+			menu.getFrame().setVisible(true);
+			frmUserLogin.dispose();
+			
+			break;
+			
+		case ADMIN:
+			
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as admin.");
+			
+			GuiAdmin admin = new GuiAdmin();
+			admin.getFrmAdmin().setVisible(true);
+			frmUserLogin.dispose();
+			
+			break;
+			
+		case PUBOWNER:
+			
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as pubowner.");
+			
+			GuiPubOwner pubowner = new GuiPubOwner();
+			pubowner.getFrame().setVisible(true);
+			frmUserLogin.dispose();
+			
+			break;
+			
+		case ADMINPUBOWNER:
+			
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as admin & pubowner.");
+			
+			GuiOptions option = new GuiOptions();
+			option.getFrame().setVisible(true);
+			
+			break;
+			
+		case ERROR:
+			
+			JOptionPane.showMessageDialog(parent, "Cannot login. Please check your login data and try again.");
+			
+			break;
+		}
 		JOptionPane.showMessageDialog(parent, "Login successfull");
 		
 		// Open new Gui Menu
@@ -222,13 +277,25 @@ public class GuiUserLogin {
 		JOptionPane.showMessageDialog(parent, "Cannot login with the given credentials");
 		// New Credentials for login
 	
+	
+	
 	}
 	
 	public void handleLogin(String userName, String pw) {
 		
+		Login login = new Login(userName, pw);
 		
+		socket_client.sendObject(login);
 		
+	}
+	
+public JFrame getFrame () {
 		
+		return frmUserLogin;
+	}
+	
+	public static GuiUserLogin getInstance(){
+		return instance;
 	}
 	
 }
