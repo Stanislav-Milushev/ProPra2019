@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import propra.grpproj.gui.GuiAdmin;
+import propra.grpproj.gui.GuiUserLogin;
 import propra.grpproj.quiz.SocketDataObjects.AcceptPub;
 import propra.grpproj.quiz.SocketDataObjects.AddQuestionSet;
 import propra.grpproj.quiz.SocketDataObjects.ChangePub;
@@ -29,6 +30,7 @@ import propra.grpproj.quiz.SocketDataObjects.RegisterUser;
 import propra.grpproj.quiz.SocketDataObjects.RepeatPubevening;
 import propra.grpproj.quiz.SocketDataObjects.Scoreboard;
 import propra.grpproj.quiz.SocketDataObjects.TerminateConnection;
+import propra.grpproj.quiz.SocketDataObjects.UserType;
 
 public class SocketClient implements Runnable{
 	private Socket socket;
@@ -149,7 +151,9 @@ public class SocketClient implements Runnable{
     		//Vielleicht eine Rückantwort anzeigen
     	}
     	if(o instanceof Login) {
-    		Login lin = (Login)o; //Rückschluss über erfolg des login
+    		Login lin = (Login)o;
+    		UserType usertype = lin.getType();
+    		GuiUserLogin.getInstance().login_Return(usertype);
     	}
     	if(o instanceof Pub) {
     		Pub pub = (Pub)o;

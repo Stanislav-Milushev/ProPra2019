@@ -17,6 +17,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import propra.grpproj.quiz.Socket.SocketClient;
+import propra.grpproj.quiz.SocketDataObjects.Login;
+import propra.grpproj.quiz.SocketDataObjects.UserType;
+
 import java.awt.Color;
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
@@ -31,10 +35,15 @@ import java.awt.event.ActionEvent;
  */
 
 public class GuiUserLogin {
+	
+	private static GuiUserLogin instance;
+	
+	private static SocketClient socket_client;
 
 	private JFrame frmUserLogin;
 	private JTextField tfUserName;
 	private JTextField tfPW;
+	
 
 	/**
 	 * Launch the application.
@@ -70,7 +79,7 @@ public class GuiUserLogin {
 		frmUserLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
 		/**
-		 * Inititalize header
+		 * Initialize header
 		 */	
 		JPanel pHeader = new JPanel();
 		pHeader.setBackground(new Color(255, 255, 255));
@@ -109,7 +118,7 @@ public class GuiUserLogin {
 		
 
 		/**
-		 * Initialize loginpanel
+		 * Initialize login panel
 		 */
 		JPanel pUserLoginInput = new JPanel();
 		pUserLoginInput.setBackground(new Color(255, 255, 255));
@@ -177,6 +186,7 @@ public class GuiUserLogin {
 				handleLogin(username, pw);
 			}
 		});
+		
 		GridBagConstraints gbc_bLogin = new GridBagConstraints();
 		gbc_bLogin.gridwidth = 2;
 		gbc_bLogin.insets = new Insets(5, 5, 5, 5);
@@ -207,28 +217,80 @@ public class GuiUserLogin {
 	}
 	
 	/**
-	 * feedback Login via PopUp
+	 * Handle the user type of a successful login
+	 * @param usertype
+	 * @author Marius
 	 */
-	
-	public void feedbackLogin() {
-		
+	public void login_Return(UserType usertype) {
 		
 		JFrame parent = new JFrame();
 		
-		JOptionPane.showMessageDialog(parent, "Login successfull");
+		switch (usertype) {
 		
-		// Open new Gui Menu
-		
-		JOptionPane.showMessageDialog(parent, "Cannot login with the given credentials");
-		// New Credentials for login
-	
+		case DEFAULT:
+			
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as user.");
+			
+			GuiMenu menu = new GuiMenu();
+			menu.getFrame().setVisible(true);
+			frmUserLogin.dispose();
+			break;
+			
+		case ADMIN:
+			
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as admin.");
+			
+			GuiAdmin admin = new GuiAdmin();
+			admin.getFrmAdmin().setVisible(true);
+			frmUserLogin.dispose();
+			break;
+			
+		case PUBOWNER:
+			
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as pubowner.");
+			
+			GuiPubOwner pubowner = new GuiPubOwner();
+			pubowner.getFrame().setVisible(true);
+			frmUserLogin.dispose();
+			break;
+			
+		case ADMINPUBOWNER:
+			
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as admin & pubowner.");
+			
+			GuiOptions option = new GuiOptions();
+			option.getFrame().setVisible(true);
+			frmUserLogin.dispose();
+			break;
+			
+		case ERROR:
+			
+			JOptionPane.showMessageDialog(parent, "Cannot login. Please check your login data and try again.");
+			break;
+		}
 	}
 	
+	/**
+	 * 
+	 * Give the login credentials to the socket 
+	 * @param userName
+	 * @param pw
+	 * @author Marius
+	 */
 	public void handleLogin(String userName, String pw) {
 		
-		
-		
-		
+		Login login = new Login(userName, pw);
+		socket_client.sendObject(login);
 	}
 	
+	
+	public JFrame getFrame () {
+		
+		return frmUserLogin;
+	}
+	
+	public static GuiUserLogin getInstance(){
+		
+		return instance;
+	}
 }

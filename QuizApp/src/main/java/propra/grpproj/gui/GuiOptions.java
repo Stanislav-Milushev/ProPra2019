@@ -25,7 +25,7 @@ public class GuiOptions {
 	/**
 	 * Launch the application.
 	 */
-	public static void main3(String[] args) {
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
