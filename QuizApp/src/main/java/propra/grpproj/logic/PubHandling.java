@@ -1,6 +1,7 @@
 package propra.grpproj.logic;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import propra.grpproj.quiz.Socket.SocketServer;
@@ -42,7 +43,8 @@ public class PubHandling {
 	 * @author Yannick
 	 */
 	public static void sendPubListToUser(PubList list, String username) {
-		List<Pub> pList = null; //Fill from db
+		List<Pub> pList = new ArrayList<Pub>(); //Fill from db
+		pList.add(new Pub(1,"Bei Werner", "Mike", false, 22, "Michi"));
 		
 		list.setList(pList);
 		SocketServer.getInstance().sendObject(list, username);
