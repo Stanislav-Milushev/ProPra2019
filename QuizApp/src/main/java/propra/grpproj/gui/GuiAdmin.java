@@ -4,6 +4,7 @@ package propra.grpproj.gui;
 
 import propra.grpproj.quiz.Socket.SocketClient;
 import propra.grpproj.quiz.Socket.SocketServer;
+import propra.grpproj.quiz.SocketDataObjects.AddQuestion;
 import propra.grpproj.quiz.SocketDataObjects.ChangePub;
 import propra.grpproj.quiz.SocketDataObjects.ChangeQuestion;
 import propra.grpproj.quiz.SocketDataObjects.DeleteQuestion;
@@ -59,6 +60,9 @@ public class GuiAdmin {
 	private JComboBox<Integer> cbPEPubID, cbQEQuestionID;
 	private ArrayList<Pub> pList;
 	private ArrayList<Question> qList;
+	private Question q;
+	private Pub p;
+	private int set = 0; 		//anpassen sobald klar
 	
 	private static SocketClient c;
 
@@ -437,8 +441,7 @@ public class GuiAdmin {
 				String[] answers = {cA, wA1, wA2, wA3};
 				String ex = tfQAExplanation.getText();
 				
-				
-				addQuestion(qT, answers, ex);
+				addQuestion(qT, answers, ex, set);
 				
 				tfQAQuestion.setText("");
 				tfQACorrectAnswer.setText("");
@@ -779,7 +782,7 @@ public class GuiAdmin {
 		gbc_tfPEUserName.gridx = 1;
 		gbc_tfPEUserName.gridy = 4;
 		pPubEdit.add(tfPEUserName, gbc_tfPEUserName);
-		tfPEUserID.setColumns(10);
+		tfPEUserName.setColumns(10);
 		
 		JLabel lblPEUserName = new JLabel("Benutzer-ID");
 		GridBagConstraints gbc_lblPEUserName = new GridBagConstraints();
@@ -1027,22 +1030,17 @@ public class GuiAdmin {
  
 	
 	public static void getPubListRequest() {
-		//c.sendObject(new PubList());
+		c.sendObject(new PubList());
 	}
 	
 	public void getPubListFromServer(PubList list) {
-		pList = (ArrayList) list.getList();
+		ArrayList<Pub> pListTemp = (ArrayList<Pub>) list.getList();
+		pList.clear();
+		for (int i=0; i<pListTemp.size(); i++) {
+			pList.add(pListTemp.get(i));
+		}
 	}
-		/*
-		 * pList.clear();
-			pList.addAll(list.getList());
-			
-		pList = (ArrayList<Pub>) list.getList();
-		
-		 * maybe this function by error
-		 * pList = (ArrayList<Pub>) list.getList().clone();
-		 */
-
+	
 
 	public void getQuestionListRequest(int set) {
 		c.sendObject(new GetQuestionSet(set));
@@ -1050,12 +1048,15 @@ public class GuiAdmin {
 	
 	
 	public void getQuestionListFromServer(GetQuestionSet list) {
-		qList = (ArrayList<Question>) list.getList();
+		ArrayList<Question> pQuestionTmp = (ArrayList<Question>) list.getList();
+		qList.clear();
+		for (int i = 0; i<pQuestionTmp.size(); i++) {
+			qList.add(pQuestionTmp.get(i));
+		}
 	}
 
 
 	public Pub getPub(int pID) {
-		Pub p = null;										//Geht das so?
 		for (int i=0; i<pList.size(); i++) {
 			if (pList.get(i).getID() == pID) {
 				p = pList.get(i);
@@ -1067,7 +1068,6 @@ public class GuiAdmin {
 	
 	
 	public Question getQuestion(int qID) {
-		Question q = null;									//Geht das so?
 		for (int i=0; i<qList.size(); i++) {
 			if (qList.get(i).getID() == qID) {
 				q = qList.get(i);
@@ -1111,7 +1111,7 @@ public class GuiAdmin {
 	}
 	
 	public void loadQuestionList() {
-	//	getQuestionListRequest(); TODO ERROR
+		//getQuestionListRequest(); 						setInt mit übergeben
 		DefaultTableModel qModel = new DefaultTableModel();
 		String qHeaders[] = {
 				"Fragen-ID", "Frage", "richtige Antwort", 
@@ -1192,10 +1192,12 @@ public class GuiAdmin {
 		tfQEExplanation.setEditable(true);		
 	}
 	
-	 
-	public void addQuestion(String qT, String[] answers, String ex) {
-	//TODO ERROR	 c.sendObject(new AddQuestion(qT, answers, ex));					//Wie mit ID?
+	
+	public void addQuestion(String qT, String[] answers, String ex, int set) {
+		
+		c.sendObject(new AddQuestion(qT, answers, ex, set));					
 	}
+	
 	
 	public void deleteQuestion(int questionID) {
 		c.sendObject(new DeleteQuestion(questionID));
