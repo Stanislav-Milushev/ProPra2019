@@ -11,7 +11,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException; 
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -23,6 +24,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import propra.grpproj.quiz.Socket.SocketClient;
+import propra.grpproj.quiz.Socket.SocketServer;
+import propra.grpproj.quiz.SocketDataObjects.Login;
 import propra.grpproj.quiz.SocketDataObjects.RegisterUser;
 import propra.grpproj.quiz.SocketDataObjects.UserType;
 
@@ -280,9 +284,33 @@ public class GuiRegister {
 	
 	public void handleRegister(String username, String email, String password) {
 		
+		SocketServer.start(4000);
+		
+		
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		SocketClient.connect("127.0.0.1", 4000, username);
+		
+
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		UserType usertype = UserType.DEFAULT;
 		
 		RegisterUser user = new RegisterUser(username, password, email, usertype);
+		
+		SocketClient.getInstance().sendObject(user);
 	}
 
 	public void register_return() {
