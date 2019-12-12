@@ -66,9 +66,8 @@ public class SocketClient implements Runnable{
 	 
 	 public static void connect(String ip, int port, String username) {
 		 if(instance == null) {
-			 SocketClient client = new SocketClient(ip, port, username);
-			 instance = client;
-			 Thread clientConnection = new Thread(client);
+			 instance = new SocketClient(ip, port, username);
+			 Thread clientConnection = new Thread(instance);
 			 clientConnection.start();
 		 }
 	 }

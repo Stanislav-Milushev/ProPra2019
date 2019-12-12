@@ -89,6 +89,26 @@ public class GuiAdmin {
 	 * Create the application.
 	 */
 	public GuiAdmin() {
+		SocketServer.start(4000);
+		
+		
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		SocketClient.connect("127.0.0.1", 4000, "admin");
+		
+
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		initialize();
 	}
 	
