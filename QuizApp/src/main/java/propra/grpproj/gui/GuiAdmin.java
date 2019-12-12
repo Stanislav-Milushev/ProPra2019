@@ -110,8 +110,8 @@ public class GuiAdmin {
 			e.printStackTrace();
 		}
 		initialize();
-	//	getPubListRequest();								ERROR SocketClient
-	//	getQuestionListRequest(set);
+		getPubListRequest();								//	ERROR SocketClient
+		getQuestionListRequest(set);
 	}
 	
 	private void initialize() {
@@ -807,17 +807,17 @@ public class GuiAdmin {
 		gbc_lblPEUserID.gridy = 4;
 		pPubEdit.add(lblPEUserID, gbc_lblPEUserID);
 		
-		tfPEUserName = new JTextField();
-		tfPEUserName.setEditable(false);
-		GridBagConstraints gbc_tfPEUserName = new GridBagConstraints();
-		gbc_tfPEUserName.insets = new Insets(5, 5, 5, 5);
-		gbc_tfPEUserName.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tfPEUserName.gridx = 1;
-		gbc_tfPEUserName.gridy = 4;
-		pPubEdit.add(tfPEUserName, gbc_tfPEUserName);
-		tfPEUserName.setColumns(10);
+		tfPEUserID = new JTextField();
+		tfPEUserID.setEditable(false);
+		GridBagConstraints gbc_tfPEUserID = new GridBagConstraints();
+		gbc_tfPEUserID.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPEUserID.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfPEUserID.gridx = 1;
+		gbc_tfPEUserID.gridy = 4;
+		pPubEdit.add(tfPEUserID, gbc_tfPEUserID);
+		tfPEUserID.setColumns(10);
 		
-		JLabel lblPEUserName = new JLabel("Benutzer-ID");
+		JLabel lblPEUserName = new JLabel("Benutername");
 		GridBagConstraints gbc_lblPEUserName = new GridBagConstraints();
 		gbc_lblPEUserName.anchor = GridBagConstraints.WEST;
 		gbc_lblPEUserName.insets = new Insets(5, 5, 5, 5);
@@ -825,15 +825,15 @@ public class GuiAdmin {
 		gbc_lblPEUserName.gridy = 5;
 		pPubEdit.add(lblPEUserName, gbc_lblPEUserName);
 		
-		tfPEUserID = new JTextField();
-		tfPEUserID.setEditable(false);
-		GridBagConstraints gbc_tfPEUserID = new GridBagConstraints();
-		gbc_tfPEUserID.insets = new Insets(5, 5, 5, 5);
-		gbc_tfPEUserID.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tfPEUserID.gridx = 1;
-		gbc_tfPEUserID.gridy = 5;
-		pPubEdit.add(tfPEUserID, gbc_tfPEUserID);
-		tfPEUserID.setColumns(10);
+		tfPEUserName = new JTextField();
+		tfPEUserName.setEditable(false);
+		GridBagConstraints gbc_tfPEUserName = new GridBagConstraints();
+		gbc_tfPEUserName.insets = new Insets(5, 5, 5, 5);
+		gbc_tfPEUserName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfPEUserName.gridx = 1;
+		gbc_tfPEUserName.gridy = 5;
+		pPubEdit.add(tfPEUserName, gbc_tfPEUserName);
+		tfPEUserName.setColumns(10);
 		
 		JLabel lblPEAddress = new JLabel("Adresse");
 		GridBagConstraints gbc_lblPEAddress = new GridBagConstraints();
@@ -881,7 +881,7 @@ public class GuiAdmin {
 		gbc_bPESave.anchor = GridBagConstraints.EAST;
 		gbc_bPESave.insets = new Insets(5, 5, 5, 5);
 		gbc_bPESave.gridx = 1;
-		gbc_bPESave.gridy = 6;
+		gbc_bPESave.gridy = 7;
 		pPubEdit.add(bPESave, gbc_bPESave);
 		
 	
@@ -1039,6 +1039,7 @@ public class GuiAdmin {
 		frmAdmin.pack();
 		frmAdmin.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
+	
 		
 	}
 	
@@ -1069,7 +1070,7 @@ public class GuiAdmin {
 	}
 	
 	public void getPubListFromServer(PubList list) {
-		//pList.clear();															//ERROR NullPointer
+		pList.clear();															//ERROR NullPointer
 		pList = (ArrayList<Pub>) list.getList();
 		for (int r = 0; r < pList.size(); r++) {
 			String unblocking = "";
