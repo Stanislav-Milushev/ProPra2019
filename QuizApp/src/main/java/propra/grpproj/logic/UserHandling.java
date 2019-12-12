@@ -91,8 +91,9 @@ public class UserHandling
 	// Method to create a temp user
 	public void createTempUser () throws SQLException 
 	{
-	
-		
+		DatabaseManager db = new DatabaseManager();
+		db.registerUser("temp", "temp", "temp", UserType.DEFAULT);
+		db.login("temp", "temp");
 	}
 	
 	

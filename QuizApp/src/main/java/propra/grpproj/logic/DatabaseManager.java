@@ -149,27 +149,11 @@ public class DatabaseManager {
 	public boolean searchUser(String name) throws SQLException {
 		
 		boolean check = true;
+		UserRepository userRepository = null;
+		UserService ub = new UserService(userRepository);
+		ub.authenticate(name);
+		return ub.authenticate(name); 
 		
-		String query = "Select username From user Where username=" + name;
-		
-		Statement stmt = connection.createStatement();
-		
-		ResultSet rs = stmt.executeQuery(query);
-		
-		int columns = rs.getMetaData().getColumnCount();
-		
-		while (rs.next()) {
-			
-			for(int i = 1; i<=columns; i++) {
-				check = isEmpty(rs.getString(i));
-			}
-		}
-		
-		rs.close();
-		stmt.close();
-		
-		
-		return check;
 		}
 	
 	
