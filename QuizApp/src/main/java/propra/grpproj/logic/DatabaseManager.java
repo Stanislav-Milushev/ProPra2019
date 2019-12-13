@@ -36,8 +36,8 @@ public class DatabaseManager {
 
 	Connection connection = null;
 
+	
 	// Function to register a user
-	//usertype added
 	public boolean registerUser(String username, String email, String passwd, UserType usertype) throws SQLException {
 
 		UserRepository userRepository = new UserRepository();
@@ -47,6 +47,7 @@ public class DatabaseManager {
 
 	}
 
+	
 	// Function to check, if result of a query is empty
 	public boolean isEmpty(String value) {
 
@@ -74,6 +75,7 @@ public class DatabaseManager {
 
 
 	}
+	
 	// Write the score after a completed quiz to the user db
 	public void writePoints (String name,int KneipenabendID, double score) throws SQLException {
 		PlayerOfRoundRepository playerOfRoundRepository = new PlayerOfRoundRepository();;
@@ -97,6 +99,7 @@ public class DatabaseManager {
 		return score;
 	}
 
+	// Reset the points 
 	public void resetPoints() throws SQLException {
 
 		double score = 0.0;
@@ -108,19 +111,8 @@ public class DatabaseManager {
 		ps.setDouble(1, score);
 
 	}
-	public void getPool(String name) throws SQLException {
 
-		String query = "";
-
-		Statement stmt = connection.createStatement();
-
-		ResultSet rs = stmt.executeQuery(query);
-
-		rs.close();
-
-		stmt.close();
-	}
-
+	// Get all  pubs
 	public List<Pub> getAllPubs() {
 		 PubRepository pubRepository=new PubRepository();;
 		 UserRepository userRepository = new UserRepository();
@@ -128,6 +120,7 @@ public class DatabaseManager {
 		 return ps.getAllPubs();
 	}
 
+	// Register the pub
 	public void registerPub(String name, String address, int ownerid) throws SQLException {
 
 		PubRepository pubRepository=new PubRepository();;
@@ -137,6 +130,7 @@ public class DatabaseManager {
 
 	}
 
+	// Search for a user
 	public boolean searchUser(String name) throws SQLException {
 
 		boolean check = true;
@@ -147,26 +141,35 @@ public class DatabaseManager {
 
 	}
 
-		public UserType getUserType (String Name) throws SQLException {
+	// Get the user type
+	public UserType getUserType (String Name) throws SQLException {
 
 			UserType usertype = UserType.DEFAULT;
 
 			return usertype;
 
-		}
-		public void setUserType (String name) throws SQLException {
+	}
+	
+	// Set the usertype
+	public void setUserType (String name) throws SQLException {
 
 
 
 
-		}
+	}
 
-		public boolean deleteUser (String username, String passwd) throws SQLException
-		{
-			UserRepository userRepository = new UserRepository();
-			UserService ub = new UserService(userRepository);
-			ub.deleteUser(username, passwd);
-			return false ;//ub.authenticate(name, passwd);
+	// Delete the user 
+	public boolean deleteUser (String username, String passwd) throws SQLException
+	{
+		
+		UserRepository userRepository = new UserRepository();
+		UserService ub = new UserService(userRepository);
+		ub.deleteUser(username, passwd);
+		return false ;
 
-		}
+	}
+	
+	public void getPool(String name) {
+		
+	}
 }
