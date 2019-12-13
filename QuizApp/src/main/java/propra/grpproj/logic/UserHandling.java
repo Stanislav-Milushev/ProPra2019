@@ -72,6 +72,7 @@ public class UserHandling
 		
 		
 		DatabaseManager db = new DatabaseManager();
+		
 		boolean success_login; 
 		
 		success_login = db.login(username,passwd); 
@@ -85,17 +86,13 @@ public class UserHandling
 		} else {
 		
 		Login login = new Login(username,passwd);
-		
+		login.setType(usertype);
 		login.setLogged(success_login);
 		
 		SocketServer.getInstance().sendObject(login, username);
 		
 		}
-		// Send object to GUI 
-		// Case 1: login successfully
-		// Case 2: password incorrect 
-		// Case 3: Email wrong
-		// For 1 boolean = true, 2 = false and 3 = false
+		
 
 	}
 	

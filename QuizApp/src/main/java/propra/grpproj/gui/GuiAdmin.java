@@ -4,6 +4,7 @@ package propra.grpproj.gui;
 
 import propra.grpproj.quiz.Socket.SocketClient;
 import propra.grpproj.quiz.Socket.SocketServer;
+import propra.grpproj.quiz.SocketDataObjects.AcceptPub;
 import propra.grpproj.quiz.SocketDataObjects.AddQuestion;
 import propra.grpproj.quiz.SocketDataObjects.ChangePub;
 import propra.grpproj.quiz.SocketDataObjects.ChangeQuestion;
@@ -784,6 +785,10 @@ public class GuiAdmin {
 		
 		JComboBox<Integer> cbPEPubID = new JComboBox<Integer>();
 		cbPEPubID.setSelectedIndex(-1);
+		getPubListRequest();
+		for (int i=0;i<pList.size();i++) {
+			cbPEPubID.addItem(pList.get(i).getID());
+		}
 		cbPEPubID.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int pubID = (int) cbPEPubID.getSelectedItem();
@@ -875,9 +880,14 @@ public class GuiAdmin {
 			public void actionPerformed(ActionEvent e) {
 				int pID = (int) cbPEPubID.getSelectedItem();
 				String pName = tfPEPubName.getText();
+				
+				
 				boolean unblocking = false;
+				
 				if (cbPEUnblocking.getSelectedIndex() == 1) {
 					unblocking = true;
+					AcceptPub ac = new AcceptPub();
+					SocketClient.getInstance().sendObject(ac);
 				};
 				int uID = Integer.parseInt(tfPEUserID.getText());
 				String uName = tfPEUserName.getText();
@@ -1086,18 +1096,8 @@ public class GuiAdmin {
 		SocketClient.getInstance().sendObject(pub);
 	}
 	
-	public void getPubListFromServer(PubList list) {
-		//pList.clear();		
-		//ERROR NullPointer
+	public void getPubListFromServer(PubList list) {	
 		pList = (ArrayList<Pub>) list.getList();
-		
-		
-		// fill CB with ids
-		for (int ip=0; ip<pList.size(); ip++) {
-			cbPEPubID.addItem(pList.get(ip).getID());
-		}
-
-		
 	}
 	
 
