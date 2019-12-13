@@ -73,6 +73,7 @@ public class GuiUserLogin {
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 */
+	
 	public static void main(String[] args) {
 		
 		setupDataBase();
@@ -225,7 +226,7 @@ public class GuiUserLogin {
 			public void actionPerformed(ActionEvent e) {
 				GuiRegister register = new GuiRegister();
 				register.getFrame().setVisible(true);
-				getFrmUserLogin().dispose();
+				frmUserLogin.dispose();
 			}
 		});
 		
