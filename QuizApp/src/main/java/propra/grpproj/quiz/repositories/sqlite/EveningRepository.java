@@ -15,7 +15,7 @@ import propra.grpproj.quiz.repositories.CrudRepositoryAdapter;
 
 /**
  * 
- * @author Daniel
+ * @author Daniel & Stanislav Milushev
  *
  */
 public class EveningRepository extends CrudRepositoryAdapter<Evening, Long>

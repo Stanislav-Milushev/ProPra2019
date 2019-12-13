@@ -14,7 +14,7 @@ import propra.grpproj.quiz.SocketDataObjects.RepeatPubevening;
 ////////////////////////////////////////////////////////////////////////////
 // Class to create and manage a quiz
 // 
-// @author: Marius Discher, Yannick Lapp
+// @author: Marius Discher, Yannick Lapp & Stanislav Milushev
 // 
 //
 //

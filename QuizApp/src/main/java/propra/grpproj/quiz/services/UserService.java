@@ -9,7 +9,7 @@ import propra.grpproj.quiz.repositories.sqlite.UserRepository;
 
 /**
  * 
- * @author Daniel
+ * @author Daniel & Stanislav Milushev
  *
  */
 public class UserService

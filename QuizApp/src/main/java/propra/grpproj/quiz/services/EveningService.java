@@ -10,7 +10,7 @@ import propra.grpproj.quiz.repositories.sqlite.PubRepository;
 
 /**
  * 
- * @author Daniel
+ * @author Daniel & Stanislav Milushev
  *
  */
 public class EveningService

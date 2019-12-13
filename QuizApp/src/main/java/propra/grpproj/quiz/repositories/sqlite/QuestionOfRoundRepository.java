@@ -16,7 +16,7 @@ import propra.grpproj.quiz.repositories.CrudRepositoryAdapter;
 
 /**
  * 
- * @author Daniel
+ * @author Daniel & Stanislav Milushev
  *
  */
 public class QuestionOfRoundRepository extends CrudRepositoryAdapter<QuestionOfRound, Long>
