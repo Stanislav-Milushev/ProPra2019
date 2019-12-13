@@ -40,7 +40,7 @@ public class DatabaseManager {
 	//usertype added
 	public boolean registerUser(String username, String email, String passwd, UserType usertype) throws SQLException {
 		
-		UserRepository userRepository = null;
+		UserRepository userRepository = new UserRepository();
 		UserService ub = new UserService(userRepository);
 		ub.createNewUser(username, email, passwd, usertype);
 		return ub.authenticate(email, passwd);
@@ -57,7 +57,7 @@ public class DatabaseManager {
 	
 	// Function to authenticate login of a user
 	public boolean login(String name, String password) throws SQLException {
-		UserRepository userRepository = null;
+		UserRepository userRepository = new UserRepository();
 		UserService ub = new UserService(userRepository);
 		ub.authenticate(name, password);
 		return ub.authenticate(name, password); 
@@ -67,8 +67,8 @@ public class DatabaseManager {
 	// Function to handle the approve of a pub
 	public void approvePub(String name, String owner) throws SQLException {
 		
-		PubRepository pubRepository = null;
-	    UserRepository userRepository = null;
+		PubRepository pubRepository = new PubRepository();
+	    UserRepository userRepository = new UserRepository();
 		PubService pb = new PubService(pubRepository,userRepository);
 		pb.acceptPub(name, owner);
 		
@@ -76,7 +76,7 @@ public class DatabaseManager {
 	}
 	// Write the score after a completed quiz to the user db
 	public void writePoints (String name,int KneipenabendID, double score) throws SQLException {
-		PlayerOfRoundRepository playerOfRoundRepository = null;
+		PlayerOfRoundRepository playerOfRoundRepository = new PlayerOfRoundRepository();;
 
 		PlayerOfRoundService pors = new PlayerOfRoundService( playerOfRoundRepository);
 		pors.writeToDBScore(Long.valueOf(name), Long.valueOf(KneipenabendID),(int)score);
@@ -89,7 +89,7 @@ public class DatabaseManager {
 	// Get the score from a user
 	public double getScore(String name,int KneipenabendID, double score ) throws SQLException {
 		
-		PlayerOfRoundRepository playerOfRoundRepository = null;
+		PlayerOfRoundRepository playerOfRoundRepository = new PlayerOfRoundRepository();;
 
 		PlayerOfRoundService pors = new PlayerOfRoundService( playerOfRoundRepository);
 		score = pors.getScore(Long.valueOf(name), Long.valueOf(KneipenabendID), (int)score);
@@ -122,16 +122,16 @@ public class DatabaseManager {
 	}
 	
 	public List<Pub> getAllPubs() {
-		 PubRepository pubRepository=null;
-		 UserRepository userRepository=null;
+		 PubRepository pubRepository=new PubRepository();;
+		 UserRepository userRepository = new UserRepository();
 		 PubService ps = new PubService( pubRepository,  userRepository);
 		 return ps.getAllPubs();
 	}
 
 	public void registerPub(String name, String address, int ownerid) throws SQLException {
 		
-		PubRepository pubRepository = null;
-	    UserRepository userRepository = null;
+		PubRepository pubRepository=new PubRepository();;
+	    UserRepository userRepository = new UserRepository();
 		PubService pb = new PubService(pubRepository,userRepository);
 		pb.createNewPub(name, address, Long.valueOf(ownerid));
 		
@@ -140,7 +140,7 @@ public class DatabaseManager {
 	public boolean searchUser(String name) throws SQLException {
 		
 		boolean check = true;
-		UserRepository userRepository = null;
+		UserRepository userRepository = new UserRepository();;
 		UserService ub = new UserService(userRepository);
 		ub.authenticate(name);
 		return ub.authenticate(name); 
@@ -162,7 +162,7 @@ public class DatabaseManager {
 		
 		public boolean deleteUser (String username, String passwd) throws SQLException 
 		{
-			UserRepository userRepository = null;
+			UserRepository userRepository = new UserRepository();
 			UserService ub = new UserService(userRepository);
 			ub.deleteUser(username, passwd);
 			return false ;//ub.authenticate(name, passwd);
