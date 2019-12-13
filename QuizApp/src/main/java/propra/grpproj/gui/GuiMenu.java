@@ -25,8 +25,6 @@ import javax.swing.SwingConstants;
 public class GuiMenu {
 
 	private JFrame frame;
-	private JTextField tfUserName;
-	private JTextField tfPW;
 
 	/**
 	 * Launch the application.
@@ -132,6 +130,22 @@ public class GuiMenu {
 		gbc_lblText2.gridx = 0;
 		gbc_lblText2.gridy = 1;
 		pUserLoginInput.add(lblText2, gbc_lblText2);
+		
+		JButton bLogout = new JButton("Logout");
+		bLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GuiUserLogin gu = new GuiUserLogin();
+				gu.getFrame().setVisible(true);
+				frame.dispose();
+			}
+		});
+		
+		GridBagConstraints gbc_bLogout = new GridBagConstraints();
+		gbc_bLogout.gridwidth = 2;
+		gbc_bLogout.insets = new Insets(5, 5, 5, 5);
+		gbc_bLogout.gridx = 0;
+		gbc_bLogout.gridy = 4;
+		pUserLoginInput.add(bLogout,gbc_bLogout); 
 
 		frame.getContentPane().add(pHeader, BorderLayout.NORTH);
 		frame.getContentPane().add(pUserLoginInput, BorderLayout.CENTER);
