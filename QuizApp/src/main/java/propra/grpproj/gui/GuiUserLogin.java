@@ -31,6 +31,8 @@ import org.slf4j.LoggerFactory;
 import com.opencsv.exceptions.CsvException;
 
 import java.util. Date;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.sql.Timestamp;
 
 import propra.grpproj.quiz.Socket.SocketClient;
@@ -424,6 +426,11 @@ public class GuiUserLogin {
         playerOfRoundRepository.createTable();
         
         LOG.info("Launching Server...");
+        
+        Connection connection = SqliteCoreUtilities.connect();
+        Statement statement = connection.createStatement();
+
+        statement.executeUpdate("insert into users values(7, 'Gerry', 'pw', 'bla@blub.de', 'admin')");
         
     } catch (Exception e)
     {

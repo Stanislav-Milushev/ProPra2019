@@ -36,7 +36,9 @@ import propra.grpproj.quiz.SocketDataObjects.TerminateConnection;
 import propra.grpproj.quiz.SocketDataObjects.UserType;
 import propra.grpproj.quiz.dataholders.User;
 
+
 public class SocketClient implements Runnable{
+	
 	private Socket socket;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
@@ -65,6 +67,7 @@ public class SocketClient implements Runnable{
 		}
 	 }
 	 
+	 
 	 public static void connect(String ip, int port, String username) {
 		 if(instance == null) {
 			 instance = new SocketClient(ip, port, username);
@@ -73,10 +76,12 @@ public class SocketClient implements Runnable{
 		 }
 	 }
 	 
+	 
 	 public static SocketClient getInstance() {
 		 return instance;
 	 }
 	
+	 
 	@Override
 	public void run() {
 		try { //Create streams
@@ -117,6 +122,7 @@ public class SocketClient implements Runnable{
         }
 	}
 	
+	
 	/**
 	 * Sends a given object to the server
 	 * @param o Object to be sent to the server
@@ -137,6 +143,7 @@ public class SocketClient implements Runnable{
 		}
 	}
 	
+	
 	/**
 	 * Compares object from the server to known objects
 	 * and calls the responding functions in the gui
@@ -144,68 +151,93 @@ public class SocketClient implements Runnable{
 	 * @author Yannick
 	 */
 	private void recieveObject(Object o) {
+		
 		if(o instanceof AcceptPub) {
     		//Unbenutzt
     	}
+		
 		if(o instanceof AddQuestion) {
 			//Sollte nicht passieren
     	}
+		
 		if(o instanceof AddQuestionSet) {
 			//Sollte nicht passieren
 		}
+		
 		if(o instanceof ChangePub) {
 			//Sollte nicht passieren
 		}
+		
 		if(o instanceof ChangeQuestion) {
 			//Sollte nicht passieren
 		}
+		
     	if(o instanceof CreatePubevening) {
     		//Sollte nicht passieren
     	}
+    	
     	if(o instanceof DeleteQuestion) {
     		//Sollte nicht passieren
     	}
+    	
     	if(o instanceof DeleteUser) {
     		//Sollte nicht passieren
     	}
+    	
     	if(o instanceof Explanation) {
     		Explanation exp = (Explanation)o;
     		//Explanation anzeigen
     	}
+    	
     	if(o instanceof GetQuestionSet) {
     		GetQuestionSet ql = (GetQuestionSet)o;
-    		GuiAdmin.getInstance().getQuestionListFromServer(ql);
+    		GuiAdmin gu = new GuiAdmin();
+    		gu.getQuestionListFromServer(ql);
     	}
+    	
     	if(o instanceof IntegerMap) {
     		//2
     	}
+    	
     	if(o instanceof JoinQuiz) {
     		//Vielleicht eine Rückantwort anzeigen
     	}
+    	
     	if(o instanceof Login) {
     		Login lin = (Login)o;
     		UserType usertype = lin.getType();
-    		GuiUserLogin.getInstance().login_Return(usertype);
+    		GuiUserLogin gu = new GuiUserLogin();
+    		gu.login_Return(usertype);
     	}
+    	
     	if(o instanceof Pub) {
     		Pub pub = (Pub)o;
+    		
     	}
+    	
     	if(o instanceof PubList) {
     		PubList publ = (PubList)o;
-    		GuiAdmin.getInstance().getPubListFromServer(publ);
+    		GuiAdmin gu = new GuiAdmin();
+    		gu.getPubListFromServer(publ);
+    		
     	}
+    	
     	if(o instanceof Question) {
     		Question q = (Question)o; //Frage anzeigen
     	}
+    	
     	if(o instanceof RegisterPub) {
     		RegisterPub regPub = (RegisterPub)o;
     	}
+    	
     	if(o instanceof RegisterUser) {
     		RegisterUser regUser = (RegisterUser)o;
     	}
+    	
     	if(o instanceof RepeatPubevening) {
     		RepeatPubevening rpEvening = (RepeatPubevening)o;
     	}
+    	
     	if(o instanceof Scoreboard) {
     		Scoreboard scbd = (Scoreboard)o; //Score anzeigen
     	}
