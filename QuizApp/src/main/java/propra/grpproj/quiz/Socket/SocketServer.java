@@ -42,6 +42,7 @@ public class SocketServer implements Runnable{
      * @param port
      * @author Yannick
      */
+    
     public static void start(int port) {
     	if(instance == null) {
     		instance = new SocketServer(port);
@@ -60,6 +61,7 @@ public class SocketServer implements Runnable{
      * @param username Name of the client
      * @author Yannick
      */
+    
     public void sendObject(Object o, String username) {
     	if(nameToSocket.containsKey(username)) {
     		try {
@@ -105,6 +107,7 @@ public class SocketServer implements Runnable{
      * @author Yannick
      *
      */
+    
     class User{
     	Socket socket;
     	ObjectOutputStream oos;
@@ -116,6 +119,7 @@ public class SocketServer implements Runnable{
      * Listens for data from the client
      * @author Yannick
      */
+    
     class ClientConnection implements Runnable{
         private User user;
         private String username;
@@ -174,6 +178,7 @@ public class SocketServer implements Runnable{
          * @author Yannick & Marius & Stan & Lisa
          * @throws SQLException 
          */
+        
         private void recieveObject(Object o) throws SQLException {
         	if(o instanceof AcceptPub) {
         		AcceptPub acp = (AcceptPub) o;
@@ -235,14 +240,14 @@ public class SocketServer implements Runnable{
         		UserHandling user = new UserHandling();
         		user.user_login(name, passwd); 
         	}
-        	if(o instanceof Pub) { //Unused
+        	if(o instanceof Pub) { 
         		Pub pub = (Pub)o;
         	}
         	if(o instanceof PubList) {
         		PubList publ = (PubList)o;
         		PubHandling.sendPubListToUser(publ, username);
         	}
-        	if(o instanceof Question) {//Unused
+        	if(o instanceof Question) {
         		Question q = (Question)o;
         	}
         	if(o instanceof RegisterPub) {
