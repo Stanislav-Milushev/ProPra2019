@@ -56,6 +56,7 @@ public class SocketClient implements Runnable{
 	  * @param port Port the server is listening
 	  * @author Yannick
 	  */
+	
 	 private SocketClient(String ip, int port, String username) {
 		 this.username = username;
 		 try {
