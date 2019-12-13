@@ -102,7 +102,7 @@ public class GuiMenu {
 		
 		
 		/**
-		 * Initialize loginpanel
+		 * Initialize menu
 		 */
 		JPanel pUserLoginInput = new JPanel();
 		pUserLoginInput.setBackground(new Color(255, 255, 255));
@@ -123,60 +123,18 @@ public class GuiMenu {
 		gbc_lblText.gridx = 0;
 		gbc_lblText.gridy = 0;
 		pUserLoginInput.add(lblText, gbc_lblText);
-
-		JLabel lblUserName = new JLabel("Benutzername");
-		GridBagConstraints gbc_lblUserName = new GridBagConstraints();
-		gbc_lblUserName.anchor = GridBagConstraints.EAST;
-		gbc_lblUserName.insets = new Insets(5, 5, 5, 5);
-		gbc_lblUserName.gridx = 0;
-		gbc_lblUserName.gridy = 1;
-		pUserLoginInput.add(lblUserName, gbc_lblUserName);
 		
-		tfUserName = new JTextField();
-		GridBagConstraints gbc_tfUserName = new GridBagConstraints();
-		gbc_tfUserName.anchor = GridBagConstraints.WEST;
-		gbc_tfUserName.insets = new Insets(5, 5, 5, 5);
-		gbc_tfUserName.gridx = 1;
-		gbc_tfUserName.gridy = 1;
-		pUserLoginInput.add(tfUserName, gbc_tfUserName);
-		tfUserName.setColumns(10);
-		
-		JLabel lblPW = new JLabel("Passwort");
-		GridBagConstraints gbc_lblPW = new GridBagConstraints();
-		gbc_lblPW.insets = new Insets(5, 5, 5, 5);
-		gbc_lblPW.anchor = GridBagConstraints.EAST;
-		gbc_lblPW.gridx = 0;
-		gbc_lblPW.gridy = 2;
-		pUserLoginInput.add(lblPW, gbc_lblPW);
-		
-		tfPW = new JTextField();
-		GridBagConstraints gbc_tfPW = new GridBagConstraints();
-		gbc_tfPW.insets = new Insets(5, 5, 5, 5);
-		gbc_tfPW.anchor = GridBagConstraints.WEST;
-		gbc_tfPW.gridx = 1;
-		gbc_tfPW.gridy = 2;
-		pUserLoginInput.add(tfPW, gbc_tfPW);
-		tfPW.setColumns(10);
-		
+		JLabel lblText2 = new JLabel("Hier entsteht das Hauptmenü..!");
+		GridBagConstraints gbc_lblText2 = new GridBagConstraints();
+		gbc_lblText2.insets = new Insets(5, 5, 5, 0);
+		gbc_lblText2.gridwidth = 2;
+		gbc_lblText2.fill = GridBagConstraints.CENTER;
+		gbc_lblText2.gridx = 0;
+		gbc_lblText2.gridy = 1;
+		pUserLoginInput.add(lblText2, gbc_lblText2);
 
 		frame.getContentPane().add(pHeader, BorderLayout.NORTH);
 		frame.getContentPane().add(pUserLoginInput, BorderLayout.CENTER);
-		
-		JButton bLogin = new JButton("Login");
-		bLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String username = tfUserName.getText();
-				String pw = tfPW.getText();
-				
-			}
-		});
-		GridBagConstraints gbc_bLogin = new GridBagConstraints();
-		gbc_bLogin.gridwidth = 2;
-		gbc_bLogin.insets = new Insets(5, 5, 5, 5);
-		gbc_bLogin.gridx = 0;
-		gbc_bLogin.gridy = 3;
-		pUserLoginInput.add(bLogin, gbc_bLogin);
-		
 		frame.pack();
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
