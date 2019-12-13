@@ -148,12 +148,14 @@ public class DatabaseManager {
 	}
 	
 		public UserType getUserType (String Name) throws SQLException {
-			UserType usertype = null;
+			
+			UserType usertype = UserType.DEFAULT;
 			
 			return usertype;
 			
 		}
 		public void setUserType (String name) throws SQLException {
+			
 			UserType usertype = null;
 			
 			

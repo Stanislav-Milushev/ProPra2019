@@ -79,7 +79,9 @@ public class UserHandling
 		UserType usertype = db.getUserType(username);
 		
 		if (!success_login == true) {
+			
 			usertype = UserType.ERROR;
+			
 		} else {
 		
 		Login login = new Login(username,passwd);
@@ -87,6 +89,7 @@ public class UserHandling
 		login.setLogged(success_login);
 		
 		SocketServer.getInstance().sendObject(login, username);
+		
 		}
 		// Send object to GUI 
 		// Case 1: login successfully
