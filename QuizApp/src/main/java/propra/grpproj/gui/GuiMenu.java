@@ -39,7 +39,7 @@ public class GuiMenu {
 					e.printStackTrace();
 				}
 			}
-		});
+		}); 
 	}
 
 	/**
