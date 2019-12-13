@@ -886,8 +886,9 @@ public class GuiAdmin {
 				
 				if (cbPEUnblocking.getSelectedIndex() == 1) {
 					unblocking = true;
-					AcceptPub ac = new AcceptPub();
-					SocketClient.getInstance().sendObject(ac);
+					Pub accPub= getPub(pID);
+					accPub.getOwnerName();
+					acceptPub(accPub.getName(),accPub.getOwnerName());
 				};
 				int uID = Integer.parseInt(tfPEUserID.getText());
 				String uName = tfPEUserName.getText();
