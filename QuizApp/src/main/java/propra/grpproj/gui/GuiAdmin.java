@@ -117,7 +117,6 @@ public class GuiAdmin {
 	private void initialize() {
 		ArrayList<Pub> pList = new ArrayList<Pub>();
 		ArrayList<Question> qList = new ArrayList<Question>();
-		DefaultTableModel pModel = new DefaultTableModel();
 		DefaultTableModel qModel = new DefaultTableModel();
 
 
@@ -245,12 +244,30 @@ public class GuiAdmin {
 		tablePubs.setShowVerticalLines(false);
 		tablePubs.setColumnSelectionAllowed(true);
 		tablePubs.setAutoCreateRowSorter(true);
-		
+		DefaultTableModel pModel = new DefaultTableModel();
 		String pHeaders[] = {
 				"KneipenID", "Kneipenname", "freigegeben", 
 				"BenutzerID", "Benutzername", "Adresse"};
 		pModel.setColumnIdentifiers(pHeaders);
 		tablePubs.setModel(pModel);
+		for (int r = 0; r < pList.size(); r++) {
+			String unblocking = "";
+			if (pList.get(r).isAllowed() == false) {
+				unblocking = "nein";
+			} else {
+				unblocking = "ja";
+			}
+			pModel.addRow(new Object[] {
+					pList.get(r).getID(),
+					pList.get(r).getName(),
+					unblocking,
+					pList.get(r).getOwnerID(),
+					pList.get(r).getOwnerName(),
+					pList.get(r).getAdresse()
+			});
+			
+		}
+		
 		
 		
 		JScrollPane scrollPanePubs = new JScrollPane(tablePubs);
@@ -1070,25 +1087,10 @@ public class GuiAdmin {
 	}
 	
 	public void getPubListFromServer(PubList list) {
-		pList.clear();															//ERROR NullPointer
+		//pList.clear();		
+		//ERROR NullPointer
 		pList = (ArrayList<Pub>) list.getList();
-		for (int r = 0; r < pList.size(); r++) {
-			String unblocking = "";
-			if (pList.get(r).isAllowed() == false) {
-				unblocking = "nein";
-			} else {
-				unblocking = "ja";
-			}
-			pModel.addRow(new Object[] {
-					pList.get(r).getID(),
-					pList.get(r).getName(),
-					unblocking,
-					pList.get(r).getOwnerID(),
-					pList.get(r).getOwnerName(),
-					pList.get(r).getAdresse()
-			});
-			
-		}
+		
 		
 		// fill CB with ids
 		for (int ip=0; ip<pList.size(); ip++) {
