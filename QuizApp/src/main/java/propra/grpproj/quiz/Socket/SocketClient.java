@@ -109,7 +109,7 @@ public class SocketClient implements Runnable{
 				recieve = ois.readObject();
 				recieveObject(recieve);
 			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
+				break;
 			}
         } while(!(recieve instanceof TerminateConnection) && !terminateConnection);
 
@@ -122,6 +122,7 @@ public class SocketClient implements Runnable{
             System.out.println(i);
             LOG.error("Failed to close connection");
         }
+        instance = null;
 	}
 	
 	

@@ -13,7 +13,7 @@ import propra.grpproj.quiz.SocketDataObjects.GetQuestionSet;
 import propra.grpproj.quiz.SocketDataObjects.Pub;
 import propra.grpproj.quiz.SocketDataObjects.PubList;
 import propra.grpproj.quiz.SocketDataObjects.Question;
-
+import propra.grpproj.quiz.SocketDataObjects.TerminateConnection;
 
 import java.awt.EventQueue;
 import javax.imageio.ImageIO;
@@ -1049,7 +1049,7 @@ public class GuiAdmin {
 		JButton bCloseManagement = new JButton("Verwaltung schließen");
 		bCloseManagement.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frmAdmin.dispose();											
+				frmAdmin.dispose();	
 			}
 		});
 		GridBagConstraints gbc_bCloseManagement = new GridBagConstraints();

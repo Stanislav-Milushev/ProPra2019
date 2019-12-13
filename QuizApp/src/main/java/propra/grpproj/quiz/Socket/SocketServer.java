@@ -152,7 +152,7 @@ public class SocketServer implements Runnable{
 		        	}
 				
 				} catch (ClassNotFoundException | IOException | SQLException e) {
-					e.printStackTrace();
+					break;
 				} 
             } while(!(recieve instanceof TerminateConnection));
             

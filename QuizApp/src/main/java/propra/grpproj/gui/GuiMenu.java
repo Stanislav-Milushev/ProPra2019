@@ -22,6 +22,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import propra.grpproj.quiz.Socket.SocketClient;
+import propra.grpproj.quiz.SocketDataObjects.TerminateConnection;
+
 public class GuiMenu {
 
 	private JFrame frame;
@@ -137,6 +140,7 @@ public class GuiMenu {
 				GuiUserLogin gu = new GuiUserLogin();
 				gu.getFrame().setVisible(true);
 				frame.dispose();
+				SocketClient.getInstance().sendObject(new TerminateConnection());
 			}
 		});
 		

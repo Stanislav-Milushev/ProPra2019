@@ -28,6 +28,7 @@ import propra.grpproj.quiz.Socket.SocketClient;
 import propra.grpproj.quiz.Socket.SocketServer;
 import propra.grpproj.quiz.SocketDataObjects.Login;
 import propra.grpproj.quiz.SocketDataObjects.RegisterUser;
+import propra.grpproj.quiz.SocketDataObjects.TerminateConnection;
 import propra.grpproj.quiz.SocketDataObjects.UserType;
 
 public class GuiRegister {
@@ -236,12 +237,13 @@ public class GuiRegister {
 		gbc_Register.gridy = 5;
 		pRegister.add(bRegister, gbc_Register);
 		
-		JButton bBack = new JButton("Abbrechen");
+		JButton bBack = new JButton("Zurück zum login");
 		bBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GuiUserLogin back = new GuiUserLogin();
 				back.getFrame().setVisible(true);
 				frameRegister.dispose();
+				
 			}
 		});
 		
