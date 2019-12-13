@@ -26,23 +26,28 @@ import propra.grpproj.quiz.SocketDataObjects.GetQuestionSet;
 public class QuestionHandling 
 {  // Fragen aus der db in runden Paken , dann zu QuizHandling und Kneipenabend
 	List<Question> questions = new ArrayList<Question>();
-	List<String> questionsRaw = new ArrayList<String>();
+	ArrayList<propra.grpproj.quiz.dataholders.Question> questionsRaw = new ArrayList<propra.grpproj.quiz.dataholders.Question>();
 	//List<List<String>> rounds = new ArrayList<List<String>>();
 	List<List<Question>> rounds = new ArrayList<List<Question>>();
 	
 	public void loadQuestions(String Pool) throws SQLException {
 		AdminHandling ad = new AdminHandling();
 		questionsRaw = ad.getQuestionPool(Pool);
-		for(String qRaw: questionsRaw) {
-			String[] qSplit = qRaw.split(";");
-			int qid= Integer.valueOf(qSplit[0]);
-			String qquestion= qSplit[1];
-			// Antwort array Format?
-			String[] qanswer=null;//
-			String qexpl= null;//
+		for ( propra.grpproj.quiz.dataholders.Question qRaw: questionsRaw) {
+			String qid = String.valueOf(qRaw.getId());
+			String qquestion= String.valueOf(qRaw.getQuestionText());
+			String[] qanswer = null ;
+			qanswer[0]= qRaw.getAnswerA();
+			qanswer[1]= qRaw.getAnswerB();
+			qanswer[2]= qRaw.getAnswerC();
+			qanswer[3]= qRaw.getAnswerD();
+			String qexpl = qRaw.getDescription();
 			
-			Question Q = new Question(qid,qquestion,qanswer,qexpl);
+			Question Q = new Question(Integer.valueOf(qid),qquestion,qanswer,qexpl);
+			Q.setRightAnswer(qRaw.getCorrectAnswer());
+			
 			questions.add(Q); 
+			
 		}
 	}
 	

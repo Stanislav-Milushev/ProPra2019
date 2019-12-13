@@ -53,7 +53,7 @@ public class QuestionRepository extends CrudRepositoryAdapter<Question, Long>
     }
 
     @Override
-    public ArrayList<Question> findAll()
+    public Iterable<Question> findAll()
     {
         String sql = "SELECT * FROM " + TABLE_NAME;
 

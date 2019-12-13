@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import propra.grpproj.quiz.Socket.SocketServer;
 import propra.grpproj.quiz.SocketDataObjects.AcceptPub;
 import propra.grpproj.quiz.SocketDataObjects.PubList;
+import propra.grpproj.quiz.SocketDataObjects.Question;
 ////////////////////////////////////////////////////////////////////////////
 // Admin functions
 // 
@@ -35,15 +36,13 @@ public class AdminHandling {
 	}
 	
 	// Get the whole question pool
-	public ArrayList<String> getQuestionPool(String name) throws SQLException {  /// zu schreiben
+	public ArrayList<propra.grpproj.quiz.dataholders.Question> getQuestionPool(String name) throws SQLException {  /// zu schreiben
 		
-		ArrayList <String> questions_pool = new ArrayList<String>();
+		Iterable<propra.grpproj.quiz.dataholders.Question> questions_pool = new ArrayList<propra.grpproj.quiz.dataholders.Question>();
 		
 		DatabaseManager db = new DatabaseManager();
 		
-		db.getPool(name);
-		
-		return questions_pool;
+		return (ArrayList<propra.grpproj.quiz.dataholders.Question>) (questions_pool = db.getPool(name));
 		
 	}
 }

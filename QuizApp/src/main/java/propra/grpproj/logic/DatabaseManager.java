@@ -114,7 +114,7 @@ public class DatabaseManager {
 		ps.setDouble(1, score);
 
 	}
-	public ArrayList<Question> getPool(String name) throws SQLException {
+	public Iterable<propra.grpproj.quiz.dataholders.Question> getPool(String name) throws SQLException {
 
 		QuestionRepository questionRepository = new QuestionRepository();;
 		QuestionService qs =  new QuestionService( questionRepository);
@@ -180,7 +180,5 @@ public class DatabaseManager {
 
 	}
 
-	public void getPool(String name) {
-
-	}
+	
 }

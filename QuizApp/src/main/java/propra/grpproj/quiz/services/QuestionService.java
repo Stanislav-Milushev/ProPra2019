@@ -30,7 +30,7 @@ public class QuestionService
         questionRepository
                 .save(new Question(id, questionText, answerA, answerB, answerC, answerD, correctAnswer, description));
     }
-    public ArrayList<Question> loadQuestions() {
+    public Iterable<propra.grpproj.quiz.dataholders.Question> loadQuestions() {
     	return questionRepository.findAll();
     	
     }

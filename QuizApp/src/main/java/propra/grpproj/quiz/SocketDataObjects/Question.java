@@ -7,6 +7,7 @@ public class Question implements Serializable{
 	private String question;
 	private String[] answers;
 	private String explanation;
+	private String rightAnswer;
 	
 	/**
 	 * 
@@ -44,5 +45,13 @@ public class Question implements Serializable{
 		this.question = question;
 		this.answers = answers;
 		this.explanation = "";
+	}
+
+	public String getRightAnswer() {
+		return rightAnswer;
+	}
+
+	public void setRightAnswer(String rightAnswer) {
+		this.rightAnswer = rightAnswer;
 	}
 }
