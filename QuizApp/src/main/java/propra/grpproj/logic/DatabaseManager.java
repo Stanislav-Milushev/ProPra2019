@@ -9,12 +9,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import propra.grpproj.quiz.dataholders.Pub;
+import propra.grpproj.quiz.dataholders.Question;
 import propra.grpproj.quiz.repositories.sqlite.PlayerOfRoundRepository;
 import propra.grpproj.quiz.repositories.sqlite.PubRepository;
+import propra.grpproj.quiz.repositories.sqlite.QuestionRepository;
 import propra.grpproj.quiz.repositories.sqlite.UserRepository;
 import propra.grpproj.quiz.repositories.sqlite.utilities.SqliteCoreUtilities;
 import propra.grpproj.quiz.services.PlayerOfRoundService;
 import propra.grpproj.quiz.services.PubService;
+import propra.grpproj.quiz.services.QuestionService;
 import propra.grpproj.quiz.services.UserService;
 import propra.grpproj.quiz.SocketDataObjects.*;
 
@@ -36,8 +39,8 @@ public class DatabaseManager {
 
 	Connection connection = null;
 
+
 	// Function to register a user
-	//usertype added
 	public boolean registerUser(String username, String email, String passwd, UserType usertype) throws SQLException {
 
 		UserRepository userRepository = new UserRepository();
@@ -46,6 +49,7 @@ public class DatabaseManager {
 		return ub.authenticate(email, passwd);
 
 	}
+
 
 	// Function to check, if result of a query is empty
 	public boolean isEmpty(String value) {
@@ -74,6 +78,7 @@ public class DatabaseManager {
 
 
 	}
+
 	// Write the score after a completed quiz to the user db
 	public void writePoints (String name,int KneipenabendID, double score) throws SQLException {
 		PlayerOfRoundRepository playerOfRoundRepository = new PlayerOfRoundRepository();;
@@ -97,6 +102,7 @@ public class DatabaseManager {
 		return score;
 	}
 
+	// Reset the points
 	public void resetPoints() throws SQLException {
 
 		double score = 0.0;
@@ -108,19 +114,15 @@ public class DatabaseManager {
 		ps.setDouble(1, score);
 
 	}
-	public void getPool(String name) throws SQLException {
+	public ArrayList<Question> getPool(String name) throws SQLException {
 
-		String query = "";
+		QuestionRepository questionRepository = new QuestionRepository();;
+		QuestionService qs =  new QuestionService( questionRepository);
+		return qs.loadQuestions();
 
-		Statement stmt = connection.createStatement();
-
-		ResultSet rs = stmt.executeQuery(query);
-
-		rs.close();
-
-		stmt.close();
 	}
 
+	// Get all  pubs
 	public List<Pub> getAllPubs() {
 		 PubRepository pubRepository=new PubRepository();;
 		 UserRepository userRepository = new UserRepository();
@@ -128,6 +130,7 @@ public class DatabaseManager {
 		 return ps.getAllPubs();
 	}
 
+	// Register the pub
 	public void registerPub(String name, String address, int ownerid) throws SQLException {
 
 		PubRepository pubRepository=new PubRepository();;
@@ -137,6 +140,7 @@ public class DatabaseManager {
 
 	}
 
+	// Search for a user
 	public boolean searchUser(String name) throws SQLException {
 
 		boolean check = true;
@@ -147,26 +151,32 @@ public class DatabaseManager {
 
 	}
 
-		public UserType getUserType (String Name) throws SQLException {
+	// Get the user type
+	public UserType getUserType (String Name) throws SQLException {
 
-			UserType usertype = UserType.DEFAULT;
-
-			return usertype;
-
-		}
-		public void setUserType (String name) throws SQLException {
-
-
-
-
-		}
-
-		public boolean deleteUser (String username, String passwd) throws SQLException
-		{
-			UserRepository userRepository = new UserRepository();
+			UserRepository userRepository = new UserRepository();;
 			UserService ub = new UserService(userRepository);
-			ub.deleteUser(username, passwd);
-			return false ;//ub.authenticate(name, passwd);
+			UserType ubn = UserType.valueOf(ub.getUserType(Name));
+			return ubn;
 
-		}
+	}
+
+	// Set the usertype
+	public void setUserType (String name) throws SQLException {
+
+
+
+
+	}
+
+	// Delete the user
+	public boolean deleteUser (String username, String passwd) throws SQLException
+	{
+
+		UserRepository userRepository = new UserRepository();
+		UserService ub = new UserService(userRepository);
+		ub.deleteUser(username, passwd);
+		return false ;
+
+	}
 }

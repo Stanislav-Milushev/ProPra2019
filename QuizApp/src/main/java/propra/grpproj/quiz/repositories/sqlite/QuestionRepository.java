@@ -21,7 +21,10 @@ import propra.grpproj.quiz.repositories.CrudRepositoryAdapter;
  */
 public class QuestionRepository extends CrudRepositoryAdapter<Question, Long>
 {
-
+	
+	public QuestionRepository(){
+		
+	}
     /**
      * The table name managed by this repository
      */
@@ -50,7 +53,7 @@ public class QuestionRepository extends CrudRepositoryAdapter<Question, Long>
     }
 
     @Override
-    public Iterable<Question> findAll()
+    public ArrayList<Question> findAll()
     {
         String sql = "SELECT * FROM " + TABLE_NAME;
 
