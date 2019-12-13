@@ -784,6 +784,10 @@ public class GuiAdmin {
 		
 		JComboBox<Integer> cbPEPubID = new JComboBox<Integer>();
 		cbPEPubID.setSelectedIndex(-1);
+		getPubListRequest();
+		for (int i=0;i<pList.size();i++) {
+			cbPEPubID.addItem(pList.get(i).getID());
+		}
 		cbPEPubID.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int pubID = (int) cbPEPubID.getSelectedItem();
@@ -1086,18 +1090,8 @@ public class GuiAdmin {
 		SocketClient.getInstance().sendObject(pub);
 	}
 	
-	public void getPubListFromServer(PubList list) {
-		//pList.clear();		
-		//ERROR NullPointer
+	public void getPubListFromServer(PubList list) {	
 		pList = (ArrayList<Pub>) list.getList();
-		
-		
-		// fill CB with ids
-		for (int ip=0; ip<pList.size(); ip++) {
-			cbPEPubID.addItem(pList.get(ip).getID());
-		}
-
-		
 	}
 	
 
