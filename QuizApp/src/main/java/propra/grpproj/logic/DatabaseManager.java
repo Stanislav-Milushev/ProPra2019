@@ -179,8 +179,4 @@ public class DatabaseManager {
 		return false ;
 
 	}
-
-	public void getPool(String name) {
-
-	}
 }
