@@ -80,6 +80,7 @@ public class UserHandling
 		UserType usertype = db.getUserType(username);
 		
 		if (!success_login == true) {
+			
 			usertype = UserType.ERROR;
 			
 		} else {

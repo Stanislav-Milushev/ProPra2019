@@ -73,6 +73,7 @@ public class GuiUserLogin {
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 */
+	
 	public static void main(String[] args) {
 		
 		setupDataBase();
@@ -225,7 +226,7 @@ public class GuiUserLogin {
 			public void actionPerformed(ActionEvent e) {
 				GuiRegister register = new GuiRegister();
 				register.getFrame().setVisible(true);
-				getFrmUserLogin().dispose();
+				frmUserLogin.dispose();
 			}
 		});
 		
@@ -290,39 +291,31 @@ public class GuiUserLogin {
 		switch (usertype) {
 		
 		case DEFAULT:
-			
-			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as user.");
-			
 			GuiMenu menu = new GuiMenu();
 			menu.getFrame().setVisible(true);
-			getFrmUserLogin().dispose();
+			frmUserLogin.dispose();
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as user.");
 			break;
 			
 		case ADMIN:
-			
-			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as admin.");
-			
 			GuiAdmin admin = new GuiAdmin();
 			admin.getFrmAdmin().setVisible(true);
-			getFrmUserLogin().dispose();
+			frmUserLogin.dispose();
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as admin.");
 			break;
 			
 		case PUB_OWNER:
-			
-			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as pubowner.");
-			
 			GuiPubOwner pubowner = new GuiPubOwner();
 			pubowner.getFrame().setVisible(true);
-			getFrmUserLogin().dispose();
+			frmUserLogin.dispose();
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as pubowner.");
 			break;
 			
 		case ADMIN_PUBOWNER:
-			
-			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as admin & pubowner.");
-			
 			GuiOptions option = new GuiOptions();
 			option.getFrame().setVisible(true);
-			getFrmUserLogin().dispose();
+			frmUserLogin.dispose();
+			JOptionPane.showMessageDialog(parent, "Login successfull. Currently logged in as admin & pubowner.");
 			break;
 			
 		case ERROR:
@@ -361,9 +354,6 @@ public class GuiUserLogin {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		UserType usertype = UserType.DEFAULT;
 		
 		Login login = new Login(userName, pw);
 		SocketClient.getInstance().sendObject(login);
@@ -430,7 +420,13 @@ public class GuiUserLogin {
         Connection connection = SqliteCoreUtilities.connect();
         Statement statement = connection.createStatement();
 
-        statement.executeUpdate("insert into users values(7, 'Gerry', 'pw', 'bla@blub.de', 'admin')");
+        // Create all admins
+        statement.executeUpdate("insert into users values(1, 'Gerry', 'pw', 'bla@blub.de', 'PUB_OWNER')");
+        statement.executeUpdate("insert into users values(2, 'GerrySeinVadder', 'pw', 'bla@blub.com', 'DEFAULT')");
+        statement.executeUpdate("insert into users values(3, 'Admin', 'admin123', 'admin@thebest.com', 'ADMIN')");
+        statement.executeUpdate("insert into users values(4, 'Admin2', 'admin123', 'bla@blub6789', 'ADMIN')");
+        statement.executeUpdate("insert into users values(5, 'Admin3', 'admin123', 'b34567', 'ADMIN')");
+        statement.executeUpdate("insert into users values(6, 'TZTZ', 'pw', 'bla@blub.com', 'DEFAULT')");
         
     } catch (Exception e)
     {
