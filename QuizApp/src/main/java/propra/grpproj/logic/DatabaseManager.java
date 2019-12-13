@@ -9,12 +9,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import propra.grpproj.quiz.dataholders.Pub;
+import propra.grpproj.quiz.dataholders.Question;
 import propra.grpproj.quiz.repositories.sqlite.PlayerOfRoundRepository;
 import propra.grpproj.quiz.repositories.sqlite.PubRepository;
+import propra.grpproj.quiz.repositories.sqlite.QuestionRepository;
 import propra.grpproj.quiz.repositories.sqlite.UserRepository;
 import propra.grpproj.quiz.repositories.sqlite.utilities.SqliteCoreUtilities;
 import propra.grpproj.quiz.services.PlayerOfRoundService;
 import propra.grpproj.quiz.services.PubService;
+import propra.grpproj.quiz.services.QuestionService;
 import propra.grpproj.quiz.services.UserService;
 import propra.grpproj.quiz.SocketDataObjects.*;
 
@@ -108,17 +111,12 @@ public class DatabaseManager {
 		ps.setDouble(1, score);
 
 	}
-	public void getPool(String name) throws SQLException {
+	public ArrayList<Question> getPool(String name) throws SQLException {
 
-		String query = "";
-
-		Statement stmt = connection.createStatement();
-
-		ResultSet rs = stmt.executeQuery(query);
-
-		rs.close();
-
-		stmt.close();
+		QuestionRepository questionRepository = new QuestionRepository();;
+		QuestionService qs =  new QuestionService( questionRepository);
+		return qs.loadQuestions();
+		
 	}
 
 	public List<Pub> getAllPubs() {
@@ -149,9 +147,10 @@ public class DatabaseManager {
 
 		public UserType getUserType (String Name) throws SQLException {
 
-			UserType usertype = UserType.DEFAULT;
-
-			return usertype;
+			UserRepository userRepository = new UserRepository();;
+			UserService ub = new UserService(userRepository);
+			UserType ubn = UserType.valueOf(ub.getUserType(Name));
+			return ubn;
 
 		}
 		public void setUserType (String name) throws SQLException {
