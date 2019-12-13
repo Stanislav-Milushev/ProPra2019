@@ -4,6 +4,7 @@ package propra.grpproj.gui;
 
 import propra.grpproj.quiz.Socket.SocketClient;
 import propra.grpproj.quiz.Socket.SocketServer;
+import propra.grpproj.quiz.SocketDataObjects.AcceptPub;
 import propra.grpproj.quiz.SocketDataObjects.AddQuestion;
 import propra.grpproj.quiz.SocketDataObjects.ChangePub;
 import propra.grpproj.quiz.SocketDataObjects.ChangeQuestion;
@@ -858,9 +859,14 @@ public class GuiAdmin {
 			public void actionPerformed(ActionEvent e) {
 				int pID = (int) cbPEPubID.getSelectedItem();
 				String pName = tfPEPubName.getText();
+				
+				
 				boolean unblocking = false;
+				
 				if (cbPEUnblocking.getSelectedIndex() == 1) {
 					unblocking = true;
+					AcceptPub ac = new AcceptPub();
+					SocketClient.getInstance().sendObject(ac);
 				};
 				int uID = Integer.parseInt(tfPEUserID.getText());
 				String uName = tfPEUserName.getText();

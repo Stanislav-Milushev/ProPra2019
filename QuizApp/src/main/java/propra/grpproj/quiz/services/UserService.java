@@ -62,7 +62,7 @@ public class UserService
             return user.get().getPassword().equals(plainPassword);
         } else
         {
-            throw new RuntimeException("No user found by email");
+            throw new RuntimeException("No user found by name");
         }
     }
     public boolean authenticate(String name)
