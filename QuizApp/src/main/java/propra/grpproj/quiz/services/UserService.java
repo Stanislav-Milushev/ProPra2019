@@ -76,11 +76,12 @@ public class UserService
             throw new RuntimeException("No user found");
         }
     }
-    public UserType getUserType()
+    
+    public String getUserType(UserType usertype)
     {
-		return null;
-       
+        return usertype.toString();
     }
+    
     public void setUserType(String name)
     {
         Optional<User> user = userRepository.findByName(name);

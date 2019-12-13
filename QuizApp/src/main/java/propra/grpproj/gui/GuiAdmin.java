@@ -1235,4 +1235,8 @@ public class GuiAdmin {
 	public void setFrmAdmin(JFrame frmAdmin) {
 		this.frmAdmin = frmAdmin;
 	}
+	public void acceptPub(String name,String owner) {
+		AcceptPub ac = new AcceptPub(name, owner);
+		SocketClient.getInstance().sendObject(ac);
+	}
 }

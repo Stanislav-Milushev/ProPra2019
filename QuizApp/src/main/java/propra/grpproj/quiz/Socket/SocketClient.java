@@ -153,7 +153,8 @@ public class SocketClient implements Runnable{
 	private void recieveObject(Object o) {
 		
 		if(o instanceof AcceptPub) {
-    		//Unbenutzt
+    		GuiAdmin gu = new GuiAdmin();
+    		gu.acceptPub( ((AcceptPub) o).getName(),((AcceptPub) o).getOwner());
     	}
 		
 		if(o instanceof AddQuestion) {

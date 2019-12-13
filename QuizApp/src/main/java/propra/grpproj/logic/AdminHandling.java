@@ -27,7 +27,7 @@ public class AdminHandling {
 		
 		db.approvePub(name,owner);
 		
-		AcceptPub accept = new AcceptPub();
+		AcceptPub accept = new AcceptPub(name, owner);
 		
 		SocketServer.getInstance().sendObject(accept, name);
 		

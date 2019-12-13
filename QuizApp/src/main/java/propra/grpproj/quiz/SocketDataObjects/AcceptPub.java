@@ -7,7 +7,7 @@ public class AcceptPub implements Serializable{
 	private String owner;
 	private boolean acc;
 	
-	public AcceptPub() {
+	public AcceptPub(String name, String owner) {
 		
 	}
 

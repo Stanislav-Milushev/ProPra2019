@@ -154,7 +154,7 @@ public class DatabaseManager {
 			
 		}
 		public void setUserType (String name) throws SQLException {
-			UserType usertype = null;
+			
 			
 			
 			
