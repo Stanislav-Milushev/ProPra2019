@@ -26,7 +26,7 @@ public class UserService
     public void createNewUser(String username,String email,String password, UserType usertype)
     {
         if(userRepository.findByName(username).isPresent())
-            throw new RuntimeException("A user with email=["+email+"] already exists");
+            throw new RuntimeException("A user with name=["+username+"] already exists");
         
         userRepository.save( new User(nextFreeId(), username, password, email, usertype.toString()) );
     }
@@ -76,22 +76,21 @@ public class UserService
             throw new RuntimeException("No user found");
         }
     }
-    
-    public String getUserType(UserType usertype)
+    public String getUserType(String name, UserType usertype)
     {
-        return usertype.toString();
+    	Optional<User> user = userRepository.findByName(name);
+    	if (user.isPresent()) 
+    	{
+    		return usertype.toString();
+    	} else
+    	{ 
+    		throw new RuntimeException("No user found by name");
+    	}
     }
     
-    public void setUserType(String name)
+    public void setUserType(String name,String email,String password, UserType usertype)
     {
-        Optional<User> user = userRepository.findByName(name);
-        if (user.isPresent())
-        {
-         
-        } else
-        {
-            throw new RuntimeException("No user found");
-        }
+        userRepository.save( new User(nextFreeId(), name, password, email, usertype.toString()) );
     }
     // ========================================================================
     // helper methods
