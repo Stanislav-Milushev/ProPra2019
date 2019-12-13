@@ -46,7 +46,7 @@ import javax.swing.DefaultComboBoxModel;
 
 /**
  * 
- * @author Lisa Praedel
+ * @author Lisa Praedel & Stanislav Milushev
  *
  */
 public class GuiAdmin {

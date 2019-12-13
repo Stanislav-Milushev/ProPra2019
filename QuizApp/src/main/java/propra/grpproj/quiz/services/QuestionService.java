@@ -8,7 +8,7 @@ import propra.grpproj.quiz.repositories.sqlite.QuestionRepository;
 
 /**
  * 
- * @author Daniel
+ * @author Daniel & Stanislav Milushev
  *
  */
 public class QuestionService

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 ////////////////////////////////////////////////////////////////////////////
 // Scoreboard functions
 //
-// @author: Marius Discher
+// @author: Marius Discher & Stanislav Milushev
 //
 //
 //

@@ -151,7 +151,7 @@ public class SocketClient implements Runnable{
 	 * Compares object from the server to known objects
 	 * and calls the responding functions in the gui
 	 * @param o object recieved from the server
-	 * @author Yannick
+	 * @author Yannick & Stanislav Milushev
 	 */
 	private void recieveObject(Object o) {
 		

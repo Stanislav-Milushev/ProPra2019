@@ -7,7 +7,7 @@ import propra.grpproj.quiz.repositories.sqlite.PlayerOfRoundRepository;
 
 /**
  * 
- * @author Daniel
+ * @author Daniel & Stanislav Milushev
  *
  */
 public class PlayerOfRoundService

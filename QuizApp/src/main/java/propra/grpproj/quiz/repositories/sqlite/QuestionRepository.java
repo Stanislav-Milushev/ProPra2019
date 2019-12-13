@@ -16,7 +16,7 @@ import propra.grpproj.quiz.repositories.CrudRepositoryAdapter;
 
 /**
  * 
- * @author Daniel
+ * @author Daniel & Stanislav Milushev
  *
  */
 public class QuestionRepository extends CrudRepositoryAdapter<Question, Long>
