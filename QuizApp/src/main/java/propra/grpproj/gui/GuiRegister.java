@@ -37,7 +37,7 @@ public class GuiRegister {
 	private JTextField tfUserName;
 	private JTextField tfEmail;
 	private JTextField tfPassword;
-	private JTextField tfPasswordRepeat;
+	private JTextField tfPasswordRepeat; 
 
 	/**
 	 * Launch the application.
