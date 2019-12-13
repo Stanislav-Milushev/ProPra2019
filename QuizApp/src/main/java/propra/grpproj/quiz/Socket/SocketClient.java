@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import propra.grpproj.gui.GuiAdmin;
+import propra.grpproj.gui.GuiRegister;
 import propra.grpproj.gui.GuiUserLogin;
 import propra.grpproj.logic.QuestionHandling;
 import propra.grpproj.quiz.SocketDataObjects.AcceptPub;
@@ -234,6 +235,8 @@ public class SocketClient implements Runnable{
     	
     	if(o instanceof RegisterUser) {
     		RegisterUser regUser = (RegisterUser)o;
+    		GuiRegister gu = new GuiRegister();
+    		gu.autologin();
     	}
     	
     	if(o instanceof RepeatPubevening) {

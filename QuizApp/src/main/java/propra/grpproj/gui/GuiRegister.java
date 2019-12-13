@@ -317,4 +317,11 @@ public class GuiRegister {
 		
 		JOptionPane.showInputDialog("registrierung erfolgreich, automatischer login");
 	}
+	
+	public void autologin() {
+	
+		GuiMenu gu = new GuiMenu();
+		gu.getFrame().setVisible(true);
+		frameRegister.dispose();
+	}
 }

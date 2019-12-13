@@ -284,8 +284,6 @@ public class GuiUserLogin {
 	 */
 	public void login_Return(UserType usertype) {
 		
-		System.out.println("Ich bin da ");
-		
 		JFrame parent = new JFrame();
 		
 		switch (usertype) {

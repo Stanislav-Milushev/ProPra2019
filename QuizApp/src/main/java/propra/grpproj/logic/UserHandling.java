@@ -34,6 +34,7 @@ public class UserHandling
 	{
 		
 		RegisterUser registeruser = new RegisterUser(username,email,passwd,usertype);
+		Login login = new Login(username,passwd);
 
         boolean success_reg = false;
 
@@ -44,9 +45,7 @@ public class UserHandling
 
         if (ub.authenticate(email, passwd) == true ) {
 
-            user_login(username, passwd);
-            registeruser.setRegisterProg(true);
-            SocketServer.getInstance().sendObject(registeruser, username);
+           SocketServer.getInstance().sendObject(registeruser, username);
 
 
         } else if(ub.authenticate(email, passwd) == false) {
