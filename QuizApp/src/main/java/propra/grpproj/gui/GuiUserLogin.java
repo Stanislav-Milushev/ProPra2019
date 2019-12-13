@@ -419,8 +419,8 @@ public class GuiUserLogin {
         Statement statement = connection.createStatement();
 
         // Create all admins
-        statement.executeUpdate("insert into users values(1, 'Gerry', 'pw', 'bla@blub.de', 'PUB_OWNER')");
-        statement.executeUpdate("insert into users values(2, 'GerrySeinVadder', 'pw', 'bla@blub.com', 'DEFAULT')");
+        statement.executeUpdate("insert into users values(1, 'Gerry', 'pw', 'bla@blub.de', 'DEFAULT')");
+        statement.executeUpdate("insert into users values(2, 'GerrySeinVadder', 'pw', 'bla@blub.com', 'PUB_OWNER')");
         statement.executeUpdate("insert into users values(3, 'Admin', 'admin123', 'admin@thebest.com', 'ADMIN')");
         statement.executeUpdate("insert into users values(4, 'Admin2', 'admin123', 'bla@blub6789', 'ADMIN')");
         statement.executeUpdate("insert into users values(5, 'Admin3', 'admin123', 'b34567', 'ADMIN')");
