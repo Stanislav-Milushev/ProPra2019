@@ -15,6 +15,8 @@ public class CreatePubevening implements Serializable{
 	 * @param start time when the game starts
 	 * @param questionSets sets that hold the questions
 	 */
+	
+	
 	public CreatePubevening(int secPerQuestion, Date start, int questionSets, String name) {
 		this.secPerQuestion = secPerQuestion;
 		this.start = start;

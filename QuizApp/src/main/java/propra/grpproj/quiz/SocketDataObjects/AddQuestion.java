@@ -5,6 +5,14 @@ public class AddQuestion {
 	String[] answers;
 	String explanation;
 	int set;
+	
+	/**
+	 * 
+	 * @param qT
+	 * @param answers
+	 * @param ex
+	 * @param set
+	 */
 
 	public AddQuestion(String qT, String[] answers, String ex, int set) {
 		this.questionText = qT;

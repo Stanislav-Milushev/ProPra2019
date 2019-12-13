@@ -7,6 +7,11 @@ import java.util.List;
 public class PubList implements Serializable{
 	private List<Pub> list = null;
 	
+	/**
+	 * 
+	 * @param list
+	 */
+	
 	PubList(List<Pub> list){
 		this.list= list;
 	}

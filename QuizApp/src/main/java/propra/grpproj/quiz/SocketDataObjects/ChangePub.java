@@ -9,6 +9,16 @@ public class ChangePub {
 	private String ownerName;
 	private String address;
 	
+	/**
+	 * 
+	 * @param pubID
+	 * @param pubName
+	 * @param allowed
+	 * @param ownderID
+	 * @param ownerName
+	 * @param address
+	 */
+	
 	public ChangePub(int pubID, String pubName, boolean allowed, int ownderID, String ownerName, String address) {
 		super();
 		this.pubID = pubID;

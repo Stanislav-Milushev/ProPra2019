@@ -8,6 +8,12 @@ public class GetQuestionSet implements Serializable{
 	private List<Question> list = new ArrayList<Question>();
 	private int set;
 	
+	
+	/**
+	 * 
+	 * @param set
+	 */
+	
 	public GetQuestionSet(int set) {
 		this.set = set;
 	}

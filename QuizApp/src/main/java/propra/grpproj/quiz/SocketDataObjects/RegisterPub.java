@@ -7,6 +7,8 @@ public class RegisterPub implements Serializable{
 	private String address;
 	private int ownerID;
 	private boolean registerPub;
+	
+	
 	/**
 	 * 
 	 * @param name Name of Kneipe

@@ -10,6 +10,14 @@ public class RegisterUser implements Serializable{
 	private UserType usertype;
 	private boolean registerProg;
 	
+	/**
+	 * 
+	 * @param username
+	 * @param password
+	 * @param mail
+	 * @param usertype2
+	 */
+	
 	public RegisterUser(String username, String password, String mail,UserType usertype2) {
 		this.username = username;
 		this.password = password;

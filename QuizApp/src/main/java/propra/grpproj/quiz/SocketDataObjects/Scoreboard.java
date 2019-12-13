@@ -7,6 +7,13 @@ public class Scoreboard implements Serializable{
 	private String KneipenabendID;
 	private float score;
 	
+	/**
+	 * 
+	 * @param user
+	 * @param KneipenabendID
+	 * @param score
+	 */
+	
 	public Scoreboard(String user) {
 		this.user = user;
 	}

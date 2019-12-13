@@ -5,6 +5,12 @@ import java.io.Serializable;
 public class DeleteUser implements Serializable{
 	private String username;
 	private boolean deleteProgress;
+	
+	/**
+	 * 
+	 * @param username
+	 * @param deleteProgress
+	 */
 
 	public DeleteUser(String username) {
 		this.username = username;

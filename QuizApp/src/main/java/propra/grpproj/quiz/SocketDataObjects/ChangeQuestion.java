@@ -8,6 +8,14 @@ public class ChangeQuestion implements Serializable{
 	private String[] answers;
 	private String explanation;
 	
+	/**
+	 * 
+	 * @param questionID
+	 * @param questionText
+	 * @param answers
+	 * @param explanation
+	 */
+	
 	public ChangeQuestion(int questionID, String questionText, String[] answers, String explanation) {
 		this.questionID = questionID;
 		this.questionText = questionText;

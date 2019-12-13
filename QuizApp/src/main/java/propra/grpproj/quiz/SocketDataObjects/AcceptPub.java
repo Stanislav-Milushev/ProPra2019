@@ -7,6 +7,12 @@ public class AcceptPub implements Serializable{
 	private String owner;
 	private boolean acc;
 	
+	/**
+	 * 
+	 * @param name
+	 * @param owner
+	 */
+	
 	public AcceptPub(String name, String owner) {
 		
 	}

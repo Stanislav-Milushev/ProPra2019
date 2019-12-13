@@ -10,6 +10,16 @@ public class Pub implements Serializable{
 	
 	private int ownerID;
 	private String ownerName;
+	
+	/**
+	 * 
+	 * @param iD
+	 * @param name
+	 * @param adresse
+	 * @param allowed
+	 * @param ownerID
+	 * @param ownerName
+	 */
 
 	public Pub(int iD, String name, String adresse, boolean allowed, int ownerID, String ownerName) {
 		super();

@@ -8,6 +8,14 @@ public class Question implements Serializable{
 	private String[] answers;
 	private String explanation;
 	
+	/**
+	 * 
+	 * @param ID
+	 * @param question
+	 * @param answers
+	 * @param explanation
+	 */
+	
 	public int getID() {
 		return ID;
 	}

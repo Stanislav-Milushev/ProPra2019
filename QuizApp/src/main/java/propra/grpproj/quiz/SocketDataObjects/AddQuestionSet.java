@@ -6,6 +6,11 @@ import java.util.List;
 public class AddQuestionSet {
 	private List<AddQuestion> list;
 	
+	/**
+	 * 
+	 * @param list
+	 */
+	
 	public AddQuestionSet(List<AddQuestion> list) {
 		this.list = list;
 	}

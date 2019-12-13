@@ -13,8 +13,8 @@ public class Login implements Serializable{
 	 * 
 	 * @param userName user input
 	 * @param password user input
-	 * @author Yannick
 	 */
+	
 	public Login(String userName, String password) {
 		this.userName = userName;
 		this.password = password;
@@ -28,6 +28,7 @@ public class Login implements Serializable{
 	 * Set by server and sent to client
 	 * @param type usertype
 	 */
+	
 	public void setType(UserType type) {
 		this.type = type;
 	}
