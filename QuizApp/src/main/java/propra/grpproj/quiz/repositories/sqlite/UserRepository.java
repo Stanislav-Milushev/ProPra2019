@@ -28,7 +28,10 @@ public class UserRepository extends CrudRepositoryAdapter<User, Long>
      * The table name managed by this repository
      */
     private static final String TABLE_NAME = "users";
-
+    
+    public UserRepository(){
+    	
+    }
     /**
      * The SQL query to create this table
      */

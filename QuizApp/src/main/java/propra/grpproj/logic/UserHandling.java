@@ -6,6 +6,8 @@ import java.sql.Statement;
 
 import propra.grpproj.quiz.Socket.SocketServer;
 import propra.grpproj.quiz.SocketDataObjects.*;
+import propra.grpproj.quiz.repositories.sqlite.UserRepository;
+import propra.grpproj.quiz.services.UserService;
 
 
 ////////////////////////////////////////////////////////////////////////////
@@ -31,29 +33,28 @@ public class UserHandling
 	public void user_register(String username, String email, String passwd, UserType usertype) throws SQLException 
 	{
 		
-		DatabaseManager db = new DatabaseManager();
 		RegisterUser registeruser = new RegisterUser(username,email,passwd,usertype);
-		
-		boolean success_reg = false;
-		
-		
-		
-		if ( db.registerUser(username, email, passwd, usertype) == true ) {
-			
-			user_login(username, passwd);
-			registeruser.setRegisterProg(true);
-			SocketServer.getInstance().sendObject(registeruser, username);
-			
-			
-		} else if(success_reg == false) {
-			
-			registeruser.setRegisterProg(success_reg);
-			registeruser.setRegisterProg(false);
-			SocketServer.getInstance().sendObject(registeruser, username);
-		}
-		  
-		
-		
+
+        boolean success_reg = false;
+
+
+        UserRepository userRepository = new UserRepository();
+        UserService ub = new UserService(userRepository);
+        ub.createNewUser(username, email, passwd, usertype);
+
+        if (ub.authenticate(email, passwd) == true ) {
+
+            user_login(username, passwd);
+            registeruser.setRegisterProg(true);
+            SocketServer.getInstance().sendObject(registeruser, username);
+
+
+        } else if(ub.authenticate(email, passwd) == false) {
+
+            registeruser.setRegisterProg(success_reg);
+            registeruser.setRegisterProg(false);
+            SocketServer.getInstance().sendObject(registeruser, username);
+        }
 	}
 	
 	

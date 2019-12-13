@@ -23,7 +23,7 @@ public class UserService
         this.userRepository = userRepository;
     }
     
-    public void createNewUser(String username,String email,String password, propra.grpproj.quiz.SocketDataObjects.UserType usertype)
+    public void createNewUser(String username,String email,String password, UserType usertype)
     {
         if(userRepository.findByName(username).isPresent())
             throw new RuntimeException("A user with email=["+email+"] already exists");
