@@ -34,6 +34,7 @@ public class AdminHandling {
 		
 	}
 	
+	// Get the whole question pool
 	public ArrayList<String> getQuestionPool(String name) throws SQLException {  /// zu schreiben
 		
 		ArrayList <String> questions_pool = new ArrayList<String>();
