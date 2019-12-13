@@ -8,14 +8,18 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class GuiOptions {
@@ -93,7 +97,73 @@ public class GuiOptions {
 		gbc_lblHeaderIcon.gridx = 1;
 		gbc_lblHeaderIcon.gridy = 0;
 		pHeader.add(lblHeaderIcon, gbc_lblHeaderIcon);
+		
+
+		/**
+		 * Initialize login panel
+		 */
+		JPanel pUserLoginInput = new JPanel();
+		pUserLoginInput.setBackground(new Color(255, 255, 255));
+		
+		GridBagLayout gbl_pUserLoginInput = new GridBagLayout();
+		gbl_pUserLoginInput.columnWidths = new int[] {0};
+		gbl_pUserLoginInput.rowHeights = new int[] {0};
+		gbl_pUserLoginInput.columnWeights = new double[]{0.0, 0.0};
+		gbl_pUserLoginInput.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
+		pUserLoginInput.setLayout(gbl_pUserLoginInput);
+		
+		
+		JLabel lblText = new JLabel("Welche Ansicht soll geöffnet werden?");
+		GridBagConstraints gbc_lblText = new GridBagConstraints();
+		gbc_lblText.insets = new Insets(5, 5, 5, 5);
+		gbc_lblText.gridwidth = 2;
+		gbc_lblText.fill = GridBagConstraints.CENTER;
+		gbc_lblText.gridx = 0;
+		gbc_lblText.gridy = 0;
+		pUserLoginInput.add(lblText, gbc_lblText);
+
+		JButton bPubOwner = new JButton("Kneipenbesitzer Ansicht");
+		bPubOwner.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				GuiPubOwner gu = new GuiPubOwner();
+				gu.getFrame().setVisible(true);
+				frame.setVisible(false);
+			}
+		});
+		
+		GridBagConstraints gbc_PubOwner = new GridBagConstraints();
+		gbc_PubOwner.gridwidth = 1;
+		gbc_PubOwner.insets = new Insets(5, 5, 5, 5);
+		gbc_PubOwner.gridx = 0;
+		gbc_PubOwner.gridy = 3;
+		pUserLoginInput.add(bPubOwner,gbc_PubOwner);
+		
+		JButton bAdmin = new JButton("Admin Ansicht");
+		bAdmin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GuiAdmin gu = new GuiAdmin();
+				gu.getFrmAdmin().setVisible(true);
+				frame.setVisible(false);
+			}
+		});
+		
+		GridBagConstraints gbc_bAdmin = new GridBagConstraints();
+		gbc_bAdmin.gridwidth = 2;
+		gbc_bAdmin.insets = new Insets(5, 5, 5, 5);
+		gbc_bAdmin.gridx = 0;
+		gbc_bAdmin.gridy = 4;
+		pUserLoginInput.add(bAdmin,gbc_bAdmin); 
+
+		frame.getContentPane().add(pHeader, BorderLayout.NORTH);
+		frame.getContentPane().add(pUserLoginInput, BorderLayout.CENTER);
+		
+		frame.pack();
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
+	
+	
+	
 	
 	/**
 	 * load picture into header.

@@ -5,10 +5,10 @@ import java.io.Serializable;
 public class AcceptPub implements Serializable{
 	private String name;
 	private String owner;
-
-	public AcceptPub(String name, String owner) {
-		this.name = name;
-		this.owner = owner;
+	private boolean acc;
+	
+	public AcceptPub() {
+		
 	}
 
 	public String getName() {
