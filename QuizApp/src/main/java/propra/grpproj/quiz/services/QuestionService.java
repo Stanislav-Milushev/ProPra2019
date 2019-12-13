@@ -1,5 +1,7 @@
 package propra.grpproj.quiz.services;
 
+import java.util.ArrayList;
+
 import propra.grpproj.quiz.dataholders.Question;
 import propra.grpproj.quiz.repositories.sqlite.QuestionRepository;
 
@@ -28,5 +30,8 @@ public class QuestionService
         questionRepository
                 .save(new Question(id, questionText, answerA, answerB, answerC, answerD, correctAnswer, description));
     }
-
+    public ArrayList<Question> loadQuestions() {
+    	return questionRepository.findAll();
+    	
+    }
 }
