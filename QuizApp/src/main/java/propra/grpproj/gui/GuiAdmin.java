@@ -1110,7 +1110,6 @@ public class GuiAdmin {
 	public void getQuestionListFromServer(GetQuestionSet list) {
 		//qList.clear();
 		qList = (ArrayList<Question>) list.getList();
-
 		
 		for (int r = 0; r < qList.size(); r++) {
 			String[] answers = qList.get(r).getAnswers();

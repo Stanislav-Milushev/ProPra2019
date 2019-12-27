@@ -126,9 +126,9 @@ public class GuiRegister {
 		pRegister.setLayout(gbl_Register);
 		
 		
-		JLabel lblText = new JLabel("Bitte Daten fuer die Registrierung eingeben");
+		JLabel lblText = new JLabel("Bitte geben Sie die Daten für die Registrierung ein.");
 		GridBagConstraints gbc_lblText = new GridBagConstraints();
-		gbc_lblText.insets = new Insets(5, 5, 5, 5);
+		gbc_lblText.insets = new Insets(5, 5, 25, 5);
 		gbc_lblText.gridwidth = 2;
 		gbc_lblText.fill = GridBagConstraints.CENTER;
 		gbc_lblText.gridx = 0;
@@ -202,61 +202,48 @@ public class GuiRegister {
 		gbc_tfPasswordrepeat.gridy = 4;
 		pRegister.add(tfPasswordRepeat, gbc_tfPasswordrepeat);
 		tfPasswordRepeat.setColumns(15);
-		
-		
-		
+				
 		JButton bRegister = new JButton("Abschicken");
 		bRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				String username = tfUserName.getText();
 				String password = tfPassword.getText();
 				String password2 = tfPasswordRepeat.getText();
-				String email = tfEmail.getText();
-				
-				boolean check = password.equals(password2);
-				
-				if (check == true) {
-					
-					handleRegister(username, email, password);
-					
+				String email = tfEmail.getText();				
+				boolean check = password.equals(password2);			
+				if (check == true) {					
+					handleRegister(username, email, password);	
 				} else {
-					
 					JFrame parent = new JFrame();
-					JOptionPane.showMessageDialog(parent, "Passwörter stimmen nicht überein");
-					
-				}
-				
+					JOptionPane.showMessageDialog(parent, "Passwörter stimmen nicht überein");	
+				}	
 			}
 		});
-		
 		GridBagConstraints gbc_Register = new GridBagConstraints();
 		gbc_Register.gridwidth = 1;
-		gbc_Register.insets = new Insets(5, 5, 5, 5);
-		gbc_Register.gridx = 0;
+		gbc_Register.insets = new Insets(25, 5, 5, 5);
+		gbc_Register.gridx = 1;
 		gbc_Register.gridy = 5;
 		pRegister.add(bRegister, gbc_Register);
 		
-		JButton bBack = new JButton("Zurück zum login");
+		JButton bBack = new JButton("Zurück zum Login");
 		bBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GuiUserLogin back = new GuiUserLogin();
 				back.getFrame().setVisible(true);
 				frameRegister.dispose();
-				
 			}
-		});
-		
+		});	
 		GridBagConstraints gbc_Back = new GridBagConstraints();
 		gbc_Back.gridwidth = 1;
-		gbc_Back.insets = new Insets(5, 5, 5, 5);
-		gbc_Back.gridx = 1;
+		gbc_Back.insets = new Insets(25, 5, 5, 5);
+		gbc_Back.gridx = 0;
 		gbc_Back.gridy = 5;
 		pRegister.add(bBack, gbc_Back);
 		
+		
 		frameRegister.getContentPane().add(pHeader, BorderLayout.NORTH);
 		frameRegister.getContentPane().add(pRegister, BorderLayout.CENTER);
-		
 		frameRegister.pack();
 		frameRegister.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
@@ -317,7 +304,7 @@ public class GuiRegister {
 
 	public void register_return() {
 		
-		JOptionPane.showInputDialog("registrierung erfolgreich, automatischer login");
+		JOptionPane.showInputDialog("Registrierung erfolgreich! Es erfolgt ein automatischer Login");
 	}
 	
 	public void autologin() {
