@@ -220,6 +220,8 @@ public class GuiUserLogin {
 		
 		GridBagConstraints gbc_bLogin = new GridBagConstraints();
 		gbc_bLogin.gridwidth = 2;
+		gbc_bLogin.anchor = GridBagConstraints.CENTER;
+		gbc_bLogin.fill = GridBagConstraints.HORIZONTAL;
 		gbc_bLogin.insets = new Insets(25, 5, 5, 5);
 		gbc_bLogin.gridx = 0;
 		gbc_bLogin.gridy = 3;
@@ -236,6 +238,8 @@ public class GuiUserLogin {
 		
 		GridBagConstraints gbc_bRegister = new GridBagConstraints();
 		gbc_bRegister.gridwidth = 2;
+		gbc_bRegister.anchor = GridBagConstraints.CENTER;
+		gbc_bRegister.fill = GridBagConstraints.HORIZONTAL;
 		gbc_bRegister.insets = new Insets(25, 5, 5, 5);
 		gbc_bRegister.gridx = 2;
 		gbc_bRegister.gridy = 3;
@@ -250,6 +254,8 @@ public class GuiUserLogin {
 		
 		GridBagConstraints gbc_bGuest = new GridBagConstraints();
 		gbc_bGuest.gridwidth = 2;
+		gbc_bGuest.anchor = GridBagConstraints.CENTER;
+		gbc_bGuest.fill = GridBagConstraints.HORIZONTAL;
 		gbc_bGuest.insets = new Insets(25, 5, 5, 5);
 		gbc_bGuest.gridx = 4;
 		gbc_bGuest.gridy = 3;
