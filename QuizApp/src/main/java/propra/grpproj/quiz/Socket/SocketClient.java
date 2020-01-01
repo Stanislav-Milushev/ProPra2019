@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import propra.grpproj.gui.GuiAdmin;
 import propra.grpproj.gui.GuiRegister;
 import propra.grpproj.gui.GuiUserLogin;
-import propra.grpproj.logic.QuestionHandling;
 import propra.grpproj.quiz.SocketDataObjects.AcceptPub;
 import propra.grpproj.quiz.SocketDataObjects.AddQuestion;
 import propra.grpproj.quiz.SocketDataObjects.AddQuestionSet;
@@ -35,7 +34,6 @@ import propra.grpproj.quiz.SocketDataObjects.RepeatPubevening;
 import propra.grpproj.quiz.SocketDataObjects.Scoreboard;
 import propra.grpproj.quiz.SocketDataObjects.TerminateConnection;
 import propra.grpproj.quiz.SocketDataObjects.UserType;
-import propra.grpproj.quiz.dataholders.User;
 
 
 public class SocketClient implements Runnable{
@@ -50,13 +48,6 @@ public class SocketClient implements Runnable{
 	
 	private boolean terminateConnection = false;
 	private static final Logger LOG = LoggerFactory.getLogger(SocketClient.class);
-	 
-	 /**
-	  * Creates a SocketClient to connect to the server
-	  * @param ip IP of the server
-	  * @param port Port the server is listening
-	  * @author Yannick
-	  */
 	
 	 private SocketClient(String ip, int port, String username) {
 		 this.username = username;
@@ -69,15 +60,37 @@ public class SocketClient implements Runnable{
 		}
 	 }
 	 
-	 
-	 public static void connect(String ip, int port, String username) {
+	 /**
+	  * 
+	  * @param ip
+	  * @param port
+	  * @param username
+	  * @return true if a new ClientConnection object has been created
+	  * @author Yannick
+	  */
+	 public static boolean connect(String ip, int port, String username) {
 		 if(instance == null) {
 			 instance = new SocketClient(ip, port, username);
 			 Thread clientConnection = new Thread(instance);
 			 clientConnection.start();
+			 return true;
 		 }
+		 return false;
 	 }
 	 
+	 /**
+	  * 
+	  * @return true if connection was closed
+	  * @author Yannick
+	  */
+	 public static boolean closeConnection() {
+		 if(instance != null) {
+			 instance.sendObject(new TerminateConnection());
+			 instance.terminateConnection = true;		
+			 return true;
+		 }		 
+		 return false;
+	 }	 
 	 
 	 public static SocketClient getInstance() {
 		 return instance;
@@ -98,8 +111,8 @@ public class SocketClient implements Runnable{
 		try {
 			oos.writeObject(create);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			LOG.error("Could not send CreateConnection object to server!");
 		}
 		
         Object recieve = null;
@@ -107,11 +120,13 @@ public class SocketClient implements Runnable{
         do {
         	try {
 				recieve = ois.readObject();
-				recieveObject(recieve);
+				if(recieve != null) {
+					recieveObject(recieve);
+				}				
 			} catch (ClassNotFoundException | IOException e) {
 				break;
 			}
-        } while(!(recieve instanceof TerminateConnection) && !terminateConnection);
+        } while(!terminateConnection);
 
         try {//Close the connection
             oos.close();
