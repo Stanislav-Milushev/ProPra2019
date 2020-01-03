@@ -164,50 +164,74 @@ public class GuiUserLogin {
 		JLabel lblText = new JLabel("Bitte geben Sie Ihre Logindaten ein.");
 		GridBagConstraints gbc_lblText = new GridBagConstraints();
 		gbc_lblText.insets = new Insets(5, 5, 25, 5);
-		gbc_lblText.gridwidth = 6;
 		gbc_lblText.fill = GridBagConstraints.CENTER;
 		gbc_lblText.gridx = 0;
 		gbc_lblText.gridy = 0;
 		pUserLoginInput.add(lblText, gbc_lblText);
 
+		
+		JPanel pFields = new JPanel();
+		pFields.setBackground(new Color(255, 255, 255));
+		GridBagLayout gbl_pFields = new GridBagLayout();
+		gbl_pFields.columnWidths = new int[] {0};
+		gbl_pFields.rowHeights = new int[] {0};
+		gbl_pFields.columnWeights = new double[] {0.0, 0.0};
+		gbl_pFields.rowWeights = new double[]{0.0, 0.0};
+		GridBagConstraints gbc_pFields = new GridBagConstraints();
+		gbc_pFields.insets = new Insets(5, 5, 5, 5);
+		gbc_pFields.gridx = 0;
+		gbc_pFields.gridy = 1;
+		pFields.setLayout(gbl_pFields);
+		pUserLoginInput.add(pFields, gbc_pFields);
+		
 		JLabel lblUserName = new JLabel("Benutzername");
 		GridBagConstraints gbc_lblUserName = new GridBagConstraints();
 		gbc_lblUserName.anchor = GridBagConstraints.EAST;
 		gbc_lblUserName.insets = new Insets(5, 5, 5, 5);
-		gbc_lblUserName.gridwidth = 3;
 		gbc_lblUserName.gridx = 0;
 		gbc_lblUserName.gridy = 1;
-		pUserLoginInput.add(lblUserName, gbc_lblUserName);
+		pFields.add(lblUserName, gbc_lblUserName);
 		
 		tfUserName = new JTextField();
 		GridBagConstraints gbc_tfUserName = new GridBagConstraints();
 		gbc_tfUserName.anchor = GridBagConstraints.WEST;
 		gbc_tfUserName.insets = new Insets(5, 5, 5, 5);
-		gbc_tfUserName.gridwidth = 3;
-		gbc_tfUserName.gridx = 3;
+		gbc_tfUserName.gridx = 1;
 		gbc_tfUserName.gridy = 1;
-		pUserLoginInput.add(tfUserName, gbc_tfUserName);
+		pFields.add(tfUserName, gbc_tfUserName);
 		tfUserName.setColumns(10);
 		
 		JLabel lblPW = new JLabel("Passwort");
 		GridBagConstraints gbc_lblPW = new GridBagConstraints();
 		gbc_lblPW.insets = new Insets(5, 5, 5, 5);
 		gbc_lblPW.anchor = GridBagConstraints.EAST;
-		gbc_lblPW.gridwidth = 3;
 		gbc_lblPW.gridx = 0;
 		gbc_lblPW.gridy = 2;
-		pUserLoginInput.add(lblPW, gbc_lblPW);
+		pFields.add(lblPW, gbc_lblPW);
 		
 		tfPW = new JTextField();
 		GridBagConstraints gbc_tfPW = new GridBagConstraints();
 		gbc_tfPW.insets = new Insets(5, 5, 5, 5);
 		gbc_tfPW.anchor = GridBagConstraints.WEST;
-		gbc_tfPW.gridwidth = 3;
-		gbc_tfPW.gridx = 3;
+		gbc_tfPW.gridx = 1;
 		gbc_tfPW.gridy = 2;
-		pUserLoginInput.add(tfPW, gbc_tfPW);
+		pFields.add(tfPW, gbc_tfPW);
 		tfPW.setColumns(10);
 		
+		
+		JPanel pButtons = new JPanel();
+		pButtons.setBackground(new Color(255, 255, 255));
+		GridBagLayout gbl_pButtons = new GridBagLayout();
+		gbl_pButtons.columnWidths = new int[] {0};
+		gbl_pButtons.rowHeights = new int[] {0};
+		gbl_pButtons.columnWeights = new double[] {1.0, 1.0, 1.0};
+		gbl_pButtons.rowWeights = new double[]{0.0};
+		GridBagConstraints gbc_pButtons = new GridBagConstraints();
+		gbc_pButtons.insets = new Insets(5, 5, 5, 5);
+		gbc_pButtons.gridx = 0;
+		gbc_pButtons.gridy = 2;
+		pButtons.setLayout(gbl_pButtons);
+		pUserLoginInput.add(pButtons, gbc_pButtons);
 		
 		JButton bLogin = new JButton("Login");
 		bLogin.addActionListener(new ActionListener() {
@@ -219,13 +243,13 @@ public class GuiUserLogin {
 		});
 		
 		GridBagConstraints gbc_bLogin = new GridBagConstraints();
-		gbc_bLogin.gridwidth = 2;
+		gbc_bLogin.weightx = 1.0;
 		gbc_bLogin.anchor = GridBagConstraints.CENTER;
 		gbc_bLogin.fill = GridBagConstraints.HORIZONTAL;
 		gbc_bLogin.insets = new Insets(25, 5, 5, 5);
 		gbc_bLogin.gridx = 0;
-		gbc_bLogin.gridy = 3;
-		pUserLoginInput.add(bLogin,gbc_bLogin);
+		gbc_bLogin.gridy = 0;
+		pButtons.add(bLogin,gbc_bLogin);
 		
 		JButton bRegister = new JButton("Register");
 		bRegister.addActionListener(new ActionListener() {
@@ -237,13 +261,13 @@ public class GuiUserLogin {
 		});
 		
 		GridBagConstraints gbc_bRegister = new GridBagConstraints();
-		gbc_bRegister.gridwidth = 2;
+		gbc_bRegister.weightx = 1.0;
 		gbc_bRegister.anchor = GridBagConstraints.CENTER;
 		gbc_bRegister.fill = GridBagConstraints.HORIZONTAL;
 		gbc_bRegister.insets = new Insets(25, 5, 5, 5);
-		gbc_bRegister.gridx = 2;
-		gbc_bRegister.gridy = 3;
-		pUserLoginInput.add(bRegister,gbc_bRegister); 
+		gbc_bRegister.gridx = 1;
+		gbc_bRegister.gridy = 0;
+		pButtons.add(bRegister,gbc_bRegister); 
 		
 		JButton bGuest = new JButton("Als Gast anmelden");
 		bGuest.addActionListener(new ActionListener() {
@@ -253,13 +277,13 @@ public class GuiUserLogin {
 		});
 		
 		GridBagConstraints gbc_bGuest = new GridBagConstraints();
-		gbc_bGuest.gridwidth = 2;
+		gbc_bGuest.weightx = 1.0;
 		gbc_bGuest.anchor = GridBagConstraints.CENTER;
 		gbc_bGuest.fill = GridBagConstraints.HORIZONTAL;
 		gbc_bGuest.insets = new Insets(25, 5, 5, 5);
-		gbc_bGuest.gridx = 4;
-		gbc_bGuest.gridy = 3;
-		pUserLoginInput.add(bGuest,gbc_bGuest);
+		gbc_bGuest.gridx = 2;
+		gbc_bGuest.gridy = 0;
+		pButtons.add(bGuest,gbc_bGuest);
 		
 
 		getFrmUserLogin().getContentPane().add(pHeader, BorderLayout.NORTH);

@@ -25,7 +25,7 @@ import javax.swing.JTextArea;
 
 public class GuiQuiz {
 	
-	public static int sec = 5;
+	public static int sec = 20;						//Hier noch Zeit vom KneipenAbend holen
 	public static Timer myTimer;
 	public JLabel lblCountdown;
 	public JPanel pQuestion;
