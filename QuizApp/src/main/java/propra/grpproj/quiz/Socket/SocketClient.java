@@ -33,6 +33,7 @@ import propra.grpproj.quiz.SocketDataObjects.RegisterUser;
 import propra.grpproj.quiz.SocketDataObjects.RepeatPubevening;
 import propra.grpproj.quiz.SocketDataObjects.Scoreboard;
 import propra.grpproj.quiz.SocketDataObjects.TerminateConnection;
+import propra.grpproj.quiz.SocketDataObjects.TerminateConnectionReason;
 import propra.grpproj.quiz.SocketDataObjects.UserType;
 
 
@@ -85,7 +86,7 @@ public class SocketClient implements Runnable{
 	  */
 	 public static boolean closeConnection() {
 		 if(instance != null) {
-			 instance.sendObject(new TerminateConnection());
+			 instance.sendObject(new TerminateConnection(TerminateConnectionReason.USERDISCONNECT));
 			 instance.terminateConnection = true;		
 			 return true;
 		 }		 
