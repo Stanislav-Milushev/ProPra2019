@@ -36,7 +36,7 @@ public class App
     private final static int SERVER_PORT = 9111;
 
     public static void main(String[] args)
-    {
+    { 
         try
         {
             LOG.info("Launching the Quiz App...");
