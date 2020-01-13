@@ -1,7 +1,6 @@
 package propra.grpproj.logic;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -11,21 +10,20 @@ import propra.grpproj.quiz.SocketDataObjects.Question;
 
 public class KneipenAbend {
 
-	private List<Question> questions = new ArrayList<Question>();
+	private ArrayList<ArrayList<Question>> questions;
 	private int KneipenAbendID;
 	private int timePerQuestion = 20;
 	private int counter = 0;
-	private int runde = 0;
+	private int round = 0;
 	private int pauseInSeconds = 60;
 	private long startTime;
-	private int poolID;
 	
-	public KneipenAbend(List<Question> questions, int ID) {
+	public KneipenAbend(ArrayList<ArrayList<Question>> questions, int ID) {
 		this.questions = questions;
 		KneipenAbendID = ID;
 	}
 	
-	public KneipenAbend(List<Question> questions, int secondsPerQuestion, int ID) {
+	public KneipenAbend(ArrayList<ArrayList<Question>> questions, int secondsPerQuestion, int ID) {
 		this.questions = questions;
 		timePerQuestion = secondsPerQuestion;
 		KneipenAbendID = ID;
@@ -40,7 +38,7 @@ public class KneipenAbend {
 		ArrayList<String> users = new ArrayList<String>();
 		
 		for(String user : users) {
-			SocketServer.getInstance().sendObject(questions.get(counter), user);
+			SocketServer.getInstance().sendObject(questions.get(round).get(counter), user);
 		}
 		startTime = System.nanoTime();
 	}
@@ -48,7 +46,7 @@ public class KneipenAbend {
 	private void sendAnswer() {
 		//Gib alle user in kneipenabend
 		ArrayList<String> users = new ArrayList<String>();
-		String explanation = ""; //Get explanation from database
+		String explanation = questions.get(round).get(counter).getExplanation(); 
 		
 		Explanation exp = new Explanation(explanation);
 		for(String user : users) {
@@ -110,21 +108,22 @@ public class KneipenAbend {
 			
 			counter++;
 			
-			if(counter == questions.size()) {
+			if(counter == questions.get(round).size()) {
 				counter = 0;
-				runde++;
-				//TODO Lade neue Fragen wenn es sie gibt
-				if(true) { //Es gibt weiteren fragen
-
-					Timer timer = new Timer(true);
-					WaitQuestion task = new WaitQuestion();
-					timer.schedule(task, pauseInSeconds * 1000);
-				} else {
-					//Keine neuen fragen
+				round++;
+				
+				if(counter == questions.get(round).size()) {
 					
-					//TODO Sende an alle leute das ergebnis
+					if(questions.size() != round) {//Fertig
+						Timer timer = new Timer(true);
+						WaitQuestion task = new WaitQuestion();
+						timer.schedule(task, pauseInSeconds * 1000);
+					} else {
+						QuizHandling.getInstance().removeKneipenAbend(KneipenAbendID);
+					}
 					
-					QuizHandling.getInstance().removeKneipenAbend(KneipenAbendID);
+					counter = 0;
+					round++;
 				}
 			}
 		}

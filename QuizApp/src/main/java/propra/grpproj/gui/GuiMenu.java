@@ -24,7 +24,6 @@ import javax.swing.SwingConstants;
 
 import propra.grpproj.quiz.Socket.SocketClient;
 import propra.grpproj.quiz.SocketDataObjects.TerminateConnection;
-import propra.grpproj.quiz.SocketDataObjects.TerminateConnectionReason;
 
 public class GuiMenu {
 

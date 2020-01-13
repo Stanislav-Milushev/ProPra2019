@@ -8,6 +8,7 @@ public class CreatePubevening implements Serializable{
 	private Date start;
 	private int questionSets;
 	private String name;
+	private int numRounds;
 	
 	/**
 	 * 
@@ -17,11 +18,12 @@ public class CreatePubevening implements Serializable{
 	 */
 	
 	
-	public CreatePubevening(int secPerQuestion, Date start, int questionSets, String name) {
+	public CreatePubevening(int secPerQuestion, Date start, int questionSets, int numRoundsm, String name) {
 		this.secPerQuestion = secPerQuestion;
 		this.start = start;
 		this.questionSets = questionSets;
 		this.name = name;
+		this.numRounds = numRoundsm;
 	}
 
 	public int getSecPerQuestion() {
@@ -40,5 +42,7 @@ public class CreatePubevening implements Serializable{
 		return questionSets;
 	}
 	
-	
+	public int getRounds() {
+		return numRounds;
+	}
 }

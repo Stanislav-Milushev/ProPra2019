@@ -23,49 +23,47 @@ import propra.grpproj.quiz.SocketDataObjects.GetQuestionSet;
 //
 
 
-public class QuestionHandling 
-{  // Fragen aus der db in runden Paken , dann zu QuizHandling und Kneipenabend
-	List<Question> questions = new ArrayList<Question>();
-	ArrayList<propra.grpproj.quiz.dataholders.Question> questionsRaw = new ArrayList<propra.grpproj.quiz.dataholders.Question>();
-	//List<List<String>> rounds = new ArrayList<List<String>>();
-	List<List<Question>> rounds = new ArrayList<List<Question>>();
+public class QuestionHandling {  // Fragen aus der db in runden Paken , dann zu QuizHandling und Kneipenabend
 	
-	public void loadQuestions(String Pool) throws SQLException {
-		AdminHandling ad = new AdminHandling();
-		questionsRaw = ad.getQuestionPool(Pool);
+	public static List<Question> loadQuestions(String Pool) throws SQLException {
+		ArrayList<Question> result = new ArrayList<Question>();
+		ArrayList<propra.grpproj.quiz.dataholders.Question> questionsRaw = new AdminHandling().getQuestionPool(Pool);
+		
 		for ( propra.grpproj.quiz.dataholders.Question qRaw: questionsRaw) {
 			String qid = String.valueOf(qRaw.getId());
 			String qquestion= String.valueOf(qRaw.getQuestionText());
-			String[] qanswer = null ;
-			qanswer[0]= qRaw.getAnswerA();
-			qanswer[1]= qRaw.getAnswerB();
-			qanswer[2]= qRaw.getAnswerC();
-			qanswer[3]= qRaw.getAnswerD();
+			String[] qanswer = { qRaw.getAnswerA() ,  qRaw.getAnswerB(),  qRaw.getAnswerC(),  qRaw.getAnswerD()} ;
 			String qexpl = qRaw.getDescription();
 			
 			Question Q = new Question(Integer.valueOf(qid),qquestion,qanswer,qexpl);
 			Q.setRightAnswer(qRaw.getCorrectAnswer());
 			
-			questions.add(Q); 
+			result.add(Q); 
 			
 		}
+		
+		return result;
 	}
 	
-	public void splitRounds(int Roundscount) {
-		int av = questions.size() / Roundscount;
-		int i;		
-		for (int x=0; x < Roundscount; x++) {  
-		    List<Question> round = new ArrayList<>();
-		    i = av*x;	
-		    for( ;av>i ;i++) {
-				round.add(questions.get(i));
+	public static ArrayList<ArrayList<Question>> splitRounds(int Roundscount, List<Question> questions) {
+		int qPerRound = questions.size() / Roundscount;
+		int remain = questions.size() - qPerRound;
+		
+		ArrayList<ArrayList<Question>> result = new ArrayList<ArrayList<Question>>();
+		ArrayList<Question> list = new ArrayList<Question>();
+		for(int i = 0, round = 1; i < questions.size(); i++) {
+			list.add(questions.get(i));
+			
+			if(i >= qPerRound * round) {
+				if(remain != 0) {
+					list.add(questions.get(++i));
+					remain--;
+				}
+				round++;
 			}
-		    rounds.add(round);
-		 }  
-	}
-
-	public List<Question> getRounds(int roundNum) {
-		return rounds.get(roundNum);
+		}
+		
+		return result;
 	}
 
 	/**

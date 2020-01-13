@@ -1,5 +1,6 @@
 package propra.grpproj.logic;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,9 +41,20 @@ public class QuizHandling {
 	 * @author Yannick
 	 */
 	public void createQuiz(CreatePubevening e) {
-		List<Question> questions = new ArrayList<Question>(); //Runde 1 befüllen
-		int ID = 0; //ID holen
+		ArrayList<ArrayList<Question>> questions = null;
 		
+		try {
+			questions = QuestionHandling.splitRounds(e.getRounds(), QuestionHandling.loadQuestions("" + e.getQuestionSets()));
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return;
+		} //Runde 1 befüllen
+		
+		
+		
+		int ID = 0; //ID holen
+		//TODO anmeldecodes erstellen und an den besitzer schicken
 		KneipenAbend abend = new KneipenAbend(questions, e.getSecPerQuestion(), ID);
 		quizMap.put(ID, abend);
 		
@@ -65,7 +77,8 @@ public class QuizHandling {
 	public void createQuiz(RepeatPubevening e) {
 		int sec = 0; //Von db setzen lassen
 		int set = 1; //Von db setzen lassen
-		CreatePubevening create = new CreatePubevening(sec, e.getStart(), set, e.getName()); //Name ist nicht identifizierend, aber alle mit dem geleichen namen haben gleiche einstellungen
+		int rounds = 2;//Von db setzen lassen
+		CreatePubevening create = new CreatePubevening(sec, e.getStart(), set, rounds, e.getName()); //Name ist nicht identifizierend, aber alle mit dem geleichen namen haben gleiche einstellungen
 		createQuiz(create);
 	}
 	
